@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "ts-watch": "tsc --watch"
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
