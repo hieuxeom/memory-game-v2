@@ -1,21 +1,14 @@
-<div id="wrapper" class="w-screen h-screen bg-gray flex justify-center items-center">
-    <div id="gameContainer" class="w-[600px] h-screen px-8 py-2">
-        <header class="w-full flex justify-between items-center">
-            <button id="backToHome" class="button-normal active text-white rounded-full">Back</button>
-            <div id="timer" class="bg-secondary text-white px-8 py-2 rounded-full">
-                <div class="text-[1.5rem] flex gap-2">
-                    <p>Time/</p>
-                    <p id="minuteValue">00</p>
-                    <p>:</p>
-                    <p id="secondValue">00</p>
-                </div>
-            </div>
-        </header>
-        <main>
-            <div class="w-full grid grid-cols-4 gap-4 my-16 px-4" id="playContainer"></div>
-        </main>
-    </div>
-</div>
-<script src="/javascripts/gameplay/game.back.js"></script>
-<script src="/javascripts/gameplay/game.generator.js" type="module"></script>
-<script src="/javascripts/gameplay/game.timer.js"></script>
+<header class="w-full flex justify-between items-center">
+	<button id="backToHome" class="button-normal active text-white rounded-full">Back</button>
+	<div id="timer" class="bg-secondary text-white px-8 py-2 rounded-full">
+		<div class="text-[1.5rem] flex gap-2">
+			<p>Time/</p>
+			<p id="minuteValue">00</p>
+			<p>:</p>
+			<p id="secondValue">00</p>
+		</div>
+	</div>
+</header>
+<main>
+	<div class="w-full grid grid-cols-4 gap-4 my-16 px-4" id="playContainer"></div>
+</main>

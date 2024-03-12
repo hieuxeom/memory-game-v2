@@ -1,11 +1,16 @@
 class HomeController {
-    constructor() {
+	constructor() {}
 
-    }
-
-    index(req, res) {
-        res.render("index")
-    }
+	index(req, res) {
+		res.render("index", {
+			containerID: "homeContainer",
+			listScripts: [
+				{
+					path: "home/home.index.js",
+				},
+			],
+		});
+	}
 }
 
-module.exports = new HomeController;
+module.exports = new HomeController();
