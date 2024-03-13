@@ -2,8 +2,9 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
 var logger = require("morgan");
-
+const multer = require("multer");
 var app = express();
 
 // view engine setup
@@ -11,19 +12,25 @@ app.set("views", path.join(__dirname, "src/views"));
 app.set("view engine", "hbs");
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-var indexRouter = require("./src/routes/indexRouter");
-var gameRouter = require("./src/routes/gameRouter");
-var rankRouter = require("./src/routes/rankRouter");
+const indexRouter = require("./src/routes/indexRouter");
+const gameRouter = require("./src/routes/gameRouter");
+const rankRouter = require("./src/routes/rankRouter");
+const themeRouter = require("./src/routes/themeRouter");
+const apiRouter = require("./src/routes/apiRouter");
+const adminRouter = require("./src/routes/adminRouter");
 
 app.use("/", indexRouter);
 app.use("/home", indexRouter);
 app.use("/game", gameRouter);
 app.use("/rank", rankRouter);
+app.use("/theme", themeRouter);
+app.use("/api", apiRouter);
+app.use("/admin", adminRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
 	next(createError(404));
