@@ -1,5 +1,5 @@
 "use strict";
-var _a;
+var _a, _b;
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -89,19 +89,19 @@ const gameData = [
         content: "fa-solid fa-k",
     },
 ];
-const playContainer = (_a = document.getElementById("playContainer")) !== null && _a !== void 0 ? _a : null;
+const gameContainer = (_a = document.getElementById("gameContainer")) !== null && _a !== void 0 ? _a : null;
 const size = localStorage.getItem("difficult") === "4x4" ? 16 : 20;
-const cardComps = (content, value) => {
-    return `<div class="card relative shadow-lg h-[180px]" data-value="${value}">
-    <div class="card-back">
-        <div class="absolute rounded-lg top-0 left-0 card-back w-full h-full bg-cardBack1"></div>
-        <div class="absolute rounded-md top-0 left-0 card-back w-full h-full bg-cardBack2 scale-[90%]"></div>
-        <div class="absolute rounded top-0 left-0 card-back w-full h-full bg-cardBack3 scale-[80%]"></div>
+const themeId = (_b = localStorage.getItem("cardTheme")) !== null && _b !== void 0 ? _b : "";
+const cardComps = (cardBack, cardFront, content, value) => {
+    return `<div class="card relative shadow-lg h-[165px] rounded-lg overflow-hidden" data-value="${value}">
+    <div class="card-back h-full">
+        <img src="/images/themepacks/${cardBack}" class="w-full h-full"/>
     </div>
-    <div class="card-front">
-        <div class="absolute rounded-lg top-0 left-0 card-back w-full h-full bg-cardFront1"></div>
-        <div class="absolute rounded-md top-0 left-0 card-back w-full h-full bg-cardFront2 scale-[90%]"></div>
-        <div class="absolute rounded top-0 left-0 card-back w-full h-full bg-cardFront3 scale-[80%]"></div>
+    <div class="card-front w-full h-full">
+		<div>
+			<img src="/images/themepacks/${cardFront}" class="w-full h-full"/>
+		</div>
+		<div class="absolute top-0 left-0 bg-white w-auto h-full shadow-lg"></div>
         <div class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
             <i class="${content} text-4xl"></i>
         </div>
@@ -111,29 +111,36 @@ const cardComps = (content, value) => {
 const renderCards = () => {
     const gameDataShuffled = shuffle(gameData);
     return new Promise((resolve, reject) => {
-        playContainer.innerHTML = gameDataShuffled.map(({ value, content }) => cardComps(content, value.toString())).join("");
-        const listCards = document.querySelectorAll(".card");
-        let countOpenCard = 0;
-        const handleHideCard = () => {
-            countOpenCard = 0;
-            return listCards.forEach((card) => card.classList.remove("open"));
-        };
-        listCards.forEach((card) => {
-            card.addEventListener("click", () => {
-                if (!card.className.includes("open")) {
-                    if (countOpenCard === 2) {
-                        handleHideCard();
+        fetch(`/api/themes/${themeId}`)
+            .then((res) => res.json())
+            .then((themeData) => {
+            const { cardBack, cardFront } = themeData;
+            gameContainer.innerHTML = gameDataShuffled
+                .map(({ value, content }) => cardComps(cardBack, cardFront, content, value.toString()))
+                .join("");
+            const listCards = document.querySelectorAll(".card");
+            let countOpenCard = 0;
+            const handleHideCard = () => {
+                countOpenCard = 0;
+                return listCards.forEach((card) => card.classList.remove("open"));
+            };
+            listCards.forEach((card) => {
+                card.addEventListener("click", () => {
+                    if (!card.className.includes("open")) {
+                        if (countOpenCard === 2) {
+                            handleHideCard();
+                        }
+                        card.classList.add("open");
+                        countOpenCard++;
                     }
-                    card.classList.add("open");
-                    countOpenCard++;
-                }
-                else {
-                    card.classList.remove("open");
-                    countOpenCard--;
-                }
+                    else {
+                        card.classList.remove("open");
+                        countOpenCard--;
+                    }
+                });
             });
+            return listCards;
         });
-        return listCards;
     });
 };
 renderCards();

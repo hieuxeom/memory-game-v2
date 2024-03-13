@@ -3,7 +3,7 @@ class HomeController {
 
 	index(req, res) {
 		res.render("index", {
-			containerID: "homeContainer",
+			containerId: "homeContainer",
 			listScripts: [
 				{
 					path: "home/home.index.js",

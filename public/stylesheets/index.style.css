@@ -24,14 +24,20 @@
 	background-size: cover;
 }
 
-#gameContainer {
+#siteContainer {
 	background-image: url("/images/gamebackground-1.png");
 	background-repeat: unset;
 	background-size: cover;
 }
 
-#rankContainer {
-	background-image: url("/images/gamebackground-1.png");
-	background-repeat: unset;
-	background-size: cover;
+#formContainer .form-row label {
+	font-size: 1.5rem;
+}
+
+input:not([type="submit"]) {
+	width: 100%;
+	font-size: 1.5rem;
+	border-radius: 0.5rem;
+	box-shadow: 3px 3px 0px 0px #182c45, -3px 3px 0px 0px #f95c47, inset 0px 3px 0px 0px #f95c47;
+	padding: 4px 8px;
 }

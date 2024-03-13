@@ -1,7 +1,7 @@
 class GameController {
 	index(req, res) {
 		res.render("game/index", {
-			containerID: "gameContainer",
+			containerId: "siteContainer",
 			class: "px-8 py-2",
 			listScripts: [
 				{
