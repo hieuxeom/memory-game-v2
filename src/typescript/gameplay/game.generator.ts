@@ -11,6 +11,8 @@ function shuffle(array: ICard[]): ICard[] {
 	return array;
 }
 
+export const gameSize = localStorage.getItem("gameSize");
+
 const gameData = [
 	{
 		value: 1,
@@ -100,7 +102,7 @@ const size = localStorage.getItem("difficult") === "4x4" ? 16 : 20;
 const themeId: WindowLocalStorage | string = localStorage.getItem("cardTheme") ?? "";
 
 const cardComps = (cardBack: string, cardFront: string, content: string, value: string) => {
-	return `<div class="card relative shadow-lg h-[165px] rounded-lg overflow-hidden" data-value="${value}">
+	return `<div class="card relative shadow-lg h-[${gameSize === "4x4" ? "170" : "135"}px] rounded-lg overflow-hidden" data-value="${value}">
     <div class="card-back h-full">
         <img src="/images/themepacks/${cardBack}" class="w-full h-full"/>
     </div>
@@ -118,7 +120,7 @@ const cardComps = (cardBack: string, cardFront: string, content: string, value: 
 
 const renderCards = () => {
 	const gameDataShuffled = shuffle(gameData);
-
+	gameDataShuffled.length = gameSize === "4x5" ? 20 : 16;
 	return new Promise((resolve, reject) => {
 		fetch(`/api/themes/${themeId}`)
 			.then((res) => res.json())

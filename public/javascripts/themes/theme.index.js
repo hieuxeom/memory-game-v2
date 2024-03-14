@@ -1,5 +1,5 @@
 "use strict";
-const ThemeData = [
+var ThemeData = [
     {
         themeId: "1",
         imagePath: "images/theme-background-1.png"
@@ -49,13 +49,13 @@ const ThemeData = [
         imagePath: "images/theme-background-1.png"
     }
 ];
-const listThemeCards = document.querySelectorAll(".theme-card");
-let themeSelect = localStorage.getItem("currentTheme");
-const updateSelectedTheme = (themeId) => {
+var listThemeCards = document.querySelectorAll(".theme-card");
+var themeSelect = localStorage.getItem("currentTheme");
+var updateSelectedTheme = function (themeId) {
     return localStorage.setItem("currentTheme", themeId);
 };
-const handleRemoveSelectedBorder = () => {
-    listThemeCards.forEach(card => {
+var handleRemoveSelectedBorder = function () {
+    listThemeCards.forEach(function (card) {
         if (card.className.includes("border")) {
             card.classList.remove("border");
             card.classList.remove("border-2");
@@ -67,8 +67,8 @@ if (!themeSelect) {
     themeSelect = "1";
     updateSelectedTheme(themeSelect);
 }
-listThemeCards.forEach(card => {
-    card.addEventListener("click", () => {
+listThemeCards.forEach(function (card) {
+    card.addEventListener("click", function () {
         handleRemoveSelectedBorder();
         updateSelectedTheme(card.getAttribute("data-value"));
         card.classList.add("border");

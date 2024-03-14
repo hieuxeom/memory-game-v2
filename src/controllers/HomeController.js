@@ -8,6 +8,10 @@ class HomeController {
 				{
 					path: "home/home.index.js",
 				},
+				{
+					path: "home/home.gamesize.js",
+					type: "module",
+				},
 			],
 		});
 	}

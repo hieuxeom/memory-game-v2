@@ -1,21 +1,21 @@
 "use strict";
-const minuteValue = document.getElementById("minuteValue");
-const secondValue = document.getElementById("secondValue");
-let totalTime = 0;
-const handleTimer = () => {
+var minuteValue = document.getElementById("minuteValue");
+var secondValue = document.getElementById("secondValue");
+var totalTime = 0;
+var handleTimer = function () {
     totalTime++;
     if (Math.floor(totalTime / 60) === 1) {
         handleStopTimer();
     }
-    let second = pad(totalTime % 60);
-    let minute = pad(Math.floor(totalTime / 60));
+    var second = pad(totalTime % 60);
+    var minute = pad(Math.floor(totalTime / 60));
     minuteValue.innerHTML = minute.toString();
     secondValue.innerHTML = second.toString();
 };
-const handleStopTimer = () => {
+var handleStopTimer = function () {
     return clearInterval(timer);
 };
-const pad = (val) => {
+var pad = function (val) {
     var valString = val + "";
     if (valString.length < 2) {
         return "0" + valString;
@@ -24,4 +24,4 @@ const pad = (val) => {
         return valString;
     }
 };
-let timer = setInterval(handleTimer, 1000);
+var timer = setInterval(handleTimer, 1000);
