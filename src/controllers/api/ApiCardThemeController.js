@@ -35,6 +35,39 @@ class ApiCardThemeController {
 
 		return res.redirect("/admin");
 	}
+
+	put(req, res, next) {
+		console.log(req.body);
+		const { themeId, themeName } = req.body;
+
+		let { themeFront, themeBack } = req.files;
+
+		let updateData = {
+			themeName,
+		};
+		if (themeFront) {
+			updateData = {
+				...updateData,
+				cardFront: themeFront[0].filename,
+			};
+		}
+		if (themeBack) {
+			updateData = {
+				...updateData,
+				cardBack: themeBack[0].filename,
+			};
+		}
+
+		cardThemeModel
+			.findByIdAndUpdate(themeId, updateData)
+			.then(() => {
+				res.status(301).redirect(`/admin/themes/all`);
+			})
+			.catch((err) => {
+				console.log(err);
+				next(err);
+			});
+	}
 }
 
 module.exports = new ApiCardThemeController();

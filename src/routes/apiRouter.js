@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
 	},
 	filename: function (req, file, cb) {
 		let ext = file.mimetype.split("/")[1];
-		cb(null, Date.now() + "." + ext);
+		cb(null, Date.now() + "-test" + "." + ext);
 	},
 });
 
@@ -24,5 +24,6 @@ const multiUpload = upload.fields([
 ]);
 
 router.post("/themes", multiUpload, apiCardTheme.post);
+router.put("/themes", multiUpload, apiCardTheme.put);
 
 module.exports = router;

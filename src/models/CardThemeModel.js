@@ -8,6 +8,7 @@ const CardThemeSchema = new Schema(
 		themeName: String,
 		cardFront: String,
 		cardBack: String,
+		used: { type: Number, default: 0 },
 	},
 	{ timestamps: true }
 );
