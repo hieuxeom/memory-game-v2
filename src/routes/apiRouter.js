@@ -16,14 +16,17 @@ const upload = multer({ storage: storage });
 
 const apiCardTheme = require("../controllers/api/ApiCardThemeController");
 
-router.get("/themes/:themeId", apiCardTheme.getThemeById);
-router.get("/themes", apiCardTheme.get);
 const multiUpload = upload.fields([
 	{ name: "themeFront", maxCount: 1 },
 	{ name: "themeBack", maxCount: 1 },
 ]);
 
-router.post("/themes", multiUpload, apiCardTheme.post);
-router.put("/themes", multiUpload, apiCardTheme.put);
+router.get("/card-themes/:themeId", apiCardTheme.getThemeById);
+
+router.get("/card-themes", apiCardTheme.get);
+
+router.post("/card-themes", multiUpload, apiCardTheme.post);
+router.put("/card-themes", multiUpload, apiCardTheme.put);
+router.delete("/card-themes/:themeId", apiCardTheme.delete);
 
 module.exports = router;

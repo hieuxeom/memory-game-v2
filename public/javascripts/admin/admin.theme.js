@@ -16,7 +16,7 @@ submitButton.addEventListener("click", function (event) {
         method: "PUT",
         body: formData,
     };
-    fetch("/api/themes", requestOptions).then(function (res) {
+    fetch("/api/card-themes", requestOptions).then(function (res) {
         if (res.url) {
             window.location.href = res.url;
         }

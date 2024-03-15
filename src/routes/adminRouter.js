@@ -2,14 +2,14 @@ var express = require("express");
 var router = express.Router();
 
 const adminIndex = require("../controllers/admin/AdminController");
-const adminTheme = require("../controllers/admin/AdminThemeController");
+const adminCardTheme = require("../controllers/admin/AdminCardThemeController");
 
 router.get("/", adminIndex.index);
 
-router.get("/themes", adminTheme.index);
-router.get("/themes/add", adminTheme.add);
-router.get("/themes/all", adminTheme.all);
-router.get("/themes/edit/", adminTheme.edit);
-router.get("/themes/edit/:themeId", adminTheme.edit);
+router.get("/themes", adminCardTheme.index);
+router.get("/themes/add", adminCardTheme.add);
+router.get("/themes/all", adminCardTheme.all);
+router.get("/themes/edit/", adminCardTheme.edit);
+router.get("/themes/edit/:themeId", adminCardTheme.edit);
 
 module.exports = router;

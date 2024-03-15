@@ -100,7 +100,7 @@ var renderCards = function () {
     var gameDataShuffled = shuffle(gameData);
     gameDataShuffled.length = gameSize === "4x5" ? 20 : 16;
     return new Promise(function (resolve, reject) {
-        fetch("/api/themes/".concat(themeId))
+        fetch("/api/card-themes/".concat(themeId))
             .then(function (res) { return res.json(); })
             .then(function (themeData) {
             var cardBack = themeData.cardBack, cardFront = themeData.cardFront;

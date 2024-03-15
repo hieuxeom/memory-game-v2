@@ -1,4 +1,3 @@
-"use strict";
 var _a;
 var themeContainer = document.getElementById("themeContainer");
 var currentCardTheme = (_a = localStorage.getItem("cardTheme")) !== null && _a !== void 0 ? _a : "";
@@ -9,7 +8,7 @@ var handleUnSelectedCard = function (listCardThemes) {
 };
 var handleLoadingTheme = function () {
     return new Promise(function (resolve, reject) {
-        fetch("/api/themes")
+        fetch("/api/card-themes")
             .then(function (res) { return res.json(); })
             .then(function (listCardThemes) {
             themeContainer.innerHTML = listCardThemes
@@ -32,3 +31,4 @@ var handleLoadingTheme = function () {
     });
 };
 handleLoadingTheme();
+export {};

@@ -1,9 +1,4 @@
-interface ICardTheme {
-	_id: string;
-	cardBack: string;
-	cardFront: string;
-	themeName: string;
-}
+import { ICardTheme } from "../type/cardTheme";
 
 const themeContainer: HTMLElement = document.getElementById("themeContainer") as HTMLElement;
 const currentCardTheme: WindowLocalStorage | string = localStorage.getItem("cardTheme") ?? "";
@@ -16,7 +11,7 @@ const handleUnSelectedCard = (listCardThemes: NodeListOf<HTMLElement>) => {
 
 const handleLoadingTheme = () => {
 	return new Promise<void>((resolve, reject) => {
-		fetch("/api/themes")
+		fetch("/api/card-themes")
 			.then((res) => res.json())
 			.then((listCardThemes: ICardTheme[]): NodeListOf<HTMLElement> => {
 				themeContainer.innerHTML = listCardThemes

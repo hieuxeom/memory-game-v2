@@ -33,11 +33,10 @@ class ApiCardThemeController {
 			.then((card) => console.log("New card theme has been added."))
 			.catch((err) => next(err));
 
-		return res.redirect("/admin");
+		return res.redirect("/admin/themes/all");
 	}
 
 	put(req, res, next) {
-		console.log(req.body);
 		const { themeId, themeName } = req.body;
 
 		let { themeFront, themeBack } = req.files;
@@ -60,6 +59,21 @@ class ApiCardThemeController {
 
 		cardThemeModel
 			.findByIdAndUpdate(themeId, updateData)
+			.then(() => {
+				res.status(301).redirect(`/admin/themes/all`);
+			})
+			.catch((err) => {
+				console.log(err);
+				next(err);
+			});
+	}
+
+	delete(req, res, next) {
+		const { themeId } = req.params;
+
+		console.log(themeId);
+		cardThemeModel
+			.findByIdAndDelete(themeId)
 			.then(() => {
 				res.status(301).redirect(`/admin/themes/all`);
 			})

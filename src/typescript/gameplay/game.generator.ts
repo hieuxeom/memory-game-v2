@@ -122,7 +122,7 @@ const renderCards = () => {
 	const gameDataShuffled = shuffle(gameData);
 	gameDataShuffled.length = gameSize === "4x5" ? 20 : 16;
 	return new Promise((resolve, reject) => {
-		fetch(`/api/themes/${themeId}`)
+		fetch(`/api/card-themes/${themeId}`)
 			.then((res) => res.json())
 			.then((themeData) => {
 				const { cardBack, cardFront } = themeData;

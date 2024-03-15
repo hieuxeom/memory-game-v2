@@ -20,7 +20,7 @@ submitButton.addEventListener("click", (event) => {
 		body: formData,
 	};
 
-	fetch("/api/themes", requestOptions).then((res) => {
+	fetch("/api/card-themes", requestOptions).then((res) => {
 		if (res.url) {
 			window.location.href = res.url;
 		}
