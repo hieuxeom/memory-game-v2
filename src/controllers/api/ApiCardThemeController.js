@@ -33,7 +33,7 @@ class ApiCardThemeController {
 			.then((card) => console.log("New card theme has been added."))
 			.catch((err) => next(err));
 
-		return res.redirect("/admin/themes/all");
+		return res.redirect("/admin/card-themes/all");
 	}
 
 	put(req, res, next) {
@@ -60,7 +60,7 @@ class ApiCardThemeController {
 		cardThemeModel
 			.findByIdAndUpdate(themeId, updateData)
 			.then(() => {
-				res.status(301).redirect(`/admin/themes/all`);
+				res.status(301).redirect(`/admin/card-themes/all`);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -75,7 +75,7 @@ class ApiCardThemeController {
 		cardThemeModel
 			.findByIdAndDelete(themeId)
 			.then(() => {
-				res.status(301).redirect(`/admin/themes/all`);
+				res.status(301).redirect(`/admin/card-themes/all`);
 			})
 			.catch((err) => {
 				console.log(err);

@@ -15,18 +15,22 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const apiCardTheme = require("../controllers/api/ApiCardThemeController");
+const apiGameTheme = require("../controllers/api/ApiGameThemeController");
 
 const multiUpload = upload.fields([
 	{ name: "themeFront", maxCount: 1 },
 	{ name: "themeBack", maxCount: 1 },
 ]);
 
+// Card Themes Router
 router.get("/card-themes/:themeId", apiCardTheme.getThemeById);
-
 router.get("/card-themes", apiCardTheme.get);
-
 router.post("/card-themes", multiUpload, apiCardTheme.post);
 router.put("/card-themes", multiUpload, apiCardTheme.put);
 router.delete("/card-themes/:themeId", apiCardTheme.delete);
+
+// Game Themes Router
+// router.get("/game-themes");
+router.post("/game-themes", apiGameTheme.post);
 
 module.exports = router;

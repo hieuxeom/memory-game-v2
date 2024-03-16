@@ -1,0 +1,30 @@
+<header class="w-full flex justify-between items-center gap-4">
+	<a href="/admin" class="button-normal active text-white rounded-full">Back</a>
+	<h1 class="w-full text-4xl text-secondary">Add new card theme</h1>
+
+</header>
+<main class="flex justify-center w-full h-max relative">
+	<form
+		action="/api/card-themes"
+		method="POST"
+		enctype="multipart/form-data"
+		id="formContainer"
+		class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4 rounded-xl"
+	>
+		<div class="form-row flex flex-col gap-1 w-full">
+			<label for="themeName">Theme Name</label>
+			<input type="text" name="themeName" />
+		</div>
+		<div class="form-row flex flex-col gap-1 w-full">
+			<label for="themeImage">Theme Front</label>
+			<input type="file" name="themeFront" />
+		</div>
+		<div class="form-row flex flex-col gap-1 w-full">
+			<label for="themeImage">Theme Back</label>
+			<input type="file" name="themeBack" />
+		</div>
+		<div class="form-row">
+			<input type="submit" value="Submit" class="text-2xl bg-primary text-white px-8 py-2 rounded-full w-full" />
+		</div>
+	</form>
+</main>

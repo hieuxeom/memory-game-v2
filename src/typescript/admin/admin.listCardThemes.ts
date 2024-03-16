@@ -12,7 +12,7 @@ fetch("/api/card-themes")
 					<p>${cardTheme.themeName}</p>
 				</div>
 				<div class="w-1/4 flex justify-center items-center gap-4">
-					<a href="/admin/themes/edit/${cardTheme._id}" class="block flex justify-center items-center text-sm text-white rounded-xl bg-warning w-8 h-8"><i
+					<a href="/admin/card-themes/edit/${cardTheme._id}" class="block flex justify-center items-center text-sm text-white rounded-xl bg-warning w-8 h-8"><i
 							class="fa-solid fa-pen"
 						></i></a>
 					<button button-data="${cardTheme._id}" class="delete-theme flex justify-center items-center text-sm text-white rounded-xl bg-danger w-8 h-8"><i

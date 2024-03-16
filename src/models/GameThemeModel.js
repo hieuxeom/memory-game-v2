@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const GameSchema = new Schema(
+const GameSchemaSchema = new Schema(
 	{
 		themeName: String,
 		themeData: [
@@ -18,4 +18,4 @@ const GameSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("gameTheme", GameThemeSchema);
+module.exports = mongoose.model("gameTheme", GameSchemaSchema);

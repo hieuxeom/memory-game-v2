@@ -2,19 +2,19 @@ const cardThemeModel = require("../../models/CardThemeModel");
 
 class AdminCardThemeController {
 	index(req, res, next) {
-		res.render("admin/theme/index", {
+		return res.render("admin/card-themes/index", {
 			containerId: "siteContainer",
 			class: "px-8 py-2",
 		});
 	}
 	add(req, res) {
-		res.render("admin/theme/add", {
+		return res.render("admin/card-themes/add", {
 			containerId: "siteContainer",
 			class: "px-8 py-2",
 		});
 	}
 	all(req, res) {
-		res.render("admin/theme/all", {
+		return res.render("admin/card-themes/all", {
 			containerId: "siteContainer",
 			class: "px-8 py-2",
 			listScripts: [
@@ -29,11 +29,11 @@ class AdminCardThemeController {
 		const { themeId } = req.params;
 
 		if (!themeId) {
-			return res.redirect("/admin/themes");
+			return res.redirect("/admin/card-themes");
 		}
 
 		cardThemeModel.findById(themeId).then((themeData) => {
-			return res.render("admin/theme/edit", {
+			return res.render("admin/card-themes/edit", {
 				containerId: "siteContainer",
 				class: "px-8 py-2",
 				listScripts: [
