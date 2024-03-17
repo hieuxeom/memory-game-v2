@@ -30,7 +30,7 @@ router.put("/card-themes", multiUpload, apiCardTheme.put);
 router.delete("/card-themes/:themeId", apiCardTheme.delete);
 
 // Game Themes Router
-// router.get("/game-themes");
+router.get("/game-themes/:gameThemeId", apiGameTheme.getThemeById);
 router.post("/game-themes", apiGameTheme.post);
 
 module.exports = router;

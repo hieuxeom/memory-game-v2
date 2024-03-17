@@ -1,21 +1,36 @@
 const gameThemeModel = require("../../models/GameThemeModel");
+const { mongooseToObject } = require("../../utils/mongoose");
+class ApiGameThemeController {
+	getThemeById(req, res, next) {
+		const { gameThemeId } = req.params;
 
-class ApiCardThemeController {
+		gameThemeModel.findById(gameThemeId).then((theme) => {
+			res.json(theme);
+		});
+	}
+
 	post(req, res, next) {
-		const { themeName, themeData } = req.body;
+		let { themeName, themeData } = req.body;
 
-		// const newCardTheme = new cardThemeModel({
-		// 	themeName,
-		// 	themeData: [],
-		// });
+		console.log(themeData);
 
-		// newCardTheme
-		// 	.save()
-		// 	.then((card) => console.log("New card theme has been added."))
-		// 	.catch((err) => next(err));
+		const newGameTheme = new gameThemeModel({
+			themeName,
+			themeData,
+		});
+		console.log("🚀 ~ ApiGameThemeController ~ post ~ newGameTheme:", newGameTheme);
+		newGameTheme
+			.save()
+			.then((game) => console.log("New game theme has been added."))
+			.catch((err) => {
+				console.log("cc");
+			});
 
-		// return res.redirect("/admin/card-themes/all");
+		return res.json({
+			message: "OK",
+			data: themeData,
+		});
 	}
 }
 
-module.exports = new ApiCardThemeController();
+module.exports = new ApiGameThemeController();

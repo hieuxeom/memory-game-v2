@@ -9,6 +9,7 @@ class ThemeController {
 				},
 				{
 					path: "themes/theme.generator.js",
+					type: "module",
 				},
 			],
 		});

@@ -1,138 +1,68 @@
-var _a, _b;
-function shuffle(array) {
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+var _a, _b, _c;
+var gameContainer = (_a = document.getElementById("gameContainer")) !== null && _a !== void 0 ? _a : null;
+var size = localStorage.getItem("difficult") === "4x4" ? 16 : 20;
+var themeId = (_b = localStorage.getItem("cardTheme")) !== null && _b !== void 0 ? _b : "";
+function shuffleAndSlice(array, length) {
     var _a;
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         _a = [array[j], array[i]], array[i] = _a[0], array[j] = _a[1];
     }
-    return array;
+    array.length = length;
+    return __spreadArray(__spreadArray([], array, true), array, true);
 }
 export var gameSize = localStorage.getItem("gameSize");
-var gameData = [
-    {
-        value: 1,
-        content: "fa-solid fa-a",
-    },
-    {
-        value: 1,
-        content: "fa-solid fa-a",
-    },
-    {
-        value: 2,
-        content: "fa-solid fa-b",
-    },
-    {
-        value: 2,
-        content: "fa-solid fa-b",
-    },
-    {
-        value: 3,
-        content: "fa-solid fa-c",
-    },
-    {
-        value: 3,
-        content: "fa-solid fa-c",
-    },
-    {
-        value: 4,
-        content: "fa-solid fa-d",
-    },
-    {
-        value: 4,
-        content: "fa-solid fa-d",
-    },
-    {
-        value: 5,
-        content: "fa-solid fa-e",
-    },
-    {
-        value: 5,
-        content: "fa-solid fa-e",
-    },
-    {
-        value: 6,
-        content: "fa-solid fa-f",
-    },
-    {
-        value: 6,
-        content: "fa-solid fa-f",
-    },
-    {
-        value: 7,
-        content: "fa-solid fa-g",
-    },
-    {
-        value: 7,
-        content: "fa-solid fa-g",
-    },
-    {
-        value: 8,
-        content: "fa-solid fa-h",
-    },
-    {
-        value: 8,
-        content: "fa-solid fa-h",
-    },
-    {
-        value: 9,
-        content: "fa-solid fa-j",
-    },
-    {
-        value: 9,
-        content: "fa-solid fa-j",
-    },
-    {
-        value: 10,
-        content: "fa-solid fa-k",
-    },
-    {
-        value: 10,
-        content: "fa-solid fa-k",
-    },
-];
-var gameContainer = (_a = document.getElementById("gameContainer")) !== null && _a !== void 0 ? _a : null;
-var size = localStorage.getItem("difficult") === "4x4" ? 16 : 20;
-var themeId = (_b = localStorage.getItem("cardTheme")) !== null && _b !== void 0 ? _b : "";
-var cardComps = function (cardBack, cardFront, content, value) {
-    return "<div class=\"card relative shadow-lg h-[".concat(gameSize === "4x4" ? "170" : "135", "px] rounded-lg overflow-hidden\" data-value=\"").concat(value, "\">\n    <div class=\"card-back h-full\">\n        <img src=\"/images/themepacks/").concat(cardBack, "\" class=\"w-full h-full\"/>\n    </div>\n    <div class=\"card-front w-full h-full\">\n\t\t<div>\n\t\t\t<img src=\"/images/themepacks/").concat(cardFront, "\" class=\"w-full h-full\"/>\n\t\t</div>\n\t\t<div class=\"absolute top-0 left-0 bg-white w-auto h-full shadow-lg\"></div>\n        <div class=\"absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]\">\n            <i class=\"").concat(content, " text-4xl\"></i>\n        </div>\n    </div>\n</div>");
-};
-var renderCards = function () {
-    var gameDataShuffled = shuffle(gameData);
-    gameDataShuffled.length = gameSize === "4x5" ? 20 : 16;
-    return new Promise(function (resolve, reject) {
-        fetch("/api/card-themes/".concat(themeId))
-            .then(function (res) { return res.json(); })
-            .then(function (themeData) {
-            var cardBack = themeData.cardBack, cardFront = themeData.cardFront;
-            gameContainer.innerHTML = gameDataShuffled
-                .map(function (_a) {
-                var value = _a.value, content = _a.content;
-                return cardComps(cardBack, cardFront, content, value.toString());
-            })
-                .join("");
-            var listCards = document.querySelectorAll(".card");
-            var countOpenCard = 0;
-            var handleHideCard = function () {
-                countOpenCard = 0;
-                return listCards.forEach(function (card) { return card.classList.remove("open"); });
-            };
-            listCards.forEach(function (card) {
-                card.addEventListener("click", function () {
-                    if (!card.className.includes("open")) {
-                        if (countOpenCard === 2) {
-                            handleHideCard();
-                        }
-                        card.classList.add("open");
-                        countOpenCard++;
-                    }
-                    else {
-                        card.classList.remove("open");
-                        countOpenCard--;
-                    }
-                });
-            });
-            return listCards;
+var gameThemeId = (_c = localStorage.getItem("gameThemeId")) !== null && _c !== void 0 ? _c : "65f709ad9d376fdf4644c182";
+var gameData = fetch("/api/game-themes/".concat(gameThemeId)).then(function (res) { return res.json(); });
+var cardData = fetch("/api/card-themes/".concat(themeId)).then(function (res) { return res.json(); });
+Promise.all([gameData, cardData])
+    .then(function (_a) {
+    var gameDataResponse = _a[0], cardDataResponse = _a[1];
+    var gameThemeData = gameDataResponse.themeData;
+    renderCards(gameThemeData, cardDataResponse);
+    return document.querySelectorAll(".card");
+})
+    .then(function (listCards) {
+    var countOpenCard = 0;
+    var handleHideCard = function () {
+        countOpenCard = 0;
+        return listCards.forEach(function (card) { return card.classList.remove("open"); });
+    };
+    listCards.forEach(function (card) {
+        card.addEventListener("click", function () {
+            if (!card.className.includes("open")) {
+                countOpenCard++;
+                if (countOpenCard === 2) {
+                    setTimeout(function () {
+                        handleHideCard();
+                    }, 500);
+                }
+                card.classList.add("open");
+            }
+            else {
+                countOpenCard--;
+                card.classList.remove("open");
+            }
         });
     });
+});
+var cardComps = function (cardBack, cardFront, icon, value) {
+    return "<div data-value=\"".concat(value, "\" class=\"card relative shadow-lg h-[").concat(gameSize === "4x4" ? "170" : "135", "px] rounded-lg overflow-hidden\" data-value=\"").concat(value, "\">\n    <div class=\"card-back h-full\">\n        <img src=\"/images/themepacks/").concat(cardBack, "\" class=\"w-full h-full\"/>\n    </div>\n    <div class=\"card-front w-full h-full\">\n\t\t<div>\n\t\t\t<img src=\"/images/themepacks/").concat(cardFront, "\" class=\"w-full h-full\"/>\n\t\t</div>\n\t\t<div class=\"absolute top-0 left-0 bg-white w-auto h-full shadow-lg\"></div>\n        <div class=\"absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]\">\n            <i class=\"").concat(icon, " text-4xl\"></i>\n        </div>\n    </div>\n</div>");
 };
-renderCards();
+var renderCards = function (gameData, _a) {
+    var cardBack = _a.cardBack, cardFront = _a.cardFront;
+    var gameDataShuffled = shuffleAndSlice(gameData, gameSize === "4x4" ? 8 : 10);
+    gameContainer.innerHTML = gameDataShuffled.map(function (_a) {
+        var icon = _a.icon, value = _a.value;
+        return cardComps(cardBack, cardFront, icon, value);
+    }).join("");
+};

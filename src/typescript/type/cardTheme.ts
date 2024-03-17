@@ -1,4 +1,4 @@
-export interface ICardTheme {
+export interface ICardThemeResponse {
 	_id: string;
 	cardBack: string;
 	cardFront: string;
