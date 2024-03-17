@@ -1,4 +1,4 @@
-import { gameSize } from "../gameplay/game.generator.js";
+import { gameSize } from "../type/general.js";
 
 const listSizeGame: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".difficult-size");
 

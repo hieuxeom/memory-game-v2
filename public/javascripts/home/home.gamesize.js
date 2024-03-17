@@ -1,4 +1,4 @@
-import { gameSize } from "../gameplay/game.generator.js";
+import { gameSize } from "../type/general.js";
 var listSizeGame = document.querySelectorAll(".difficult-size");
 var handleDefaultSelected = function () {
     listSizeGame.forEach(function (button) {

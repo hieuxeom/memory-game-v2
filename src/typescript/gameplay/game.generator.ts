@@ -1,10 +1,10 @@
-import { IGameData } from "./../type/gameTheme";
 import { ICardThemeResponse } from "../type/cardTheme";
 import { IGameData, IGameDataResponse } from "../type/gameTheme";
+import { gameSize } from "../type/general.js";
+import { gameLogic } from "./game.logic.js";
 
 const gameContainer: HTMLElement = (document.getElementById("gameContainer") as HTMLElement) ?? null;
 
-const size = localStorage.getItem("difficult") === "4x4" ? 16 : 20;
 const themeId: WindowLocalStorage | string = localStorage.getItem("cardTheme") ?? "";
 
 function shuffleAndSlice(array: IGameData[], length: number): IGameData[] {
@@ -18,42 +18,18 @@ function shuffleAndSlice(array: IGameData[], length: number): IGameData[] {
 	return [...array, ...array];
 }
 
-export const gameSize = localStorage.getItem("gameSize");
-
 const gameThemeId = localStorage.getItem("gameThemeId") ?? "65f709ad9d376fdf4644c182";
 
 const gameData = fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json());
 const cardData = fetch(`/api/card-themes/${themeId}`).then((res) => res.json());
 
 Promise.all([gameData, cardData])
-	.then(([gameDataResponse, cardDataResponse]): NodeListOf<HTMLDivElement> => {
+	.then(([gameDataResponse, cardDataResponse]): NodeListOf<HTMLElement> => {
 		const { themeData: gameThemeData } = gameDataResponse;
-		renderCards(gameThemeData, cardDataResponse);
-		return document.querySelectorAll(".card");
+		return renderCards(gameThemeData, cardDataResponse);
 	})
-	.then((listCards: NodeListOf<HTMLDivElement>) => {
-		let countOpenCard = 0;
-		const handleHideCard = () => {
-			countOpenCard = 0;
-			return listCards.forEach((card) => card.classList.remove("open"));
-		};
-
-		listCards.forEach((card) => {
-			card.addEventListener("click", () => {
-				if (!card.className.includes("open")) {
-					countOpenCard++;
-					if (countOpenCard === 2) {
-						setTimeout(() => {
-							handleHideCard();
-						}, 500);
-					}
-					card.classList.add("open");
-				} else {
-					countOpenCard--;
-					card.classList.remove("open");
-				}
-			});
-		});
+	.then((listCards: NodeListOf<HTMLElement>) => {
+		gameLogic(listCards);
 	});
 
 const cardComps = (cardBack: string, cardFront: string, icon: string, value: string) => {
@@ -75,8 +51,8 @@ const cardComps = (cardBack: string, cardFront: string, icon: string, value: str
 </div>`;
 };
 
-const renderCards = (gameData: IGameData[], { cardBack, cardFront }: ICardThemeResponse) => {
+const renderCards = (gameData: IGameData[], { cardBack, cardFront }: ICardThemeResponse): NodeListOf<HTMLElement> => {
 	const gameDataShuffled = shuffleAndSlice(gameData, gameSize === "4x4" ? 8 : 10);
-
 	gameContainer.innerHTML = gameDataShuffled.map(({ icon, value }: IGameData) => cardComps(cardBack, cardFront, icon, value)).join("");
+	return document.querySelectorAll(".card");
 };

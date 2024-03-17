@@ -4,30 +4,31 @@ const secondValue: HTMLElement = document.getElementById("secondValue") as HTMLE
 let totalTime = 0;
 
 const handleTimer = () => {
-    totalTime++;
+	totalTime++;
 
-    if (Math.floor(totalTime / 60) === 1) {
-        handleStopTimer();
-    }
+	if (Math.floor(totalTime / 60) === 1) {
+		handleStopTimer();
+	}
 
-    let second = pad(totalTime % 60);
-    let minute = pad(Math.floor(totalTime / 60));
+	let second = pad(totalTime % 60);
+	let minute = pad(Math.floor(totalTime / 60));
 
-    minuteValue.innerHTML = minute.toString();
-    secondValue.innerHTML = second.toString();
+	minuteValue.innerHTML = minute.toString();
+	secondValue.innerHTML = second.toString();
 };
 
-const handleStopTimer = () => {
-    return clearInterval(timer);
+export const handleStopTimer = () => {
+	clearInterval(timer);
+	return totalTime;
 };
 
 const pad = (val: number) => {
-    var valString = val + "";
-    if (valString.length < 2) {
-        return "0" + valString;
-    } else {
-        return valString;
-    }
+	var valString = val + "";
+	if (valString.length < 2) {
+		return "0" + valString;
+	} else {
+		return valString;
+	}
 };
 
 let timer = setInterval(handleTimer, 1000);

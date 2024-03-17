@@ -13,13 +13,11 @@ class GameController {
 				},
 				{
 					path: "gameplay/game.timer.js",
+					type: "module",
 				},
 			],
 		});
 	}
 }
-// <script src="/javascripts/gameplay/game.back.js"></script>
-// <script src="/javascripts/gameplay/game.generator.js" type="module"></script>
-// <script src="/javascripts/gameplay/game.timer.js"></script>
 
 module.exports = new GameController();

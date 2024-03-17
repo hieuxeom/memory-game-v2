@@ -1,4 +1,3 @@
-"use strict";
 var minuteValue = document.getElementById("minuteValue");
 var secondValue = document.getElementById("secondValue");
 var totalTime = 0;
@@ -12,8 +11,9 @@ var handleTimer = function () {
     minuteValue.innerHTML = minute.toString();
     secondValue.innerHTML = second.toString();
 };
-var handleStopTimer = function () {
-    return clearInterval(timer);
+export var handleStopTimer = function () {
+    clearInterval(timer);
+    return totalTime;
 };
 var pad = function (val) {
     var valString = val + "";
