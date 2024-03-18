@@ -34,7 +34,7 @@ export const gameLogic = (listCards: NodeListOf<HTMLElement>) => {
 
 							if (document.querySelectorAll(".matched").length === sizeGame) {
 								const gameTime = handleStopTimer();
-								console.log("🚀 ~ card.addEventListener ~ gameTime:", gameTime);
+								handleGameWin(gameTime, sizeGame);
 							}
 						} else {
 							setTimeout(() => {
@@ -56,11 +56,25 @@ const isMatch = ([v1, v2]: HTMLElement[]): boolean => {
 	return v1.getAttribute("data-value") === v2.getAttribute("data-value");
 };
 
-const handleGameWin = () => {
+const handleGameWin = (gameTime: number, gameSize: number) => {
 	const { _id }: IUser = JSON.parse(localStorage.getItem("userData")!) as IUser;
-	// const;
-	// const historyData = {
-	// 	userId: _id,
-	// 	game,
-	// };
+	const gameThemeId = localStorage.getItem("gameTheme");
+	const cardThemeId = localStorage.getItem("cardTheme");
+	const historyData = {
+		userId: _id,
+		gameThemeId,
+		cardThemeId,
+		gameTime,
+		gameSize,
+	};
+
+	fetch("/game/results", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(historyData),
+	})
+		.then((res) => res.json())
+		.then((log) => console.log(log));
 };

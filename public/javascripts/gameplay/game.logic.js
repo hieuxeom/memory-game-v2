@@ -27,7 +27,7 @@ export var gameLogic = function (listCards) {
                             countOpenCard = 0;
                             if (document.querySelectorAll(".matched").length === sizeGame) {
                                 var gameTime = handleStopTimer();
-                                console.log("🚀 ~ card.addEventListener ~ gameTime:", gameTime);
+                                handleGameWin(gameTime, sizeGame);
                             }
                         }
                         else {
@@ -49,4 +49,25 @@ export var gameLogic = function (listCards) {
 var isMatch = function (_a) {
     var v1 = _a[0], v2 = _a[1];
     return v1.getAttribute("data-value") === v2.getAttribute("data-value");
+};
+var handleGameWin = function (gameTime, gameSize) {
+    var _id = JSON.parse(localStorage.getItem("userData"))._id;
+    var gameThemeId = localStorage.getItem("gameTheme");
+    var cardThemeId = localStorage.getItem("cardTheme");
+    var historyData = {
+        userId: _id,
+        gameThemeId: gameThemeId,
+        cardThemeId: cardThemeId,
+        gameTime: gameTime,
+        gameSize: gameSize,
+    };
+    fetch("/game/results", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(historyData),
+    })
+        .then(function (res) { return res.json(); })
+        .then(function (log) { return console.log(log); });
 };

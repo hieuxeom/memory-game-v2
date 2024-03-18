@@ -5,7 +5,8 @@ import { gameLogic } from "./game.logic.js";
 
 const gameContainer: HTMLElement = (document.getElementById("gameContainer") as HTMLElement) ?? null;
 
-const themeId: WindowLocalStorage | string = localStorage.getItem("cardTheme") ?? "";
+const cardThemeId: WindowLocalStorage | string = localStorage.getItem("cardTheme") ?? "";
+const gameThemeId: WindowLocalStorage | string = localStorage.getItem("gameTheme") ?? "65f709ad9d376fdf4644c182";
 
 function shuffleAndSlice(array: IGameData[], length: number): IGameData[] {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -18,10 +19,8 @@ function shuffleAndSlice(array: IGameData[], length: number): IGameData[] {
 	return [...array, ...array];
 }
 
-const gameThemeId = localStorage.getItem("gameThemeId") ?? "65f709ad9d376fdf4644c182";
-
 const gameData = fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json());
-const cardData = fetch(`/api/card-themes/${themeId}`).then((res) => res.json());
+const cardData = fetch(`/api/card-themes/${cardThemeId}`).then((res) => res.json());
 
 Promise.all([gameData, cardData])
 	.then(([gameDataResponse, cardDataResponse]): NodeListOf<HTMLElement> => {

@@ -1,9 +1,9 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
+const gameController = require("../controllers/GameController");
 
-const gameController = require("../controllers/GameController")
-
-router.get('/', gameController.index);
+router.get("/", gameController.index);
+router.post("/results", gameController.handleGameResults);
 
 module.exports = router;
