@@ -1,4 +1,4 @@
-import { ICardTheme } from "../type/cardTheme";
+import { ICardThemeResponse } from "../type/cardTheme";
 
 const listThemesContainer: HTMLDivElement = document.getElementById("listThemesContainer") as HTMLDivElement;
 
@@ -6,7 +6,7 @@ fetch("/api/card-themes")
 	.then((res) => res.json())
 	.then((listCardThemes): NodeListOf<HTMLButtonElement> => {
 		listThemesContainer.innerHTML = listCardThemes
-			.map((cardTheme: ICardTheme) => {
+			.map((cardTheme: ICardThemeResponse) => {
 				return `<div class="text-xl flex justify-between items-center">
 				<div class="w-3/4">
 					<p>${cardTheme.themeName}</p>

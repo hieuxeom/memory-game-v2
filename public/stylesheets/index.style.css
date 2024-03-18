@@ -30,6 +30,12 @@
 	background-size: cover;
 }
 
+#authContainer {
+	background-image: url("/images/auth-background.png");
+	background-repeat: unset;
+	background-size: cover;
+}
+
 #formContainer .form-row label {
 	font-size: 1.5rem;
 }

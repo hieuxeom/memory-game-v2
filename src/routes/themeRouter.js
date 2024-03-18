@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
 
-const themeRouter = require("../controllers/ThemeController");
+const themeController = require("../controllers/ThemeController");
 
-router.get("/", themeRouter.index);
+router.get("/", themeController.index);
 
 module.exports = router;

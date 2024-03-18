@@ -1,4 +1,5 @@
 import { gameSize } from "../type/general.js";
+import { IUser } from "../type/user.js";
 import { handleStopTimer } from "./game.timer.js";
 
 const sizeGame = gameSize === "4x4" ? 16 : 20;
@@ -53,4 +54,13 @@ export const gameLogic = (listCards: NodeListOf<HTMLElement>) => {
 
 const isMatch = ([v1, v2]: HTMLElement[]): boolean => {
 	return v1.getAttribute("data-value") === v2.getAttribute("data-value");
+};
+
+const handleGameWin = () => {
+	const { _id }: IUser = JSON.parse(localStorage.getItem("userData")!) as IUser;
+	// const;
+	// const historyData = {
+	// 	userId: _id,
+	// 	game,
+	// };
 };

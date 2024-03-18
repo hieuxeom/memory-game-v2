@@ -1,4 +1,4 @@
-import { ICardTheme } from "../type/cardTheme";
+import { ICardThemeResponse } from "../type/cardTheme";
 
 const themeContainer: HTMLElement = document.getElementById("themeContainer") as HTMLElement;
 const currentCardTheme: WindowLocalStorage | string = localStorage.getItem("cardTheme") ?? "";
@@ -13,7 +13,7 @@ const handleLoadingTheme = () => {
 	return new Promise<void>((resolve, reject) => {
 		fetch("/api/card-themes")
 			.then((res) => res.json())
-			.then((listCardThemes: ICardTheme[]): NodeListOf<HTMLElement> => {
+			.then((listCardThemes: ICardThemeResponse[]): NodeListOf<HTMLElement> => {
 				themeContainer.innerHTML = listCardThemes
 					.map((card) => {
 						return `<div data-value=${card._id} class="theme-card ${

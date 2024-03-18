@@ -18,7 +18,7 @@ class ApiGameThemeController {
 			themeName,
 			themeData,
 		});
-		console.log("🚀 ~ ApiGameThemeController ~ post ~ newGameTheme:", newGameTheme);
+
 		newGameTheme
 			.save()
 			.then((game) => console.log("New game theme has been added."))

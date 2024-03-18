@@ -1,0 +1,59 @@
+<header class="w-full flex flex-col justify-center items-center gap-4">
+	<a href="/" class="button-small active text-white rounded-full">Back</a>
+</header>
+<main class="flex flex-col w-full mt-12 items-center gap-4">
+	<section id="userInfo" class="flex flex-col justify-center items-center gap-2">
+		<div class="w-32 h-32 rounded-full overflow-hidden shadow-1">
+			<img
+				id="userAvatar"
+				class="w-full h-full"
+				src="https://lh3.googleusercontent.com/a/ACg8ocLTSnMhxJFfw56s735AhXa-M-R5G4rEvlta67nx9Gtiaw=s96-c"
+				alt=""
+			/>
+		</div>
+		<div class="w-full">
+			<h3 id="displayName" class="text-3xl">Username</h3>
+		</div>
+	</section>
+	<section id="gamePlayAnalytics" class="w-full">
+		<div class="w-full grid grid-cols-3 gap-4">
+			<div class="data-box flex flex-col justify-center items-center bg-white shadow-2 rounded-xl py-2">
+				<h4 id="gamePlayed" class="text-3xl">
+					100
+				</h4>
+				<p>
+					Games Played
+				</p>
+			</div>
+			<div class="data-box flex flex-col justify-center items-center bg-white shadow-2 rounded-xl py-2">
+				<h4 id="bestTime" class="text-3xl">
+					100
+				</h4>
+				<p>
+					Best Time
+				</p>
+			</div>
+			<div class="data-box flex flex-col justify-center items-center bg-white shadow-2 rounded-xl py-2">
+				<h4 id="averageTime" class="text-3xl">
+					100
+				</h4>
+				<p>
+					Average Time
+				</p>
+			</div>
+		</div>
+	</section>
+	<section id="additionalInformation" class="w-full">
+		<div class="w-full flex flex-col gap-4">
+			<div class="flex items-center w-full bg-white rounded-xl shadow-2 gap-4 py-2 px-4">
+				<i class="fa-solid fa-envelope"></i>
+				<p id="email">Email</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="signOut" class="w-full flex justify-center">
+		<button id="signOutButton" class="button-normal text-white rounded-full">SignOut</button>
+	</section>
+
+</main>

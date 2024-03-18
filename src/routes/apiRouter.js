@@ -14,8 +14,10 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const apiAuth = require("../controllers/api/ApiAuthController");
 const apiCardTheme = require("../controllers/api/ApiCardThemeController");
 const apiGameTheme = require("../controllers/api/ApiGameThemeController");
+const apiUser = require("../controllers/api/ApiUserController");
 
 const multiUpload = upload.fields([
 	{ name: "themeFront", maxCount: 1 },
@@ -33,4 +35,10 @@ router.delete("/card-themes/:themeId", apiCardTheme.delete);
 router.get("/game-themes/:gameThemeId", apiGameTheme.getThemeById);
 router.post("/game-themes", apiGameTheme.post);
 
+//Auth Router
+router.post("/googleSignIn", apiAuth.loginWithGoogle);
+
+// User API router
+router.get("/users", apiUser.getAllUsers);
+router.get("/users/:userId", apiUser.getUserById);
 module.exports = router;

@@ -22,6 +22,8 @@ const rankRouter = require("./src/routes/rankRouter");
 const themeRouter = require("./src/routes/themeRouter");
 const apiRouter = require("./src/routes/apiRouter");
 const adminRouter = require("./src/routes/adminRouter");
+const authRouter = require("./src/routes/authRouter");
+const userRouter = require("./src/routes/userRouter.js");
 
 app.use("/", indexRouter);
 app.use("/home", indexRouter);
@@ -30,6 +32,8 @@ app.use("/rank", rankRouter);
 app.use("/theme", themeRouter);
 app.use("/api", apiRouter);
 app.use("/admin", adminRouter);
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
