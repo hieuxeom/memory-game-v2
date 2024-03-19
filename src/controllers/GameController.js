@@ -61,7 +61,7 @@ class GameController {
 		} catch (err) {
 			return res.status(400).json({
 				message: "Bad request",
-				error: err.message,
+				description: err.message,
 			});
 		}
 	}

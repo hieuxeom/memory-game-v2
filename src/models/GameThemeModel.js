@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const subThemeData = new Schema({
-	icon: String,
-	value: String,
-	type: String,
+	icon: { type: String, required: true },
+	value: { type: String, required: true },
+	type: { type: String, required: true },
 });
 
 const GameSchemaSchema = new Schema(
 	{
-		themeName: String,
-		themeData: [subThemeData],
+		themeName: { type: String, required: true },
+		themeData: { type: [subThemeData], required: true },
 		played: { type: Number, default: 0 },
 	},
 	{ timestamps: true }

@@ -1,21 +1,16 @@
 const cardThemeModel = require("../../models/CardThemeModel");
 
 class ApiCardThemeController {
-	get(req, res) {
-		cardThemeModel.find({}).then((cardTheme) => {
-			res.json(cardTheme);
-		});
+	async get(req, res) {
+		return res.json(await cardThemeModel.find({}));
 	}
 
-	getThemeById(req, res, next) {
+	async getThemeById(req, res, next) {
 		const { themeId } = req.params;
-
-		cardThemeModel.findById(themeId).then((theme) => {
-			res.json(theme);
-		});
+		return res.json(await cardThemeModel.findById(themeId));
 	}
 
-	post(req, res, next) {
+	async post(req, res, next) {
 		const { themeName } = req.body;
 		let { themeFront, themeBack } = req.files;
 
@@ -28,59 +23,78 @@ class ApiCardThemeController {
 			cardBack: themeBack.filename,
 		});
 
-		newCardTheme
-			.save()
-			.then((card) => console.log("New card theme has been added."))
-			.catch((err) => next(err));
+		const createNewCardTheme = await newCardTheme.save();
 
-		return res.redirect("/admin/card-themes/all");
+		if (createNewCardTheme) {
+			return res.redirect("/admin/card-themes/all");
+		} else {
+			return res.status(400).json({
+				message: "Bad request",
+				description: err.message,
+			});
+		}
 	}
 
-	put(req, res, next) {
-		const { themeId, themeName } = req.body;
+	async put(req, res, next) {
+		try {
+			const { themeId, themeName } = req.body;
 
-		let { themeFront, themeBack } = req.files;
+			let { themeFront, themeBack } = req.files;
 
-		let updateData = {
-			themeName,
-		};
-		if (themeFront) {
-			updateData = {
-				...updateData,
-				cardFront: themeFront[0].filename,
+			let updateData = {
+				themeName,
 			};
-		}
-		if (themeBack) {
-			updateData = {
-				...updateData,
-				cardBack: themeBack[0].filename,
-			};
-		}
+			if (themeFront) {
+				updateData = {
+					...updateData,
+					cardFront: themeFront[0].filename,
+				};
+			}
+			if (themeBack) {
+				updateData = {
+					...updateData,
+					cardBack: themeBack[0].filename,
+				};
+			}
 
-		cardThemeModel
-			.findByIdAndUpdate(themeId, updateData)
-			.then(() => {
-				res.status(301).redirect(`/admin/card-themes/all`);
-			})
-			.catch((err) => {
-				console.log(err);
-				next(err);
+			const updateCardTheme = await cardThemeModel.findByIdAndUpdate(themeId, updateData);
+
+			if (updateCardTheme) {
+				return res.redirect(`/admin/card-themes/all`);
+			} else {
+				return res.status(400).json({
+					message: "Bad request",
+					description: "Have some problems",
+				});
+			}
+		} catch (err) {
+			return res.status(400).json({
+				message: "Bad request",
+				description: err.message,
 			});
+		}
 	}
 
-	delete(req, res, next) {
-		const { themeId } = req.params;
+	async delete(req, res, next) {
+		try {
+			const { themeId } = req.params;
 
-		console.log(themeId);
-		cardThemeModel
-			.findByIdAndDelete(themeId)
-			.then(() => {
-				res.status(301).redirect(`/admin/card-themes/all`);
-			})
-			.catch((err) => {
-				console.log(err);
-				next(err);
+			console.log(themeId);
+			const deleteCardTheme = await cardThemeModel.findByIdAndDelete(themeId);
+			if (deleteCardTheme) {
+				return res.redirect(`/admin/card-themes/all`);
+			} else {
+				return res.status(400).json({
+					message: "Bad request",
+					description: "Have some problems",
+				});
+			}
+		} catch (err) {
+			return res.status(500).json({
+				message: "Bad request",
+				description: err.message,
 			});
+		}
 	}
 }
 

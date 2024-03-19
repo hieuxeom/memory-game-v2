@@ -5,9 +5,6 @@ class ThemeController {
 			class: "px-8 py-2",
 			listScripts: [
 				{
-					path: "themes/theme.index.js",
-				},
-				{
 					path: "themes/theme.generator.js",
 					type: "module",
 				},
