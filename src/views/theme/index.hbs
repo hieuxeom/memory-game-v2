@@ -5,11 +5,16 @@
 		<p class="text-[1.5rem]">12:00</p>
 	</div>
 </header>
-<main class="flex justify-center w-full h-max relative">
-	<div id="themeContainer" class="w-11/12 h-4/6 my-16 p-4 grid grid-cols-4 gap-4 rounded-xl">
+<main>
+	<div class="flex flex-col items-center justify-start w-full h-[40%] relative mt-16">
+		<h3 class="text-2xl">Card themes</h3>
+		<div id="cardThemeContainer" class="w-11/12 overflow-y-scroll p-4 grid grid-cols-4 gap-4 rounded-xl style-4">
+		</div>
+
 	</div>
-	<div class="absolute bottom-0 left-1/2 translate-x-[-50%] w-full flex justify-center items-center gap-8">
-		<button class="w-14 h-14 rounded-full bg-lightSub text-2xl">&lt;</button>
-		<button class="w-14 h-14 rounded-full bg-lightSub text-2xl">&gt;</button>
+	<div class="flex flex-col items-center justify-start w-full h-[40%] relative">
+		<h3 class="text-2xl">Game themes</h3>
+		<div id="gameThemeContainer" class="w-11/12 overflow-y-scroll p-4 grid grid-cols-4 gap-4 rounded-xl style-4">
+		</div>
 	</div>
 </main>

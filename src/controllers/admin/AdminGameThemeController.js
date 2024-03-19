@@ -19,16 +19,31 @@ class AdminGameThemeController {
 		});
 	}
 	all(req, res) {
-		// return res.render("admin/card-themes/all", {
-		// 	containerId: "siteContainer",
-		// 	class: "px-8 py-2",
-		// 	listScripts: [
-		// 		{
-		// 			path: "admin/admin.listCardThemes.js",
-		// 			type: "module",
-		// 		},
-		// 	],
-		// });
+		return res.render("admin/game-themes/all", {
+			containerId: "siteContainer",
+			class: "px-8 py-2",
+			listScripts: [
+				{
+					path: "admin/admin.listGameThemes.js",
+					type: "module",
+				},
+			],
+		});
+	}
+
+	details(req, res, next) {
+		const { gameThemeId } = req.params;
+		return res.render("admin/game-themes/detail", {
+			containerId: "siteContainer",
+			class: "px-8 py-2",
+			listScripts: [
+				{
+					path: "admin/admin.gameTheme.detail.js",
+					type: "module",
+				},
+			],
+			gameThemeId,
+		});
 	}
 	edit(req, res, next) {
 		// const { themeId } = req.params;

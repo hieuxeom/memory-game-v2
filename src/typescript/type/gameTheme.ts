@@ -6,7 +6,7 @@ export interface IGameData {
 	type: TypeGameIcon;
 }
 
-export interface IGameDataResponse {
+export interface IGameThemeResponse {
 	_id: string;
 	themeName: string;
 	themeData: IGameData[];

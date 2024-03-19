@@ -1,19 +1,26 @@
-var _a;
-var themeContainer = document.getElementById("themeContainer");
+var _a, _b;
+var cardThemeContainer = document.getElementById("cardThemeContainer");
+var gameThemeContainer = document.getElementById("gameThemeContainer");
 var currentCardTheme = (_a = localStorage.getItem("cardTheme")) !== null && _a !== void 0 ? _a : "";
+var currentGameTheme = (_b = localStorage.getItem("gameTheme")) !== null && _b !== void 0 ? _b : "";
 var handleUnSelectedCard = function (listCardThemes) {
     listCardThemes.forEach(function (card) {
         card.classList.remove("selected");
     });
 };
-var handleLoadingTheme = function () {
+var handleUnSelectedGame = function (listGameThemes) {
+    listGameThemes.forEach(function (game) {
+        game.classList.remove("selected");
+    });
+};
+var loadingCardTheme = function () {
     return new Promise(function (resolve, reject) {
         fetch("/api/card-themes")
             .then(function (res) { return res.json(); })
             .then(function (listCardThemes) {
-            themeContainer.innerHTML = listCardThemes
+            cardThemeContainer.innerHTML = listCardThemes
                 .map(function (card) {
-                return "<div data-value=".concat(card._id, " class=\"theme-card ").concat(card._id === currentCardTheme ? "selected" : "", " w-full max-h-[180px] bg-white shadow shadow-lg rounded-xl overflow-hidden\">\n                                    <img src=\"/images/themepacks/").concat(card.cardBack, "\" alt=\"").concat(card.themeName, " Card Theme\"/>\n                                </div>");
+                return "<div data-value=".concat(card._id, " class=\"theme-card ").concat(card._id === currentCardTheme ? "selected" : "", " w-full max-h-[145px] bg-white shadow shadow-lg rounded-xl overflow-hidden\">\n                                    <img class=\"h-full w-full\" src=\"/images/themepacks/").concat(card.cardBack, "\" alt=\"").concat(card.themeName, " Card Theme\"/>\n                                </div>");
             })
                 .join("");
             return document.querySelectorAll(".theme-card");
@@ -30,5 +37,30 @@ var handleLoadingTheme = function () {
         });
     });
 };
-handleLoadingTheme();
+var loadingGameTheme = function () {
+    return new Promise(function (resolve, reject) {
+        fetch("/api/game-themes")
+            .then(function (res) { return res.json(); })
+            .then(function (listGameThemes) {
+            gameThemeContainer.innerHTML = listGameThemes
+                .map(function (game) {
+                return "<div class=\"flex flex-col justify-center items-center gap-2\"><div data-value=".concat(game._id, " class=\"theme-game ").concat(game._id === currentGameTheme ? "selected" : "", " w-full max-h-[145px] bg-white shadow shadow-lg rounded-xl overflow-hidden\">\n                                    <img src=\"/images/gameThemeBg.png\" alt=\"").concat(game.themeName, " Card Theme\"/>\n                                </div>\n\t\t\t\t\t\t\t\t<p class=\"text-xl text-secondary\">").concat(game.themeName, "</p>\n\t\t\t\t\t\t\t\t</div>");
+            })
+                .join("");
+            return document.querySelectorAll(".theme-game");
+        })
+            .then(function (listGameThemes) {
+            listGameThemes.forEach(function (game) {
+                game.addEventListener("click", function () {
+                    var _a;
+                    handleUnSelectedGame(listGameThemes);
+                    game.classList.add("selected");
+                    localStorage.setItem("gameTheme", (_a = game.getAttribute("data-value")) !== null && _a !== void 0 ? _a : "");
+                });
+            });
+        });
+    });
+};
+loadingCardTheme();
+loadingGameTheme();
 export {};

@@ -1,5 +1,5 @@
 import { ICardThemeResponse } from "../type/cardTheme";
-import { IGameData, IGameDataResponse } from "../type/gameTheme";
+import { IGameData, IGameThemeResponse } from "../type/gameTheme";
 import { gameSize } from "../type/general.js";
 import { gameLogic } from "./game.logic.js";
 
@@ -23,7 +23,7 @@ const gameData = fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json
 const cardData = fetch(`/api/card-themes/${cardThemeId}`).then((res) => res.json());
 
 Promise.all([gameData, cardData])
-	.then(([gameDataResponse, cardDataResponse]): NodeListOf<HTMLElement> => {
+	.then(([gameDataResponse, cardDataResponse]: [IGameThemeResponse, ICardThemeResponse]): NodeListOf<HTMLElement> => {
 		const { themeData: gameThemeData } = gameDataResponse;
 		return renderCards(gameThemeData, cardDataResponse);
 	})

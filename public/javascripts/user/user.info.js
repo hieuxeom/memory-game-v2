@@ -18,7 +18,8 @@ if (isIUser(userData)) {
         displayNameValue.innerHTML = displayName;
         gamePlayedValue.innerHTML = gamePlayed.toString();
         bestTimeValue.innerHTML = bestTime.toString();
-        averageTimeValue.innerHTML = averageTime.toString();
+        // averageTimeValue.innerHTML = averageTime.toString();
+        averageTimeValue.innerHTML = averageTime.toFixed(2);
         emailValue.innerHTML = email;
     });
 }
