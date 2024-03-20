@@ -7,6 +7,7 @@ const themeNameValue: HTMLElement = document.getElementById("themeNameValue") as
 const themeNameDetail: HTMLElement = document.getElementById("themeNameDetail") as HTMLElement;
 const themeTotalItemsDetail: HTMLElement = document.getElementById("themeTotalItemsDetail") as HTMLElement;
 const themePlayedDetail: HTMLElement = document.getElementById("themePlayedDetail") as HTMLElement;
+const themeThumbnail: HTMLImageElement = document.getElementById("themeThumbnail") as HTMLImageElement;
 const listThemeDataContainer: HTMLElement = document.getElementById("listThemeDataContainer") as HTMLElement;
 
 const fetchCardData = fetch(`/api/card-themes/${currentCardThemeId}`).then((response) => response.json());
@@ -20,7 +21,7 @@ Promise.all([fetchCardData, fetchGameData]).then(([cardData, gameData]: [ICardTh
 	themeNameDetail.innerHTML = gameData.themeName;
 	themeTotalItemsDetail.innerHTML = gameData.themeData.length.toString();
 	themePlayedDetail.innerHTML = gameData.played.toString();
-
+	themeThumbnail.src = `/images/game_thumbnails/${gameData.themeThumbnail}`
 	listThemeDataContainer.innerHTML = gameData.themeData
 		.map((gameTheme: IGameData) => {
 			return `
