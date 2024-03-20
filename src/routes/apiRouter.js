@@ -48,7 +48,7 @@ router.delete("/card-themes/:themeId", apiCardTheme.delete);
 router.get("/game-themes/:gameThemeId", apiGameTheme.getThemeById);
 router.get("/game-themes", apiGameTheme.getAllGameThemes);
 router.post("/game-themes", gameThumbnailUpload, apiGameTheme.post);
-router.put("/game-themes", gameThumbnailUpload, apiGameTheme.post);
+router.put("/game-themes", gameThumbnailUpload, apiGameTheme.put);
 router.delete("/game-themes/:themeId", apiGameTheme.delete);
 
 //Auth Router

@@ -22,10 +22,15 @@ const loadingCardTheme = () => {
         fetch("/api/card-themes")
             .then((res) => res.json())
             .then((listCardThemes: ICardThemeResponse[]): NodeListOf<HTMLElement> => {
+                let idSelected = currentCardTheme;
+                if (!currentCardTheme) {
+                    idSelected = listCardThemes[0]._id;
+                    localStorage.setItem("cardTheme", idSelected)
+                }
                 cardThemeContainer.innerHTML = listCardThemes
                     .map((card) => {
                         return `<div data-value=${card._id}
-									class="theme-card ${card._id === currentCardTheme ? "selected" : ""} w-full max-h-[145px] bg-white shadow shadow-lg rounded-xl overflow-hidden"
+									class="theme-card ${card._id === idSelected ? "selected" : ""} w-full max-h-[145px] bg-white shadow shadow-lg rounded-xl overflow-hidden"
 								>
 									<img class="h-full w-full" src="/images/themepacks/${card.cardBack}" alt="${card.themeName} Card Theme"/>
                                 </div>`;
@@ -49,14 +54,21 @@ const loadingGameTheme = () => {
         fetch("/api/game-themes")
             .then((res) => res.json())
             .then((listGameThemes: IGameThemeResponse[]): NodeListOf<HTMLElement> => {
+                let idSelected = currentGameTheme;
+                if (!currentCardTheme) {
+                    idSelected = listGameThemes[0]._id;
+                    localStorage.setItem("gameTheme", idSelected)
+                }
                 gameThemeContainer.innerHTML = listGameThemes
                     .map((game: IGameThemeResponse) => {
-                        return `<div class="flex flex-col justify-center items-center gap-2"><div data-value=${game._id} class="theme-game ${
-                            game._id === currentGameTheme ? "selected" : ""
-                        } w-full max-h-[145px] bg-white shadow shadow-lg rounded-xl overflow-hidden">
-                                    <img src="/images/gameThemeBg.png" alt="${game.themeName} Card Theme"/>
-                                </div>
-								<p class="text-xl text-secondary">${game.themeName}</p>
+                        return `<div class="flex flex-col justify-center items-center gap-2">
+                                    <div data-value=${game._id} 
+                                        class="theme-game ${game._id === idSelected ? "selected" : ""}
+                                        w-full max-h-[145px] bg-white shadow shadow-lg  overflow-hidden"
+                                        >
+                                        <img src="/images/game_thumbnails/${game.themeThumbnail}" alt="${game.themeName} Card Theme"/>
+                                    </div>
+								    <p class="text-xl text-secondary">${game.themeName}</p>
 								</div>`;
                     })
                     .join("");

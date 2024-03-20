@@ -1,4 +1,5 @@
 import { IUser } from "../type/user";
+import {FetchHelpers} from "../utils/fetch.js";
 
 let userData: IUser = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")!) : "";
 
@@ -15,18 +16,23 @@ function isIUser(userData: IUser | string): userData is IUser {
 
 if (isIUser(userData)) {
 	const { _id } = userData;
-	fetch(`/api/users/${_id}`)
-		.then((res) => res.json())
-		.then((res: IUser) => {
-			const { averageTime, bestTime, displayName, email, gamePlayed, photoURL } = res;
-			userAvatar.src = photoURL;
-			displayNameValue.innerHTML = displayName;
-			gamePlayedValue.innerHTML = gamePlayed.toString();
-			bestTimeValue.innerHTML = bestTime.toString();
-			// averageTimeValue.innerHTML = averageTime.toString();
-			averageTimeValue.innerHTML = averageTime.toFixed(2);
-			emailValue.innerHTML = email;
-		});
+	// fetch(`/api/users/${_id}`)
+	// 	.then((res) => res.json())
+	// 	.then((res: IUser) => {
+	// 		const { averageTime, bestTime, displayName, email, gamePlayed, photoURL } = res;
+	// 		userAvatar.src = photoURL;
+	// 		displayNameValue.innerHTML = displayName;
+	// 		gamePlayedValue.innerHTML = gamePlayed.toString();
+	// 		bestTimeValue.innerHTML = bestTime.toString();
+	// 		// averageTimeValue.innerHTML = averageTime.toString();
+	// 		averageTimeValue.innerHTML = averageTime.toFixed(2);
+	// 		emailValue.innerHTML = email;
+	// 	});
+	const fetcher = new FetchHelpers(`/api/users/${_id}`)
+
+	fetcher.get().then(res => {
+		console.log(res)
+	})
 } else {
 	window.location.href = "/auth";
 }

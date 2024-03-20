@@ -3,13 +3,17 @@ var secondValue = document.getElementById("secondValue");
 var totalTime = 0;
 var handleTimer = function () {
     totalTime++;
-    if (Math.floor(totalTime / 60) === 1) {
-        handleStopTimer();
-    }
-    var second = pad(totalTime % 60);
-    var minute = pad(Math.floor(totalTime / 60));
-    minuteValue.innerHTML = minute.toString();
-    secondValue.innerHTML = second.toString();
+    // let second = pad(totalTime % 60);
+    // let minute = pad(Math.floor(totalTime / 60));
+    var _a = timeConverter(totalTime), minute = _a.minute, second = _a.second;
+    minuteValue.innerHTML = minute;
+    secondValue.innerHTML = second;
+};
+export var timeConverter = function (totalTime) {
+    return {
+        second: pad(totalTime % 60),
+        minute: pad(Math.floor(totalTime / 60))
+    };
 };
 export var handleStopTimer = function () {
     clearInterval(timer);

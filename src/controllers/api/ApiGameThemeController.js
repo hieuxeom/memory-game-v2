@@ -1,24 +1,5 @@
 const gameThemeModel = require("../../models/GameThemeModel");
 const { mongooseToObject } = require("../../utils/mongoose");
-//
-// const parseGameData = (gameThemeData) => {
-//     const parseData = gameThemeData.split("\n");
-//     return parseData.map((value) => {
-//             let tempString = value.split("|");
-//             if (tempString.length > 1) {
-//                 return {
-//                     icon: tempString[0],
-//                     value: tempString[1],
-//                 };
-//             } else {
-//                 return {
-//                     icon: tempString[0],
-//                     value: tempString[0],
-//                 };
-//             }
-//         }
-//     )
-// }
 
 class ApiGameThemeController {
     async getAllGameThemes(req, res, next) {
@@ -67,6 +48,38 @@ class ApiGameThemeController {
             });
         }
 
+    }
+
+    async put(req, res, next) {
+        try {
+
+            let { themeId, themeName, themeDataParsed, rawData, themeDataType } = req.body;
+
+            let updateData = {
+                themeName: themeName,
+                themeData: JSON.parse(themeDataParsed),
+                rawData: rawData,
+                type: themeDataType
+            }
+
+            if (req.file) {
+                updateData = {
+                    ...updateData,
+                    themeThumbnail: req.file.filename,
+                }
+            }
+
+            const editGameTheme = await gameThemeModel.findByIdAndUpdate(themeId, updateData)
+
+            if (editGameTheme) {
+                return res.redirect(`/admin/game-themes/${themeId}`);
+            }
+        } catch (err) {
+            return res.status(400).json({
+                message: "Bad request",
+                description: err.message,
+            });
+        }
     }
 
     async delete(req, res, next) {

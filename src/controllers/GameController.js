@@ -20,6 +20,10 @@ class GameController {
 					path: "gameplay/game.timer.js",
 					type: "module",
 				},
+				{
+					path: "gameplay/game.notify.js",
+					type: "module",
+				},
 			],
 		});
 	}

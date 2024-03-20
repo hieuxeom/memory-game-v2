@@ -1,5 +1,6 @@
 import { gameSize } from "../type/general.js";
 import { handleStopTimer } from "./game.timer.js";
+import { showNotifyBoard } from "./game.notify.js";
 var sizeGame = gameSize === "4x4" ? 16 : 20;
 export var gameLogic = function (listCards) {
     var countOpenCard = 0;
@@ -61,6 +62,7 @@ var handleGameWin = function (gameTime, gameSize) {
         gameTime: gameTime,
         gameSize: gameSize,
     };
+    showNotifyBoard(gameTime);
     fetch("/game/results", {
         method: "POST",
         headers: {
