@@ -1,10 +1,11 @@
 <header class="w-full flex justify-between items-center gap-4">
-	<a href="/admin" class="button-normal active text-white rounded-full">Back</a>
+	<a href="/admin/game-themes" class="button-normal active text-white rounded-full">Back</a>
 	<h1 class="w-full text-4xl text-secondary">Add new game theme</h1>
 
 </header>
 <main class="flex justify-center w-full h-max relative">
-	<form id="formContainer" class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4 rounded-xl">
+	<form action="/api/game-themes" method="post" enctype="multipart/form-data" id="formContainer" class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4
+	rounded-xl">
 		<div class="form-row flex flex-col gap-1 w-full">
 			<label for="themeName">Theme Name</label>
 			<input type="text" id="themeName" name="themeName" />
@@ -28,7 +29,7 @@
 			</div>
 			<div class="form-row flex flex-col gap-1 w-full">
 				<textarea
-					class="text-2xl"
+					class="text-2xl px-4 py-2"
 					rows="10"
 					id="themeData"
 					name="themeData"

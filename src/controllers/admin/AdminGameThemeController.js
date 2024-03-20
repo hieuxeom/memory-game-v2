@@ -14,6 +14,7 @@ class AdminGameThemeController {
 			listScripts: [
 				{
 					path: "admin/game.add.js",
+					type: "module"
 				},
 			],
 		});
@@ -24,7 +25,7 @@ class AdminGameThemeController {
 			class: "px-8 py-2",
 			listScripts: [
 				{
-					path: "admin/admin.listGameThemes.js",
+					path: "admin/game.list_all.js",
 					type: "module",
 				},
 			],
@@ -38,7 +39,7 @@ class AdminGameThemeController {
 			class: "px-8 py-2",
 			listScripts: [
 				{
-					path: "admin/admin.gameTheme.detail.js",
+					path: "admin/game.detail.js",
 					type: "module",
 				},
 			],

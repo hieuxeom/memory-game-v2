@@ -19,7 +19,7 @@ class AdminCardThemeController {
 			class: "px-8 py-2",
 			listScripts: [
 				{
-					path: "admin/admin.listCardThemes.js",
+					path: "admin/card.list_all.js",
 					type: "module",
 				},
 			],
@@ -38,7 +38,7 @@ class AdminCardThemeController {
 				class: "px-8 py-2",
 				listScripts: [
 					{
-						path: "admin/admin.theme.js",
+						path: "admin/card.edit.js",
 					},
 				],
 				themeData,

@@ -1,3 +1,5 @@
 .idea/
 node_modules/
 .env
+public/images/game_thumbnails/*-test.*
+public/images/themepacks/*-test.*
