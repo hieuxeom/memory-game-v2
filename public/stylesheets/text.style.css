@@ -1,0 +1,4 @@
+.text-primary-border {
+    color: var(--danger);
+    text-shadow: 2px 2px 0px rgba(24,44,69,0.94);
+}

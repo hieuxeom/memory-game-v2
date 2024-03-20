@@ -1,7 +1,7 @@
-import { ICardThemeResponse } from "../type/cardTheme";
-import { IGameData, IGameThemeResponse } from "../type/gameTheme";
-import { gameSize } from "../type/general.js";
-import { gameLogic } from "./game.logic.js";
+import {ICardThemeResponse} from "../type/cardTheme";
+import {IGameData, IGameThemeResponse} from "../type/gameTheme";
+import {gameSize} from "../type/general.js";
+import {gameLogic} from "./game.logic.js";
 
 const gameContainer: HTMLElement = (document.getElementById("gameContainer") as HTMLElement) ?? null;
 
@@ -9,32 +9,33 @@ const cardThemeId: WindowLocalStorage | string = localStorage.getItem("cardTheme
 const gameThemeId: WindowLocalStorage | string = localStorage.getItem("gameTheme") ?? "65f709ad9d376fdf4644c182";
 
 function shuffleAndSlice(array: IGameData[], length: number): IGameData[] {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
 
-	array.length = length;
+    array.length = length;
 
-	return [...array, ...array];
+    return [...array, ...array];
 }
 
 const gameData = fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json());
 const cardData = fetch(`/api/card-themes/${cardThemeId}`).then((res) => res.json());
 
 Promise.all([gameData, cardData])
-	.then(([gameDataResponse, cardDataResponse]: [IGameThemeResponse, ICardThemeResponse]): NodeListOf<HTMLElement> => {
-		const { themeData: gameThemeData } = gameDataResponse;
-		return renderCards(gameThemeData, cardDataResponse);
-	})
-	.then((listCards: NodeListOf<HTMLElement>) => {
-		gameLogic(listCards);
-	});
+    .then(([gameDataResponse, cardDataResponse]: [IGameThemeResponse, ICardThemeResponse]): NodeListOf<HTMLElement> => {
+        const {themeData: gameThemeData} = gameDataResponse;
+
+        return renderCards(gameThemeData, cardDataResponse);
+    })
+    .then((listCards: NodeListOf<HTMLElement>) => {
+        gameLogic(listCards);
+    });
 
 const cardComps = (cardBack: string, cardFront: string, icon: string, value: string) => {
-	return `<div data-value="${value}" class="card relative shadow-lg h-[${
-		gameSize === "4x4" ? "170" : "135"
-	}px] rounded-lg overflow-hidden" data-value="${value}">
+    return `<div data-value="${value}" class="card relative shadow-lg h-[${
+        gameSize === "4x4" ? "170" : "135"
+    }px] rounded-lg overflow-hidden" data-value="${value}">
     <div class="card-back h-full">
         <img src="/images/themepacks/${cardBack}" class="w-full h-full"/>
     </div>
@@ -50,8 +51,9 @@ const cardComps = (cardBack: string, cardFront: string, icon: string, value: str
 </div>`;
 };
 
-const renderCards = (gameData: IGameData[], { cardBack, cardFront }: ICardThemeResponse): NodeListOf<HTMLElement> => {
-	const gameDataShuffled = shuffleAndSlice(gameData, gameSize === "4x4" ? 8 : 10);
-	gameContainer.innerHTML = gameDataShuffled.map(({ icon, value }: IGameData) => cardComps(cardBack, cardFront, icon, value)).join("");
-	return document.querySelectorAll(".card");
+const renderCards = (gameData: IGameData[], {cardBack, cardFront}: ICardThemeResponse): NodeListOf<HTMLElement> => {
+    const gameDataShuffled = shuffleAndSlice(gameData, gameSize === "4x4" ? 8 : 10);
+
+    gameContainer.innerHTML = gameDataShuffled.map(({icon, value}: IGameData) => cardComps(cardBack, cardFront, icon, value)).join("");
+    return document.querySelectorAll(".card");
 };

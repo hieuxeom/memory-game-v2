@@ -9,6 +9,8 @@
 	--primary: #f95c47;
 	--secondary: #182c45;
 	--sub: #3c2e3d;
+	--danger: #ef4444;
+	--warning: #facc15;
 }
 
 * {
@@ -38,6 +40,10 @@
 
 #formContainer .form-row label {
 	font-size: 1.5rem;
+}
+
+#notification {
+	display: none;
 }
 
 input:not([type="submit"], [type="radio"]),

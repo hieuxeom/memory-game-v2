@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="/stylesheets/icon.custom.css" />
 		<link rel="stylesheet" href="/stylesheets/shadow.style.css" />
 		<link rel="stylesheet" href="/stylesheets/button.style.css" />
+		<link rel="stylesheet" href="/stylesheets/text.style.css" />
 		<link rel="stylesheet" href="/stylesheets/card.style.css" />
 		<link rel="stylesheet" href="/stylesheets/admin/admin.table.css" />
 
@@ -26,7 +27,6 @@
 	</head>
 	<body>
 		<div id="wrapper" class="w-screen h-screen bg-gray flex justify-center items-center">
-			
             <div {{#if containerId}} id={{containerId}} {{/if}} class="w-[600px] h-screen bg-white relative {{#if class}} {{class}} {{/if}}">
 				{{{body}}}
 			</div>
@@ -43,6 +43,6 @@
                 ></script>
             {{/each}}
         {{/if}}
-        
+
 	</body>
 </html>
