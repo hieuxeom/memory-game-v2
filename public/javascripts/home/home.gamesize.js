@@ -2,7 +2,7 @@ import { gameSize } from "../type/general.js";
 var listSizeGame = document.querySelectorAll(".difficult-size");
 var handleDefaultSelected = function () {
     listSizeGame.forEach(function (button) {
-        if (button.getAttribute("button-data") === gameSize) {
+        if (button.getAttribute("data-button") === gameSize) {
             button.classList.add("active");
         }
     });
@@ -17,7 +17,7 @@ listSizeGame.forEach(function (button) {
         var _a;
         handleUnSelectedButton();
         button.classList.add("active");
-        localStorage.setItem("gameSize", (_a = button.getAttribute("button-data")) !== null && _a !== void 0 ? _a : "");
+        localStorage.setItem("gameSize", (_a = button.getAttribute("data-button")) !== null && _a !== void 0 ? _a : "");
     });
 });
 handleDefaultSelected();
