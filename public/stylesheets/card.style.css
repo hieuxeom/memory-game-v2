@@ -17,3 +17,7 @@
 .theme-game.selected {
 	box-shadow: 2px 2px 0px 2px #f95c47, -1px -1px 0px 1px #f95c47, 0px 4px 2px 0px #f95c47;
 }
+
+.theme-game.selected ~ p {
+	color: var(--primary)
+}

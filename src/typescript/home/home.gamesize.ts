@@ -4,7 +4,7 @@ const listSizeGame: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".
 
 const handleDefaultSelected = () => {
 	listSizeGame.forEach((button) => {
-		if (button.getAttribute("button-data") === gameSize) {
+		if (button.getAttribute("data-button") === gameSize) {
 			button.classList.add("active");
 		}
 	});
@@ -20,7 +20,7 @@ listSizeGame.forEach((button) => {
 	button.addEventListener("click", () => {
 		handleUnSelectedButton();
 		button.classList.add("active");
-		localStorage.setItem("gameSize", button.getAttribute("button-data") ?? "");
+		localStorage.setItem("gameSize", button.getAttribute("data-button") ?? "");
 	});
 });
 

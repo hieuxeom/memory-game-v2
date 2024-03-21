@@ -1,4 +1,14 @@
-.text-primary-border {
+.text-primary-shadow {
     color: var(--danger);
     text-shadow: 2px 2px 0px rgba(24,44,69,0.94);
+}
+
+.text-header-shadow {
+    color: var(--primary);
+    text-shadow: 2px 2px 2px #182C45;
+}
+
+.text-secondary-shadow {
+    color: var(--secondary);
+    text-shadow: 2px 2px 2px #f95c47;
 }

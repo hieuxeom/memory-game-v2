@@ -10,6 +10,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 var _a, _b, _c;
 import { gameSize } from "../type/general.js";
 import { gameLogic } from "./game.logic.js";
+import { GameCard } from "../utils/Card.js";
 var gameContainer = (_a = document.getElementById("gameContainer")) !== null && _a !== void 0 ? _a : null;
 var cardThemeId = (_b = localStorage.getItem("cardTheme")) !== null && _b !== void 0 ? _b : "";
 var gameThemeId = (_c = localStorage.getItem("gameTheme")) !== null && _c !== void 0 ? _c : "65f709ad9d376fdf4644c182";
@@ -33,15 +34,18 @@ Promise.all([gameData, cardData])
     .then(function (listCards) {
     gameLogic(listCards);
 });
-var cardComps = function (cardBack, cardFront, icon, value) {
-    return "<div data-value=\"".concat(value, "\" class=\"card relative shadow-lg h-[").concat(gameSize === "4x4" ? "170" : "135", "px] rounded-lg overflow-hidden\" data-value=\"").concat(value, "\">\n    <div class=\"card-back h-full\">\n        <img src=\"/images/themepacks/").concat(cardBack, "\" class=\"w-full h-full\"/>\n    </div>\n    <div class=\"card-front w-full h-full\">\n\t\t<div>\n\t\t\t<img src=\"/images/themepacks/").concat(cardFront, "\" class=\"w-full h-full\"/>\n\t\t</div>\n\t\t<div class=\"absolute top-0 left-0 bg-white w-auto h-full shadow-lg\"></div>\n        <div class=\"absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]\">\n            <i class=\"").concat(icon, " text-4xl\"></i>\n        </div>\n    </div>\n</div>");
-};
 var renderCards = function (gameData, _a) {
     var cardBack = _a.cardBack, cardFront = _a.cardFront;
     var gameDataShuffled = shuffleAndSlice(gameData, gameSize === "4x4" ? 8 : 10);
-    gameContainer.innerHTML = gameDataShuffled.map(function (_a) {
+    var listOfCards = gameDataShuffled.map(function (_a) {
         var icon = _a.icon, value = _a.value;
-        return cardComps(cardBack, cardFront, icon, value);
-    }).join("");
+        return new GameCard({
+            cardFront: cardFront,
+            cardBack: cardBack,
+            icon: icon,
+            value: value
+        });
+    });
+    gameContainer.innerHTML = listOfCards.map(function (card) { return card.render(gameSize === "4x4"); }).join("");
     return document.querySelectorAll(".card");
 };
