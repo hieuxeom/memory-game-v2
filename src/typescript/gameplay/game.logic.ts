@@ -54,24 +54,25 @@ export const gameLogic = (listCards: NodeListOf<HTMLElement>) => {
     });
 };
 
-
 const isMatch = ([v1, v2]: HTMLElement[]): boolean => {
     return v1.getAttribute("data-value") === v2.getAttribute("data-value");
 };
 
 const handleGameWin = (gameTime: number, gameSize: number) => {
-    const {_id}: IUser = JSON.parse(localStorage.getItem("userData")!) as IUser;
+    const _id: string | null = localStorage.getItem("userData") ? (JSON.parse(localStorage.getItem("userData")!) as IUser)._id : null;
+    console.log(_id);
+
     const gameThemeId = localStorage.getItem("gameTheme");
     const cardThemeId = localStorage.getItem("cardTheme");
     const historyData = {
-        userId: _id,
+        userId: _id ?? `guestPlayer${Date.now()}`,
         gameThemeId,
         cardThemeId,
         gameTime,
         gameSize,
     };
 
-    showNotifyBoard(gameTime);
+
 
     fetch("/game/results", {
         method: "POST",
@@ -82,4 +83,12 @@ const handleGameWin = (gameTime: number, gameSize: number) => {
     })
         .then((res) => res.json())
         .then((log) => console.log(log));
+
+    if (_id) {
+        showNotifyBoard(gameTime);
+    } else {
+        showNotifyBoard(gameTime, false);
+
+    }
+
 };

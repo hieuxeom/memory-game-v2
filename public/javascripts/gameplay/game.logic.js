@@ -52,17 +52,17 @@ var isMatch = function (_a) {
     return v1.getAttribute("data-value") === v2.getAttribute("data-value");
 };
 var handleGameWin = function (gameTime, gameSize) {
-    var _id = JSON.parse(localStorage.getItem("userData"))._id;
+    var _id = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData"))._id : null;
+    console.log(_id);
     var gameThemeId = localStorage.getItem("gameTheme");
     var cardThemeId = localStorage.getItem("cardTheme");
     var historyData = {
-        userId: _id,
+        userId: _id !== null && _id !== void 0 ? _id : "guestPlayer".concat(Date.now()),
         gameThemeId: gameThemeId,
         cardThemeId: cardThemeId,
         gameTime: gameTime,
         gameSize: gameSize,
     };
-    showNotifyBoard(gameTime);
     fetch("/game/results", {
         method: "POST",
         headers: {
@@ -72,4 +72,10 @@ var handleGameWin = function (gameTime, gameSize) {
     })
         .then(function (res) { return res.json(); })
         .then(function (log) { return console.log(log); });
+    if (_id) {
+        showNotifyBoard(gameTime);
+    }
+    else {
+        showNotifyBoard(gameTime, false);
+    }
 };

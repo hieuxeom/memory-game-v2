@@ -1,4 +1,3 @@
-import { FetchHelpers } from "../utils/fetch.js";
 var userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : "";
 var userAvatar = document.getElementById("userAvatar");
 var displayNameValue = document.getElementById("displayName");
@@ -11,23 +10,20 @@ function isIUser(userData) {
 }
 if (isIUser(userData)) {
     var _id = userData._id;
-    // fetch(`/api/users/${_id}`)
-    // 	.then((res) => res.json())
-    // 	.then((res: IUser) => {
-    // 		const { averageTime, bestTime, displayName, email, gamePlayed, photoURL } = res;
-    // 		userAvatar.src = photoURL;
-    // 		displayNameValue.innerHTML = displayName;
-    // 		gamePlayedValue.innerHTML = gamePlayed.toString();
-    // 		bestTimeValue.innerHTML = bestTime.toString();
-    // 		// averageTimeValue.innerHTML = averageTime.toString();
-    // 		averageTimeValue.innerHTML = averageTime.toFixed(2);
-    // 		emailValue.innerHTML = email;
-    // 	});
-    var fetcher = new FetchHelpers("/api/users/".concat(_id));
-    fetcher.get().then(function (res) {
-        console.log(res);
+    fetch("/api/users/".concat(_id))
+        .then(function (res) { return res.json(); })
+        .then(function (res) {
+        var averageTime = res.averageTime, bestTime = res.bestTime, displayName = res.displayName, email = res.email, gamePlayed = res.gamePlayed, photoURL = res.photoURL;
+        userAvatar.src = photoURL;
+        displayNameValue.innerHTML = displayName;
+        gamePlayedValue.innerHTML = gamePlayed.toString();
+        bestTimeValue.innerHTML = bestTime.toString();
+        // averageTimeValue.innerHTML = averageTime.toString();
+        averageTimeValue.innerHTML = averageTime.toFixed(2);
+        emailValue.innerHTML = email;
     });
 }
 else {
     window.location.href = "/auth";
 }
+export {};
