@@ -42,14 +42,6 @@ var GameCard = /** @class */ (function (_super) {
     return GameCard;
 }(Card));
 export { GameCard };
-var GameCardDetail = /** @class */ (function (_super) {
-    __extends(GameCardDetail, _super);
-    function GameCardDetail() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return GameCardDetail;
-}(GameCard));
-export { GameCardDetail };
 var CardThemeCard = /** @class */ (function (_super) {
     __extends(CardThemeCard, _super);
     function CardThemeCard(_a) {

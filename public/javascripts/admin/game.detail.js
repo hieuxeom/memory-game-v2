@@ -1,7 +1,6 @@
 var _a;
 var gameThemeId = document.getElementById("gameThemeId").value;
 var currentCardThemeId = (_a = localStorage.getItem("cardTheme")) !== null && _a !== void 0 ? _a : "";
-var themeNameValue = document.getElementById("themeNameValue");
 var themeNameDetail = document.getElementById("themeNameDetail");
 var themeTotalItemsDetail = document.getElementById("themeTotalItemsDetail");
 var themePlayedDetail = document.getElementById("themePlayedDetail");
@@ -12,7 +11,6 @@ var fetchGameData = fetch("/api/game-themes/".concat(gameThemeId, "/")).then(fun
 Promise.all([fetchCardData, fetchGameData]).then(function (_a) {
     var cardData = _a[0], gameData = _a[1];
     var cardFront = cardData.cardFront;
-    themeNameValue.innerHTML = gameData.themeName;
     themeNameDetail.innerHTML = gameData.themeName;
     themeTotalItemsDetail.innerHTML = gameData.themeData.length.toString();
     themePlayedDetail.innerHTML = gameData.played.toString();

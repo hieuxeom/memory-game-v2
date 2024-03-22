@@ -22,7 +22,6 @@ function shuffleAndSlice(array: IGameData[], length: number): IGameData[] {
 
 const gameData = fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json());
 const cardData = fetch(`/api/card-themes/${cardThemeId}`).then((res) => res.json());
-
 Promise.all([gameData, cardData])
     .then(([gameDataResponse, cardDataResponse]: [IGameThemeResponse, ICardThemeResponse]): NodeListOf<HTMLElement> => {
         const {themeData: gameThemeData} = gameDataResponse;

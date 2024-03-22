@@ -57,4 +57,5 @@ router.post("/googleSignIn", apiAuth.loginWithGoogle);
 // User API router
 router.get("/users", apiUser.getAllUsers);
 router.get("/users/:userId", apiUser.getUserById);
+router.get("/users/:userId/game-history", apiUser.getPlayerGameHistory);
 module.exports = router;

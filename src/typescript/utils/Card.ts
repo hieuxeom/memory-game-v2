@@ -74,10 +74,6 @@ export class GameCard extends Card {
     }
 }
 
-export class GameCardDetail extends GameCard {
-
-}
-
 export class CardThemeCard extends Card {
     themeName: string;
     _id: string;

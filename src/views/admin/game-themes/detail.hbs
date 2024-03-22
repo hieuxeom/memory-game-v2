@@ -1,12 +1,9 @@
-<header class="w-full flex justify-between items-center gap-4">
-	<a href="/admin/game-themes/all" class="button-normal active text-white rounded-full">Back</a>
-	<h1 id="themeNameValue" class="w-full text-4xl text-secondary"></h1>
-	<input type="hidden" id="gameThemeId" value={{gameThemeId}} />
-</header>
+{{> adminHeader title=title buttonBackRef=buttonBackRef}}
 <main class="flex justify-center w-full h-max relative">
 	<div class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4 rounded-xl">
 		<div class="text-2xl flex justify-between">
 			<div class="w-4/5">
+                <input type="hidden" id="gameThemeId" value="{{gameThemeId}}">
 				<h3 class="text-secondary text-left">Theme name: <span class="text-primary" id="themeNameDetail"></span></h3>
 				<h3 class="text-secondary text-left">Total items: <span class="text-primary" id="themeTotalItemsDetail"></span></h3>
 				<h3 class="text-secondary text-left">Played: <span class="text-primary" id="themePlayedDetail"></span></h3>

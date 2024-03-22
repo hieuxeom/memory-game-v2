@@ -1,11 +1,15 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
 const multer = require("multer");
-var app = express();
+const hbs = require("hbs")
+const app = express();
+
+
+hbs.registerPartials(path.join(__dirname, "src/views/partials"));
 
 // view engine setup
 app.set("views", path.join(__dirname, "src/views"));

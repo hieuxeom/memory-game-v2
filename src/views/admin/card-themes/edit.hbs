@@ -1,8 +1,4 @@
-<header class="w-full flex justify-between items-center gap-4">
-	<a href="/admin/card-themes/all" class="button-normal active text-white rounded-full">Back</a>
-	<h1 class="w-full text-4xl text-secondary">Edit card theme</h1>
-
-</header>
+{{> adminHeader title=title buttonBackRef=buttonBackRef}}
 <main class="flex flex-col justify-center w-full h-max relative">
 	<form
 		action="/api/card-themes"

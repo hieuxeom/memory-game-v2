@@ -5,6 +5,8 @@ class AdminGameThemeController {
         return res.render("admin/game-themes/index", {
             containerId: "siteContainer",
             class: "px-8 py-2",
+            title: "Game Themes",
+            buttonBackRef: "/admin",
         });
     }
 
@@ -12,6 +14,8 @@ class AdminGameThemeController {
         return res.render("admin/game-themes/add", {
             containerId: "siteContainer",
             class: "px-8 py-2",
+            title: "New Game Theme",
+            buttonBackRef: "/admin/game-themes",
             listScripts: [
                 {
                     path: "admin/game.add.js",
@@ -25,6 +29,8 @@ class AdminGameThemeController {
         return res.render("admin/game-themes/all", {
             containerId: "siteContainer",
             class: "px-8 py-2",
+            title: "List Game Themes",
+            buttonBackRef: "/admin/game-themes",
             listScripts: [
                 {
                     path: "admin/game.list_all.js",
@@ -39,6 +45,8 @@ class AdminGameThemeController {
         return res.render("admin/game-themes/detail", {
             containerId: "siteContainer",
             class: "px-8 py-2",
+            title: "Game Theme Details",
+            buttonBackRef: "/admin/game-themes/all",
             listScripts: [
                 {
                     path: "admin/game.detail.js",

@@ -15,6 +15,21 @@ class UserController {
 			],
 		});
 	}
+
+	history(req, res) {
+		return res.render("user/history", {
+			containerId: "siteContainer",
+			class: "px-8 py-2",
+			title: "Game History",
+			buttonBackRef: "/user",
+			listScripts: [
+				{
+					path: "user/history.generator.js",
+					type: "module"
+				}
+			]
+		})
+	}
 }
 
 module.exports = new UserController();
