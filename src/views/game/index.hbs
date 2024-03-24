@@ -1,6 +1,6 @@
 <header class="w-full flex justify-between items-center">
     <button id="backToHome" class="button-normal active text-white rounded-full">Back</button>
-    <div  class="bg-secondary text-white px-8 py-2 rounded-full">
+    <div class="bg-secondary text-white px-8 py-2 rounded-full">
         <div class="relative flex flex-col flex gap-2">
             <p class="absolute -top-2 left-0 w-full text-center text-sm">Score</p>
             <p data-score="0" class="text-[1.5rem]" id="score">0000</p>
@@ -36,7 +36,7 @@
 
 <section id="notification" class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-800/50">
     <div class="w-3/4 relative">
-        <img src="/images/win_noti.png" alt="">
+        <img src="/images/win_noti_2.png" alt="">
         <div class="absolute w-full top-28 left-0 transform-x-[-50%] flex flex-col gap-4">
             <div class="flex justify-between px-8">
                 <h3 class="text-secondary text-3xl">Your Score:</h3>
@@ -47,8 +47,17 @@
                 <h3 id="playerHighestScore" class="text-primary-shadow text-3xl">4900</h3>
             </div>
         </div>
-        <div class="absolute w-full bottom-10 flex justify-center">
-            <a href="/" class="text-xl hover:text-secondary text-white rounded-full bg-transparent text-center">Back to<br>Home</a>
+        <div class="absolute text-2xl  left-12 bottom-10 flex justify-between">
+            <div class="flex items-center gap-2 ">
+                <i class="fa-solid fa-house text-white"></i>
+                <a href="/" class="text-white rounded-full bg-transparent text-center">Home</a>
+            </div>
+        </div>
+        <div class="absolute text-2xl  right-12 bottom-10 flex justify-between">
+            <div class="flex items-center gap-2 ">
+                <i class="fa-solid fa-rotate-left text-white"></i>
+                <a href="/game" class="text-white rounded-full bg-transparent text-center">Again</a>
+            </div>
         </div>
     </div>
 </section>
