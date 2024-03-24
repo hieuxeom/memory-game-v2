@@ -1,8 +1,15 @@
 <header class="w-full flex justify-between items-center">
     <button id="backToHome" class="button-normal active text-white rounded-full">Back</button>
+    <div  class="bg-secondary text-white px-8 py-2 rounded-full">
+        <div class="relative flex flex-col flex gap-2">
+            <p class="absolute -top-2 left-0 w-full text-center text-sm">Score</p>
+            <p data-score="0" class="text-[1.5rem]" id="score">0000</p>
+        </div>
+    </div>
+
     <div id="timer" class="bg-secondary text-white px-8 py-2 rounded-full">
-        <div class="text-[1.5rem] flex gap-2">
-            <p>Time/</p>
+        <div class="relative text-[1.5rem] flex gap-2">
+            <p class="absolute -top-2 left-0 w-full text-center text-sm">Time</p>
             <p id="minuteValue">00</p>
             <p>:</p>
             <p id="secondValue">00</p>
@@ -10,8 +17,23 @@
     </div>
 </header>
 <main class>
-    <div class="w-full grid grid-cols-4 gap-4 my-16 px-4" id="gameContainer"></div>
+    <div class="w-full grid grid-cols-4 gap-4 my-16 px-4" id="gameContainer">
+    </div>
+    <section id="selectGameTime" class="w-full flex justify-center items-center">
+        <div class="bg-white w-max px-8 py-4 flex flex-col justify-center items-center gap-4 rounded-2xl">
+            <h3 class="text-4xl text-primary-shadow">Select Time Mode</h3>
+            <div class="flex flex-col gap-2 w-max">
+                <button data-button="60" class="button-time text-white rounded-lg button-small">60s</button>
+                <button data-button="120" class="button-time text-white rounded-lg button-small">120s</button>
+                <button data-button="300" class="button-time text-white rounded-lg button-small">300s</button>
+            </div>
+            <div class="w-full">
+                <button id="startGame" class="w-full button-normal text-white active rounded-lg">Start</button>
+            </div>
+        </div>
+    </section>
 </main>
+
 <section id="notification" class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-800/50">
     <div class="w-3/4 relative">
         <img src="/images/win_noti.png" alt="">

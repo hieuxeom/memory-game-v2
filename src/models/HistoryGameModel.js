@@ -9,7 +9,9 @@ const HistoryGameSchema = new Schema(
 		gameThemeId: { type: String, required: true },
 		cardThemeId: { type: String, required: true },
 		gameTime: { type: Number, required: true },
-		gameSize: { type: Number, required: true },
+		gameSize: { type: String, required: true },
+		gameScore: { type: Number, required: true},
+		gameTurn: { type: Number, required: true}
 	},
 	{ timestamps: true }
 );

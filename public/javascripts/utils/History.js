@@ -34,19 +34,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var gameSizeString = {
-    16: "4x4",
-    20: "4x5"
-};
 var HistoryCard = /** @class */ (function () {
     function HistoryCard(_a) {
-        var cardThemeId = _a.cardThemeId, gameThemeId = _a.gameThemeId, gameSize = _a.gameSize, gameTime = _a.gameTime, turns = _a.turns, createdAt = _a.createdAt;
+        var cardThemeId = _a.cardThemeId, gameThemeId = _a.gameThemeId, gameSize = _a.gameSize, gameTime = _a.gameTime, gameTurn = _a.gameTurn, gameScore = _a.gameScore, createdAt = _a.createdAt;
         this.cardThemeId = cardThemeId;
         this.gameThemeId = gameThemeId;
         this.gameSize = gameSize;
         this.createdAt = createdAt;
-        this.turns = turns;
         this.gameTime = gameTime;
+        this.gameTurn = gameTurn;
+        this.gameScore = gameScore;
     }
     HistoryCard.prototype.convertTimeToString = function () {
     };
@@ -91,11 +88,13 @@ var HistoryCard = /** @class */ (function () {
     };
     HistoryCard.prototype.render = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c, _d;
+            var date, time, _a, _b, _c, _d;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
-                        _c = (_b = "<div class=\"w-full bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] h-max flex justify-between items-center gap-4 p-4 rounded-xl\">\n                    <div class=\"w-1/2 flex flex-col gap-2\">\n                        <p class=\"text-sm text-slate-500\">12:29 21/03/2024</p>\n                        <p class=\"text-5xl text-header-shadow\">".concat(gameSizeString[this.gameSize], "</p>\n                        <div class=\"flex gap-1 items-center text-xl\">\n                            <p class=\"text-primary\">125</p>\n                            <p>turns in</p>\n                            <p class=\"text-primary\">128s</p>\n                        </div>\n                    </div>\n                    <div class=\"w-1/2 flex justify-center gap-4 items-center\">\n                        <img class=\"w-24\" src=\"/images/themepacks/")).concat;
+                        date = new Date(this.createdAt);
+                        time = "".concat(date.toLocaleTimeString("es-AR"), " ").concat(date.toLocaleDateString("es-AR"));
+                        _c = (_b = "<div class=\"w-full bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] h-max flex justify-between items-center gap-2 p-4 rounded-xl\">\n                    <div class=\"w-1/2 flex flex-col gap-2\">\n                        <p class=\"text-sm text-slate-500\">".concat(time, "</p>\n                        <div class=\"flex gap-2 items-center\">\n                            <p class=\"text-4xl text-header-shadow\">").concat(this.gameSize, "</p>\n                            <p class=\"text-4xl text-header-shadow\">-</p>\n                            <p class=\"text-6xl text-header-shadow\">").concat(this.gameScore, "</p>\n                        </div>\n                        <div class=\"flex gap-1 items-center\">\n                            <p class=\"text-primary\">").concat(this.gameTurn, "</p>\n                            <p>turns in</p>\n                            <p class=\"text-primary\">").concat(this.gameTime, "s</p>\n                        </div>\n                    </div>\n                    <div class=\"w-1/2 flex justify-center gap-2 items-center\">\n                        <img class=\"w-24\" src=\"/images/themepacks/")).concat;
                         return [4 /*yield*/, this.getCardThemeImage()];
                     case 1:
                         _d = (_a = _c.apply(_b, [_e.sent(), "\" alt=\"\">\n            \n                        <img class=\"w-24\" src=\"/images/game_thumbnails/"])).concat;

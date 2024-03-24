@@ -1,14 +1,13 @@
-import {timeConverter} from "./game.timer.js";
+import {timeConverter} from "../utils/Timer";
 
-const gameScore: HTMLElement = document.getElementById("gameScore") as HTMLElement
+const scoreValue: HTMLElement = document.getElementById("gameScore") as HTMLElement
 const playerHighestScore: HTMLElement = document.getElementById("playerHighestScore") as HTMLElement
 
 const notificationBoard: HTMLElement = document.getElementById("notification") as HTMLElement
-export const showNotifyBoard = (gameTime: number, isHaveHighestScore = false) => {
+export const showNotifyBoard = (gameScore: number, isHaveHighestScore = false) => {
     notificationBoard.style.display = "block"
     notificationBoard.style.display = "flex"
-    const {minute, second} = timeConverter(gameTime);
-    gameScore.innerHTML = `${minute}: ${second}`
+    scoreValue.innerHTML = gameScore.toString();
 
     if (!isHaveHighestScore) {
         playerHighestScore.style.display = "none"

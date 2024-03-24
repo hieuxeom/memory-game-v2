@@ -3,9 +3,10 @@ export interface IHistoryResponse {
     "userId": string,
     "gameThemeId": string,
     "cardThemeId": string,
+    "gameSize": string;
     "gameTime": number;
-    "gameSize": number;
+    "gameScore": number;
+    "gameTurn": number;
     "createdAt": string;
     "updatedAt": string;
-    "turns": number;
 }
