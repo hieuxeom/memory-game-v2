@@ -1,6 +1,6 @@
-export var parseGameData = function (gameData) {
-    return gameData.map(function (value) {
-        var tempString = value.split("|");
+export const parseGameData = (gameData) => {
+    return gameData.map((value) => {
+        let tempString = value.split("|");
         if (tempString.length > 1) {
             return {
                 icon: tempString[0],

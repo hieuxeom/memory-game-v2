@@ -1,23 +1,28 @@
-var _a;
-var gameThemeId = document.getElementById("gameThemeId").value;
-var currentCardThemeId = (_a = localStorage.getItem("cardTheme")) !== null && _a !== void 0 ? _a : "";
-var themeNameDetail = document.getElementById("themeNameDetail");
-var themeTotalItemsDetail = document.getElementById("themeTotalItemsDetail");
-var themePlayedDetail = document.getElementById("themePlayedDetail");
-var themeThumbnail = document.getElementById("themeThumbnail");
-var listThemeDataContainer = document.getElementById("listThemeDataContainer");
-var fetchCardData = fetch("/api/card-themes/".concat(currentCardThemeId)).then(function (response) { return response.json(); });
-var fetchGameData = fetch("/api/game-themes/".concat(gameThemeId, "/")).then(function (response) { return response.json(); });
-Promise.all([fetchCardData, fetchGameData]).then(function (_a) {
-    var cardData = _a[0], gameData = _a[1];
-    var cardFront = cardData.cardFront;
+const gameThemeId = document.getElementById("gameThemeId").value;
+const currentCardThemeId = localStorage.getItem("cardTheme") ?? "";
+const themeNameDetail = document.getElementById("themeNameDetail");
+const themeTotalItemsDetail = document.getElementById("themeTotalItemsDetail");
+const themePlayedDetail = document.getElementById("themePlayedDetail");
+const themeThumbnail = document.getElementById("themeThumbnail");
+const listThemeDataContainer = document.getElementById("listThemeDataContainer");
+const fetchCardData = fetch(`/api/card-themes/${currentCardThemeId}`).then((response) => response.json());
+const fetchGameData = fetch(`/api/game-themes/${gameThemeId}/`).then((response) => response.json());
+Promise.all([fetchCardData, fetchGameData]).then(([cardData, gameData]) => {
+    const { cardFront } = cardData;
     themeNameDetail.innerHTML = gameData.themeName;
     themeTotalItemsDetail.innerHTML = gameData.themeData.length.toString();
     themePlayedDetail.innerHTML = gameData.played.toString();
-    themeThumbnail.src = "/images/game_thumbnails/".concat(gameData.themeThumbnail);
+    themeThumbnail.src = `/images/game_thumbnails/${gameData.themeThumbnail}`;
     listThemeDataContainer.innerHTML = gameData.themeData
-        .map(function (gameTheme) {
-        return "\n             <div class=\"relative w-full max-h-[180px] bg-white shadow shadow-lg rounded-xl overflow-hidden\">\n \t\t\t\t<img src=\"/images/themepacks/".concat(cardFront, "\" alt=\"\" />\n \t\t\t\t<div class=\"absolute top-0 left-0 w-full h-full flex justify-center items-center\">\n \t\t\t\t\t<i class=\"").concat(gameTheme.icon, " text-4xl\"></i>\n \t\t\t\t</div>\n \t\t\t</div>\n            ");
+        .map((gameTheme) => {
+        return `
+             <div class="relative w-full max-h-[180px] bg-white shadow shadow-lg rounded-xl overflow-hidden">
+ 				<img src="/images/themepacks/${cardFront}" alt="" />
+ 				<div class="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+ 					<i class="${gameTheme.icon} text-4xl"></i>
+ 				</div>
+ 			</div>
+            `;
     })
         .join("");
 });

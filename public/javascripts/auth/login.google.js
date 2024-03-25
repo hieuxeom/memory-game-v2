@@ -1,21 +1,20 @@
 // @ts-ignore
-var _a;
 import { auth, provider } from "./firebase.config.js";
 // @ts-ignore
 import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-var loginWithGoogle = document.getElementById("loginWithGoogle");
-var userData = (_a = localStorage.getItem("userData")) !== null && _a !== void 0 ? _a : "";
+const loginWithGoogle = document.getElementById("loginWithGoogle");
+const userData = localStorage.getItem("userData") ?? "";
 if (userData) {
     window.location.href = "/user";
 }
-loginWithGoogle.addEventListener("click", function () {
+loginWithGoogle.addEventListener("click", () => {
     signInWithPopup(auth, provider)
-        .then(function (result) {
-        var _a = result.user, displayName = _a.displayName, email = _a.email, photoURL = _a.photoURL;
-        var userData = {
-            displayName: displayName,
-            email: email,
-            photoURL: photoURL,
+        .then((result) => {
+        const { displayName, email, photoURL } = result.user;
+        const userData = {
+            displayName,
+            email,
+            photoURL,
             provider: "google",
         };
         fetch("/api/googleSignIn", {
@@ -25,13 +24,13 @@ loginWithGoogle.addEventListener("click", function () {
             },
             body: JSON.stringify(userData),
         })
-            .then(function (res) { return res.json(); })
-            .then(function (user) {
+            .then((res) => res.json())
+            .then((user) => {
             localStorage.setItem("userData", JSON.stringify(user));
             window.location.href = "/user";
         });
     })
-        .catch(function (error) {
+        .catch((error) => {
         console.log(error);
     });
 });

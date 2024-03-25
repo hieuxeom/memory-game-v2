@@ -29,6 +29,9 @@ const apiAuth = require("../controllers/api/ApiAuthController");
 const apiCardTheme = require("../controllers/api/ApiCardThemeController");
 const apiGameTheme = require("../controllers/api/ApiGameThemeController");
 const apiUser = require("../controllers/api/ApiUserController");
+const apiGameHistory = require("../controllers/api/ApiGameHistoryController");
+const apiChart = require("../controllers/api/ApiChartController");
+const apiRank = require("../controllers/api/ApiRankController");
 
 const multiCardUpload = cardThemeUpload.fields([
     { name: "themeFront", maxCount: 1 },
@@ -58,4 +61,17 @@ router.post("/googleSignIn", apiAuth.loginWithGoogle);
 router.get("/users", apiUser.getAllUsers);
 router.get("/users/:userId", apiUser.getUserById);
 router.get("/users/:userId/game-history", apiUser.getPlayerGameHistory);
+
+//  Game History router
+router.get("/game-history", apiGameHistory.get);
+
+// Charts History
+router.get("/charts/game-themes", apiChart.handleGameTheme);
+router.get("/charts/card-themes", apiChart.handleCardTheme);
+router.get("/charts/game-sizes", apiChart.handleGameSize);
+router.get("/charts/game-times", apiChart.handleGameTime);
+
+// Rank router
+router.get("/ranks", apiRank.get)
+
 module.exports = router;

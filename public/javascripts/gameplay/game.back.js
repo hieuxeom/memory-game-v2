@@ -1,5 +1,5 @@
 "use strict";
-var backToHome = document.getElementById("backToHome");
-backToHome.addEventListener("click", function () {
+const backToHome = document.getElementById("backToHome");
+backToHome.addEventListener("click", () => {
     window.location.href = "/";
 });
