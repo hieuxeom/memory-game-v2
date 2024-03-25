@@ -4,7 +4,13 @@ class AdminAnalyticsController {
             containerId: "siteContainer",
             class: "px-8 py-2",
             title: "Game Analytics",
-            buttonBackRef: "/admin"
+            buttonBackRef: "/admin",
+            listScripts: [
+                {
+                    path: "admin/analytics.index.js",
+                    type: "module"
+                }
+            ]
         });
     }
 }

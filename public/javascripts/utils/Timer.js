@@ -1,11 +1,11 @@
-export var timeConverter = function (totalTime) {
+export const timeConverter = (totalTime) => {
     return {
         second: pad(totalTime % 60),
         minute: pad(Math.floor(totalTime / 60))
     };
 };
-var pad = function (val) {
-    var valString = val + "";
+const pad = (val) => {
+    let valString = val + "";
     if (valString.length < 2) {
         return "0" + valString;
     }
@@ -13,28 +13,32 @@ var pad = function (val) {
         return valString;
     }
 };
-var Timer = /** @class */ (function () {
-    function Timer(_a) {
-        var minuteElement = _a.minuteElement, secondElement = _a.secondElement, totalTime = _a.totalTime, handlerStop = _a.handlerStop;
+export class Timer {
+    minuteElement;
+    secondElement;
+    totalTime;
+    timer;
+    handlerStop;
+    constructor({ minuteElement, secondElement, totalTime, handlerStop }) {
         this.minuteElement = minuteElement;
         this.secondElement = secondElement;
         this.totalTime = totalTime;
         this.handlerStop = handlerStop;
         console.log(this.totalTime);
     }
-    Timer.prototype.start = function () {
+    start() {
         console.log("start");
         this.timer = setInterval(this.handleTimer.bind(this), 1000);
-    };
-    Timer.prototype.stop = function () {
+    }
+    stop() {
         this.handlerStop();
         clearInterval(this.timer);
-    };
+    }
     ;
-    Timer.prototype.handleTimer = function () {
+    handleTimer() {
         if (this.totalTime > 0) {
             this.totalTime -= 1;
-            var _a = timeConverter(this.totalTime), minute = _a.minute, second = _a.second;
+            const { minute, second } = timeConverter(this.totalTime);
             this.minuteElement.innerHTML = minute;
             this.secondElement.innerHTML = second;
             this.secondElement.dataset.time = this.totalTime.toString();
@@ -42,10 +46,8 @@ var Timer = /** @class */ (function () {
         else {
             this.stop();
         }
-    };
-    Timer.prototype.getCurrentTime = function () {
+    }
+    getCurrentTime() {
         return this.totalTime;
-    };
-    return Timer;
-}());
-export { Timer };
+    }
+}

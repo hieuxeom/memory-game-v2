@@ -1,8 +1,7 @@
-var scoreValue = document.getElementById("gameScore");
-var playerHighestScore = document.getElementById("playerHighestScore");
-var notificationBoard = document.getElementById("notification");
-export var showNotifyBoard = function (gameScore, isHaveHighestScore) {
-    if (isHaveHighestScore === void 0) { isHaveHighestScore = false; }
+const scoreValue = document.getElementById("gameScore");
+const playerHighestScore = document.getElementById("playerHighestScore");
+const notificationBoard = document.getElementById("notification");
+export const showNotifyBoard = (gameScore, isHaveHighestScore = false) => {
     notificationBoard.style.display = "block";
     notificationBoard.style.display = "flex";
     scoreValue.innerHTML = gameScore.toString();

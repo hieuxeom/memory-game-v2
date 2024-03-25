@@ -7,7 +7,9 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
+    "@types/chart.js": "^2.9.41",
     "body-parser": "^1.20.2",
+    "chart.js": "^4.4.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",

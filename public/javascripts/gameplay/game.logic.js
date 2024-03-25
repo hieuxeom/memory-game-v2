@@ -1,65 +1,54 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-var _a;
 import { gameSize } from "../type/general.js";
-var sizeGame = gameSize === "4x4" ? 16 : 20;
-var gameContainer = (_a = document.getElementById("gameContainer")) !== null && _a !== void 0 ? _a : null;
-var timer = document.getElementById("secondValue");
-var scoreValue = document.getElementById("score");
+const sizeGame = gameSize === "4x4" ? 16 : 20;
+const gameContainer = document.getElementById("gameContainer") ?? null;
+const timer = document.getElementById("secondValue");
+const scoreValue = document.getElementById("score");
 function shuffleAndSlice(array, length) {
-    var _a;
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        _a = [array[j], array[i]], array[i] = _a[0], array[j] = _a[1];
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
     array.length = length / 2;
-    return __spreadArray(__spreadArray([], array, true), array, true);
+    return [...array, ...array];
 }
-var getCurrentScore = function () {
+const getCurrentScore = () => {
     return Number(scoreValue.getAttribute("data-score"));
 };
-var setNewScore = function (newScore) {
+const setNewScore = (newScore) => {
     scoreValue.dataset.score = newScore.toString();
     return scoreValue.innerHTML = newScore.toString();
 };
-var calculateScore = function (turns) {
+const calculateScore = (turns) => {
     if (turns >= 5) {
         return 50;
     }
-    var score = 100;
+    let score = 100;
     if (turns > 1 && turns < 5) {
         score -= (turns - 1) * 10;
     }
     return score;
 };
-var setTotalTurn = function (totalTurn) {
+const setTotalTurn = (totalTurn) => {
     return localStorage.setItem('gameTurn', totalTurn.toString());
 };
-export var gameLogic = function (listCards) {
-    var countOpenCard = 0;
-    var compareValue = [];
-    var turnClick = 1;
-    var totalTurn = localStorage.getItem('gameTurn') ? Number(localStorage.getItem('gameTurn')) : 0;
-    var gameData = shuffleAndSlice(listCards, sizeGame);
+export const gameLogic = (listCards) => {
+    let countOpenCard = 0;
+    let compareValue = [];
+    let turnClick = 1;
+    let totalTurn = localStorage.getItem('gameTurn') ? Number(localStorage.getItem('gameTurn')) : 0;
+    const gameData = shuffleAndSlice(listCards, sizeGame);
     gameContainer.innerHTML = gameData.join("");
-    var listOfCards = document.querySelectorAll(".card");
-    var handleHideCard = function () {
+    const listOfCards = document.querySelectorAll(".card");
+    const handleHideCard = () => {
         countOpenCard = 0;
         compareValue = [];
-        return listOfCards.forEach(function (card) {
+        return listOfCards.forEach((card) => {
             if (!card.className.includes("matched"))
                 card.classList.remove("open");
         });
     };
-    listOfCards.forEach(function (card) {
-        card.addEventListener("click", function () {
+    listOfCards.forEach((card) => {
+        card.addEventListener("click", () => {
             if (countOpenCard < 2) {
                 if (!card.className.includes("open")) {
                     countOpenCard++;
@@ -69,7 +58,7 @@ export var gameLogic = function (listCards) {
                         totalTurn++;
                         setTotalTurn(totalTurn);
                         if (isMatch(compareValue)) {
-                            compareValue.forEach(function (e) {
+                            compareValue.forEach((e) => {
                                 e.style.visibility = 'hidden';
                                 e.classList.add("matched");
                             });
@@ -78,11 +67,11 @@ export var gameLogic = function (listCards) {
                             compareValue = [];
                             countOpenCard = 0;
                             if (document.querySelectorAll(".matched").length === sizeGame && Number(timer.getAttribute("data-time")) > 0) {
-                                setTimeout(function () { return gameLogic(listCards); }, 250);
+                                setTimeout(() => gameLogic(listCards), 250);
                             }
                         }
                         else {
-                            setTimeout(function () {
+                            setTimeout(() => {
                                 turnClick += 1;
                                 handleHideCard();
                             }, 500);
@@ -99,7 +88,6 @@ export var gameLogic = function (listCards) {
     });
     return listOfCards;
 };
-var isMatch = function (_a) {
-    var v1 = _a[0], v2 = _a[1];
+const isMatch = ([v1, v2]) => {
     return v1.getAttribute("data-value") === v2.getAttribute("data-value");
 };

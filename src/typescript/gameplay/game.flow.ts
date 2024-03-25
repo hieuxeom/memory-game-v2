@@ -56,8 +56,17 @@ const startGame = async () => {
 }
 
 const handleGameWin = () => {
-    const _id: string | null = localStorage.getItem("userData") ? (JSON.parse(localStorage.getItem("userData")!) as IUser)._id : null;
+    let _id: string | null = localStorage.getItem("userData") ? (JSON.parse(localStorage.getItem("userData")!) as IUser)._id : null;
     console.log(_id);
+
+    if (!_id) {
+        if (localStorage.getItem("guestId")) {
+            _id = localStorage.getItem("guestId");
+        } else {
+            _id = `guestPlayer${Date.now()}`
+            localStorage.setItem("guestId", _id)
+        }
+    }
 
     const gameThemeId = localStorage.getItem("gameTheme");
     const cardThemeId = localStorage.getItem("cardTheme");
@@ -67,7 +76,7 @@ const handleGameWin = () => {
     const gameScore = Number(document.getElementById("score")?.getAttribute("data-score")) ?? 0;
 
     const historyData = {
-        userId: _id ?? `guestPlayer${Date.now()}`,
+        userId: _id,
         gameThemeId,
         cardThemeId,
         gameTime,

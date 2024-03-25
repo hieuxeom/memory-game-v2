@@ -4,7 +4,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
 // @ts-ignore
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBZuhG3WLNMD_VIoeUrnhMA8UN5UgGfgDY",
     authDomain: "memory-game-db746.firebaseapp.com",
     projectId: "memory-game-db746",
@@ -14,7 +14,7 @@ var firebaseConfig = {
     measurementId: "G-LJX36HPEFX",
 };
 // Initialize Firebase
-export var app = initializeApp(firebaseConfig);
-export var auth = getAuth(app);
-export var provider = new GoogleAuthProvider(app);
-var analytics = getAnalytics(app);
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider(app);
+const analytics = getAnalytics(app);

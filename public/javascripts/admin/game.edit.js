@@ -1,42 +1,41 @@
-var _a, _b;
 import { parseGameData } from "./game.utils.js";
-var gameThemeId = (_b = (_a = document.getElementById("themeId")) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "";
-var gameThemeName = document.getElementById("themeName");
-var gameThemeData = document.getElementById("themeData");
-var gameThumbnail = document.getElementById("themeThumbnail");
-var listThemeTypes = document.getElementsByName("themeDataType");
-var submitEditButton = document.getElementById("submitButton");
-var onLoad = function () {
-    fetch("/api/game-themes/".concat(gameThemeId)).then(function (res) { return res.json(); }).then(function (themeData) {
+const gameThemeId = document.getElementById("themeId")?.value ?? "";
+const gameThemeName = document.getElementById("themeName");
+const gameThemeData = document.getElementById("themeData");
+const gameThumbnail = document.getElementById("themeThumbnail");
+const listThemeTypes = document.getElementsByName("themeDataType");
+const submitEditButton = document.getElementById("submitButton");
+const onLoad = () => {
+    fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json()).then((themeData) => {
         gameThemeName.value = themeData.themeName;
         gameThemeData.value = themeData.rawData;
     });
 };
-submitEditButton.addEventListener("click", function (e) {
+submitEditButton.addEventListener("click", (e) => {
     e.preventDefault();
-    var themeDataType = null;
-    listThemeTypes.forEach(function (e) {
+    let themeDataType = null;
+    listThemeTypes.forEach((e) => {
         if (e.checked) {
             themeDataType = e.value;
             return;
         }
     });
-    var themeDataParsed = parseGameData(gameThemeData.value.split("\n"));
-    var formData = new FormData();
+    const themeDataParsed = parseGameData(gameThemeData.value.split("\n"));
+    const formData = new FormData();
     formData.append("themeId", gameThemeId);
     formData.append("themeName", gameThemeName.value);
     formData.append("themeThumbnail", gameThumbnail.files ? gameThumbnail.files[0] : "");
     formData.append("themeDataParsed", JSON.stringify(themeDataParsed));
     formData.append("rawData", gameThemeData.value);
-    formData.append("themeDataType", themeDataType !== null && themeDataType !== void 0 ? themeDataType : "icon");
+    formData.append("themeDataType", themeDataType ?? "icon");
     fetch("/api/game-themes/", {
         method: "PUT",
         body: formData
-    }).then(function (res) {
+    }).then((res) => {
         if (res.url) {
             return window.location.href = res.url;
         }
-    }).catch(function (err) {
+    }).catch((err) => {
         console.log(err);
     });
 });

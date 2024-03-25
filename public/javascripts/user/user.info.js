@@ -1,21 +1,21 @@
-var userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : "";
-var userAvatar = document.getElementById("userAvatar");
-var displayNameValue = document.getElementById("displayName");
-var gamePlayedValue = document.getElementById("gamePlayed");
-var bestTimeValue = document.getElementById("highestScore");
-var averageTimeValue = document.getElementById("averageScore");
-var emailValue = document.getElementById("email");
-var mostPlayedSizeValue = document.getElementById("mostPlayedSize");
-var mostPlayedTimeValue = document.getElementById("mostPlayedTime");
+let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : "";
+const userAvatar = document.getElementById("userAvatar");
+const displayNameValue = document.getElementById("displayName");
+const gamePlayedValue = document.getElementById("gamePlayed");
+const bestTimeValue = document.getElementById("highestScore");
+const averageTimeValue = document.getElementById("averageScore");
+const emailValue = document.getElementById("email");
+const mostPlayedSizeValue = document.getElementById("mostPlayedSize");
+const mostPlayedTimeValue = document.getElementById("mostPlayedTime");
 function isIUser(userData) {
     return userData._id !== undefined;
 }
 if (isIUser(userData)) {
-    var _id = userData._id;
-    fetch("/api/users/".concat(_id))
-        .then(function (res) { return res.json(); })
-        .then(function (res) {
-        var averageScore = res.averageScore, highestScore = res.highestScore, displayName = res.displayName, email = res.email, gamePlayed = res.gamePlayed, photoURL = res.photoURL, mostPlayedSize = res.mostPlayedSize, mostPlayedTime = res.mostPlayedTime;
+    const { _id } = userData;
+    fetch(`/api/users/${_id}`)
+        .then((res) => res.json())
+        .then((res) => {
+        const { averageScore, highestScore, displayName, email, gamePlayed, photoURL, mostPlayedSize, mostPlayedTime } = res;
         userAvatar.src = photoURL;
         displayNameValue.innerHTML = displayName;
         gamePlayedValue.innerHTML = gamePlayed.toString();
