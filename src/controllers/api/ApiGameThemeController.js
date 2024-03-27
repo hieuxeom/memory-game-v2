@@ -1,5 +1,4 @@
 const gameThemeModel = require("../../models/GameThemeModel");
-const { mongooseToObject } = require("../../utils/mongoose");
 
 class ApiGameThemeController {
     async getAllGameThemes(req, res, next) {
