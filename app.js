@@ -7,7 +7,7 @@ const logger = require("morgan");
 const multer = require("multer");
 const hbs = require("hbs")
 const app = express();
-
+const { loadDb, authentication, permit } = require("./src/utils/middleware")
 hbs.registerPartials(path.join(__dirname, "src/views/partials"));
 
 // view engine setup
@@ -17,8 +17,11 @@ app.set("view engine", "hbs");
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(loadDb);
+app.use(authentication);
 
 const indexRouter = require("./src/routes/indexRouter");
 const gameRouter = require("./src/routes/gameRouter");
@@ -35,7 +38,7 @@ app.use("/game", gameRouter);
 app.use("/rank", rankRouter);
 app.use("/theme", themeRouter);
 app.use("/api", apiRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", permit("admin"), adminRouter);
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 

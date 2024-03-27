@@ -5,6 +5,7 @@ const signOutButton = document.getElementById("signOutButton");
 signOutButton.addEventListener("click", () => {
     signOut(auth).then((res) => {
         localStorage.removeItem("userData");
+        document.cookie = '_id=; Max-Age=0';
         window.location.href = "/auth";
     });
 });

@@ -5,11 +5,13 @@ const ObjectId = Schema.ObjectId;
 
 const UserSchema = new Schema(
     {
+        _id: ObjectId,
         displayName: String,
         email: String,
         photoURL: String,
         provider: String,
         password: String,
+        role: { type: String, default: "user" },
         highestScore: { type: Number, default: 0 },
         averageScore: { type: Number, default: 0 },
         mostPlayedSize: { type: String },
