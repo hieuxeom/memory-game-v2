@@ -1,8 +1,7 @@
 class HomeController {
-	constructor() {}
 
-	index(req, res) {
-		res.render("index", {
+	index(req, res, next) {
+		return res.render("index", {
 			containerId: "homeContainer",
 			listScripts: [
 				{

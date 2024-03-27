@@ -6,7 +6,7 @@ class AuthController {
     }
 
     index(req, res, next) {
-        res.render("auth/index", {
+        return res.render("auth/index", {
             containerId: "authContainer",
             class: "px-8 py-2",
             listScripts: [

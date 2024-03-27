@@ -4,7 +4,7 @@ const cardTheme = require("../models/CardThemeModel");
 const userModel = require("../models/UserModel");
 
 class GameController {
-    index(req, res) {
+    index(req, res, next) {
         return res.render("game/index", {
             containerId: "siteContainer",
             class: "px-8 py-2",
