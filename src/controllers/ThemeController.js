@@ -1,5 +1,5 @@
 class ThemeController {
-	index(req, res) {
+	index(req, res, next) {
 		return res.render("theme/index", {
 			containerId: "siteContainer",
 			class: "px-8 py-2",

@@ -28,6 +28,8 @@ loginWithGoogle.addEventListener("click", () => {
             .then((res) => res.json())
             .then((user) => {
             localStorage.setItem("userData", JSON.stringify(user));
+            document.cookie = `_id=${user._id}`;
+            console.log(document.cookie);
             window.location.href = "/user";
         });
     })

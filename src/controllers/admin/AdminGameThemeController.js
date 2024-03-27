@@ -10,7 +10,7 @@ class AdminGameThemeController {
         });
     }
 
-    add(req, res) {
+    add(req, res, next) {
         return res.render("admin/game-themes/add", {
             containerId: "siteContainer",
             class: "px-8 py-2",
@@ -25,7 +25,7 @@ class AdminGameThemeController {
         });
     }
 
-    all(req, res) {
+    all(req, res, next) {
         return res.render("admin/game-themes/all", {
             containerId: "siteContainer",
             class: "px-8 py-2",
@@ -42,6 +42,7 @@ class AdminGameThemeController {
 
     details(req, res, next) {
         const { gameThemeId } = req.params;
+
         return res.render("admin/game-themes/detail", {
             containerId: "siteContainer",
             class: "px-8 py-2",
@@ -59,6 +60,7 @@ class AdminGameThemeController {
 
     edit(req, res, next) {
         const { themeId } = req.params;
+
         if (!themeId) {
             return res.redirect("/admin/game-themes/all");
         }

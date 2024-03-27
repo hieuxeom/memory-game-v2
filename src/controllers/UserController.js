@@ -1,5 +1,5 @@
 class UserController {
-	index(req, res) {
+	index(req, res, next) {
 		return res.render("user/index", {
 			containerId: "authContainer",
 			class: "px-8 py-2",
@@ -16,7 +16,7 @@ class UserController {
 		});
 	}
 
-	history(req, res) {
+	history(req, res, next) {
 		return res.render("user/history", {
 			containerId: "siteContainer",
 			class: "px-8 py-2",
@@ -31,7 +31,7 @@ class UserController {
 		})
 	}
 
-	changePassword(req,res) {
+	changePassword(req,res, next) {
 		return res.render("user/change-password", {
 			containerId: "siteContainer",
 			class: "px-8 py-2",
