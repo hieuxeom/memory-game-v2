@@ -11,19 +11,23 @@ function isIUser(userData) {
     return userData._id !== undefined;
 }
 if (isIUser(userData)) {
-    const { _id } = userData;
+    const { _id, provider } = userData;
+    if (provider !== "credentials") {
+        document.getElementById("changePassword").style.display = "none";
+    }
     fetch(`/api/users/${_id}`)
         .then((res) => res.json())
         .then((res) => {
+        console.log(res);
         const { averageScore, highestScore, displayName, email, gamePlayed, photoURL, mostPlayedSize, mostPlayedTime } = res;
         userAvatar.src = photoURL;
         displayNameValue.innerHTML = displayName;
         gamePlayedValue.innerHTML = gamePlayed.toString();
         bestTimeValue.innerHTML = highestScore.toString();
-        averageTimeValue.innerHTML = averageScore.toFixed(2);
+        averageTimeValue.innerHTML = averageScore?.toFixed(2) ?? "-";
         emailValue.innerHTML = email;
-        mostPlayedSizeValue.innerHTML = mostPlayedSize;
-        mostPlayedTimeValue.innerHTML = mostPlayedTime.toString();
+        mostPlayedSizeValue.innerHTML = mostPlayedSize ?? "-";
+        mostPlayedTimeValue.innerHTML = mostPlayedTime?.toString() ?? "-";
     });
 }
 else {

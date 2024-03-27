@@ -15,6 +15,7 @@ loginWithGoogle.addEventListener("click", () => {
             displayName,
             email,
             photoURL,
+            password: "none",
             provider: "google",
         };
         fetch("/api/googleSignIn", {

@@ -56,6 +56,9 @@ router.delete("/game-themes/:themeId", apiGameTheme.delete);
 
 //Auth Router
 router.post("/googleSignIn", apiAuth.loginWithGoogle);
+router.post("/auth/register", apiAuth.credentialsRegister)
+router.post("/auth/login", apiAuth.loginWithPassword)
+router.post("/auth/change-pwd", apiAuth.changePassword)
 
 // User API router
 router.get("/users", apiUser.getAllUsers);
@@ -72,6 +75,7 @@ router.get("/charts/game-sizes", apiChart.handleGameSize);
 router.get("/charts/game-times", apiChart.handleGameTime);
 
 // Rank router
+router.get("/ranks", apiRank.get)
 router.get("/ranks", apiRank.get)
 
 module.exports = router;

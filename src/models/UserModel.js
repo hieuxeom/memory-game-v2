@@ -9,6 +9,7 @@ const UserSchema = new Schema(
         email: String,
         photoURL: String,
         provider: String,
+        password: String,
         highestScore: { type: Number, default: 0 },
         averageScore: { type: Number, default: 0 },
         mostPlayedSize: { type: String },
