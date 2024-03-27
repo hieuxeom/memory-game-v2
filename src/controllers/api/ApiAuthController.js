@@ -5,56 +5,89 @@ const saltRounds = 10
 
 class ApiAuthController {
     async loginWithGoogle(req, res, next) {
-        const userData = req.body;
+        try {
+            const { email } = req.body;
 
-        const existUser = await userModel.findOne({
-            email: userData.email,
-        });
+            const userData = await userModel.findOne({
+                email
+            });
 
-        if (existUser) {
-            return res.status(203).json(existUser);
-        } else {
-            const newUser = new userModel(userData);
+            if (userData) {
+                return res.status(203).json({
+                    status: "success",
+                    message: "This email address with Google Provider already exists",
+                    data: {
+                        userData
+                    }
+                });
+            } else {
+                const newUser = new userModel(userData);
 
-            const newUserData = await newUser.save();
+                const userData = await newUser.save();
 
-            return res.status(201).json(newUserData);
+                return res.status(201).json({
+                    status: "success",
+                    message: "New user created successfully",
+                    data: {
+                        userData
+                    }
+                });
+            }
+        } catch (err) {
+            return res.status(400).json({
+                status: "error",
+                message: "Have some problem",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            });
         }
+
     }
 
     async credentialsRegister(req, res, next) {
-        let userData = req.body;
+        const { email, password } = req.body;
 
-        const existUser = await userModel.findOne({
-            email: userData.email,
+        const userData = await userModel.findOne({
+            email
         });
 
-        if (existUser) {
-            return res.json({
-                status: 204,
-                message: "Failed",
-                description: "Email already exists! Please try again with different email!"
+        if (userData) {
+            return res.status(404).json({
+                status: "fail",
+                message: "Email already exists! Please try again with different email!",
             });
         } else {
-            let bcryptPwd = await bcrypt.hash(userData.password, 10)
+            let bcryptPwd = await bcrypt.hash(password, 10)
                 .then(hash => {
                     return hash
                 })
-                .catch(err => console.error(err.message))
+                .catch(err => {
+                    return res.status(503).json({
+                        status: "error",
+                        message: "There is a problem from the server",
+                        error: {
+                            name: err.name,
+                            message: err.message
+                        }
+                    })
+                })
 
-            userData = {
-                ...userData,
+            let newUserData = {
+                ...req.body,
                 password: bcryptPwd
             }
+            console.log(newUserData);
 
-            const newUser = new userModel(userData);
+            const newUser = new userModel(newUserData);
+            console.log(newUser);
 
-            const newUserData = await newUser.save();
+            await newUser.save();
 
             return res.status(201).json({
-                status: 201,
-                message: "OK",
-                description: "Create new account successfully!"
+                status: "success",
+                message: "New account created successfully!"
             });
         }
     }
@@ -62,47 +95,51 @@ class ApiAuthController {
     async loginWithPassword(req, res, next) {
         const { uEmail, uPassword } = req.body;
 
-        const databasePwd = await userModel.findOne({
+        const userData = await userModel.findOne({
             email: uEmail,
         }).select("password");
 
-        if (databasePwd) {
-            const userData = await userModel.findOne({
+        if (userData) {
+            const { password } = userData;
+
+            const responseUserData = await userModel.findOne({
                 email: uEmail,
             }).select("-password")
-
-            const { password } = databasePwd;
 
             bcrypt
                 .compare(uPassword, password)
                 .then(check => {
-                    console.log(check);
-
                     if (check) {
-                        return res.json({
-                            status: 200,
-                            userData,
+                        return res.status(200).json({
+                            status: "success",
+                            message: "Logged in successfully",
+                            data: {
+                                userData: responseUserData
+                            },
                         })
                     } else {
-                        return res.json({
-                            status: 204,
-                            message: "Failed",
-                            description: "Wrong password!"
+                        return res.status(404).json({
+                            status: "fail",
+                            message: "Wrong password!"
                         })
                     }
 
                 })
-                .catch(err => {
-                    console.log(err);
-                    return res.status(203).json({
-                        message: "Failed",
-                        description: "Something went wrong"
+                .catch((err) => {
+                    console.log(err)
+                    return res.status(503).json({
+                        status: "error",
+                        message: "There is a problem from the server",
+                        error: {
+                            name: err.name,
+                            message: err.message
+                        }
                     })
                 })
         } else {
-            return res.status(400).json({
-                message: "Fail",
-                description: "Wrong email!"
+            return res.status(404).json({
+                status: "fail",
+                message: "Email does not exist",
             });
         }
 
@@ -122,31 +159,42 @@ class ApiAuthController {
                 .then(check => {
                     if (check) {
                         bcrypt.hash(newPwd, 10)
-                            .then(async (hash) => {
+                            .then(async (hashPassword) => {
                                 await userModel.findByIdAndUpdate(_id, {
-                                    password: hash
+                                    password: hashPassword
                                 });
 
                                 return res.json({
-                                    status: 200,
-                                    message: "OK",
-                                    description: "Change password successfully "
+                                    status: "success",
+                                    message: "Changed password successfully",
                                 });
                             })
-                            .catch(err => console.error(err.message))
+                            .catch(err => {
+                                return res.status(503).json({
+                                    status: "error",
+                                    message: "There is a problem from the server",
+                                    error: {
+                                        name: err.name,
+                                        message: err.message
+                                    }
+                                })
+                            })
                     } else {
-                        return res.json({
-                            status: 204,
-                            message: "Failed",
-                            description: "Wrong old password!"
-                        })
+                        return res.status(404).json({
+                            status: "fail",
+                            message: "Old password is wrong!",
+                        });
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                    return res.status(400).json({
-                        message: "Failed",
-                        description: "Something went wrong"
+                    return res.status(503).json({
+                        status: "error",
+                        message: "There is a problem from the server",
+                        error: {
+                            name: err.name,
+                            message: err.message
+                        }
                     })
                 })
         }

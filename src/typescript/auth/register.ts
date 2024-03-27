@@ -1,5 +1,6 @@
 import {hideMessage, showMessage} from "../utils/handleMessage.js";
 import {emailRegex, passWordRegex} from "../utils/regex.js";
+import {IApiResponse} from "../type/response";
 
 const uDisplayName: HTMLInputElement = document.getElementById("uDisplayName") as HTMLInputElement;
 const uDisplayNameValid: HTMLElement = document.getElementById("uDisplayNameValid") as HTMLElement;
@@ -73,15 +74,15 @@ const handleRegister = () => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-    }).then(res => res.json())
-        .then((res) => {
-            if (res.status === 201) {
-                showMessage(messageElement, res.description, "success")
+    }).then((res: Response) => res.json())
+        .then((res: IApiResponse) => {
+            if (res.status === "success") {
+                showMessage(messageElement, res.message!, "success")
                 setTimeout(() => {
                     window.location.href = "/auth/password";
                 }, 2000)
             } else {
-                showMessage(messageElement, res.description);
+                showMessage(messageElement, res.message!);
             }
         });
 
