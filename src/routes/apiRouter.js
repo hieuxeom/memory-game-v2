@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const multer = require("multer");
 
-var cardThemeStorage = multer.diskStorage({
+const cardThemeStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./public/images/themepacks");
     },
@@ -12,7 +12,7 @@ var cardThemeStorage = multer.diskStorage({
     },
 });
 
-var gameThemeStorage = multer.diskStorage({
+const gameThemeStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./public/images/game_thumbnails");
     },
@@ -32,6 +32,7 @@ const apiUser = require("../controllers/api/ApiUserController");
 const apiGameHistory = require("../controllers/api/ApiGameHistoryController");
 const apiChart = require("../controllers/api/ApiChartController");
 const apiRank = require("../controllers/api/ApiRankController");
+const apiGameResult = require("../controllers/api/ApiGameResultController");
 
 const multiCardUpload = cardThemeUpload.fields([
     { name: "themeFront", maxCount: 1 },
@@ -64,6 +65,9 @@ router.post("/auth/change-pwd", apiAuth.changePassword)
 router.get("/users", apiUser.getAllUsers);
 router.get("/users/:userId", apiUser.getUserById);
 router.get("/users/:userId/game-history", apiUser.getPlayerGameHistory);
+
+// Game Result API routers
+router.post("/game-results", apiGameResult.createNewResult)
 
 //  Game History router
 router.get("/game-history", apiGameHistory.get);
