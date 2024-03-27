@@ -67,16 +67,16 @@ const handleRegister = () => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-    }).then(res => res.json())
+    }).then((res) => res.json())
         .then((res) => {
-        if (res.status === 201) {
-            showMessage(messageElement, res.description, "success");
+        if (res.status === "success") {
+            showMessage(messageElement, res.message, "success");
             setTimeout(() => {
                 window.location.href = "/auth/password";
             }, 2000);
         }
         else {
-            showMessage(messageElement, res.description);
+            showMessage(messageElement, res.message);
         }
     });
 };

@@ -53,14 +53,14 @@ const handleChangePwd = () => {
                 },
                 body: JSON.stringify(postData)
             })
-                .then(res => res.json())
-                .then(res => {
-                if (res.status === 200) {
-                    showMessage(messageElement, res.description, "success");
+                .then((res) => res.json())
+                .then((res) => {
+                if (res.status === "success") {
+                    showMessage(messageElement, res?.message ?? "", "success");
                     setTimeout(() => hideMessage(messageElement), 1500);
                 }
                 else {
-                    showMessage(messageElement, res.description);
+                    showMessage(messageElement, res?.message ?? "");
                 }
             });
         }
