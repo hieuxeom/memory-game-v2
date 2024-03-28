@@ -1,4 +1,5 @@
 import {IUser} from "../type/user";
+import {IApiResponse} from "../type/response";
 
 let userData: IUser = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")!) : "";
 
@@ -22,18 +23,20 @@ if (isIUser(userData)) {
     }
 
     fetch(`/api/users/${_id}`)
-        .then((res) => res.json())
-        .then((res: IUser) => {
-            console.log(res)
-            const {averageScore, highestScore, displayName, email, gamePlayed, photoURL, mostPlayedSize, mostPlayedTime} = res;
-            userAvatar.src = photoURL;
-            displayNameValue.innerHTML = displayName;
-            gamePlayedValue.innerHTML = gamePlayed.toString();
-            bestTimeValue.innerHTML = highestScore.toString();
-            averageTimeValue.innerHTML = averageScore?.toFixed(2) ?? "-";
-            emailValue.innerHTML = email;
-            mostPlayedSizeValue.innerHTML = mostPlayedSize ?? "-";
-            mostPlayedTimeValue.innerHTML = mostPlayedTime?.toString() ?? "-";
+        .then((res: Response) => res.json())
+        .then((res: IApiResponse) => {
+            if (res.status === "success") {
+                const {averageScore, highestScore, displayName, email, gamePlayed, photoURL, mostPlayedSize, mostPlayedTime} = res.data;
+                userAvatar.src = photoURL;
+                displayNameValue.innerHTML = displayName;
+                gamePlayedValue.innerHTML = gamePlayed.toString();
+                bestTimeValue.innerHTML = highestScore.toString();
+                averageTimeValue.innerHTML = averageScore?.toFixed(2) ?? "-";
+                emailValue.innerHTML = email;
+                mostPlayedSizeValue.innerHTML = mostPlayedSize ?? "-";
+                mostPlayedTimeValue.innerHTML = mostPlayedTime?.toString() ?? "-";
+            }
+
         });
 } else {
     window.location.href = "/auth";

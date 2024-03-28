@@ -1,21 +1,35 @@
 const userModel = require("../../models/UserModel");
 const historyGameModel = require("../../models/HistoryGameModel")
+
 class ApiUserController {
-	async getAllUsers(req, res, next) {
-		return res.json(await userModel.find({}));
-	}
+    async getAllUsers(req, res, next) {
+        const listUsersData = await userModel.find({});
+        return res.status(200).json({
+            status: "success",
+            message: `Successfully received ${listUsersData.length} card themes`,
+            data: listUsersData
+        });
+    }
 
-	async getUserById(req, res, next) {
-		const { userId } = req.params;
+    async getUserById(req, res, next) {
+        const { userId } = req.params;
+        const userData = await userModel.findById(userId);
 
-		return res.json(await userModel.findById(userId));
-	}
+        if (userData) {
+            return res.json({
+                status: "success",
+                message: `Successfully received user data with _id = ${userData._id}`,
+                data: userData
+            });
+        } else {
+            return res.status(204).json({
+                status: "success",
+                message: "The request has been processed but there is no user data to return",
+            })
+        }
+    }
 
-	async getPlayerGameHistory(req, res, next) {
-		const { userId } = req.params;
 
-		return res.json(await historyGameModel.find({userId}).sort({createdAt: -1}))
-	}
 }
 
 module.exports = new ApiUserController();
