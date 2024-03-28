@@ -35,15 +35,15 @@ const apiRank = require("../controllers/api/ApiRankController");
 const apiGameResult = require("../controllers/api/ApiGameResultController");
 
 const multiCardUpload = cardThemeUpload.fields([
-    { name: "themeFront", maxCount: 1 },
-    { name: "themeBack", maxCount: 1 },
+    { name: "cardFront", maxCount: 1 },
+    { name: "cardBack", maxCount: 1 },
 ]);
 
 const gameThumbnailUpload = gameThemeUpload.single("themeThumbnail");
 
 // Card Themes Router
 router.get("/card-themes/:themeId", apiCardTheme.getThemeById);
-router.get("/card-themes", apiCardTheme.get);
+router.get("/card-themes", apiCardTheme.getWithFilter);
 router.post("/card-themes", multiCardUpload, apiCardTheme.post);
 router.put("/card-themes", multiCardUpload, apiCardTheme.put);
 router.delete("/card-themes/:themeId", apiCardTheme.delete);

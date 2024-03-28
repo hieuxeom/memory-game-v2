@@ -15,7 +15,13 @@ class AdminCardThemeController {
             containerId: "siteContainer",
             class: "px-8 py-2",
             title: "New Card Theme",
-            buttonBackRef: "/admin/card-themes"
+            buttonBackRef: "/admin/card-themes/",
+            listScripts: [
+                {
+                    path: "/admin/card.add.js",
+                    type: "module",
+                }
+            ]
         });
     }
 
@@ -46,10 +52,11 @@ class AdminCardThemeController {
                 containerId: "siteContainer",
                 class: "px-8 py-2",
                 title: "Edit Card Theme",
-                buttonBackRef: "/admin/card-themes",
+                buttonBackRef: "/admin/card-themes/all",
                 listScripts: [
                     {
                         path: "admin/card.edit.js",
+                        type: "module"
                     },
                 ],
                 themeData,

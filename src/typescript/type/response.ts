@@ -1,4 +1,4 @@
-type responseStatus = "success" | "fail" | "error";
+type responseStatus = "success" | "fail" | "error" | "redirect";
 
 type errorResponse = {
     name: string,
@@ -8,6 +8,7 @@ type errorResponse = {
 export interface IApiResponse {
     status: responseStatus,
     message?: string,
+    url?: string,
     data?: any;
     error?: errorResponse,
 }

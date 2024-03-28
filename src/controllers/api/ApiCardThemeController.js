@@ -2,25 +2,33 @@ const cardThemeModel = require("../../models/CardThemeModel");
 const { Alphabets } = require("../../utils/alphabets");
 
 class ApiCardThemeController {
-    async get(req, res) {
+    async getWithFilter(req, res, next) {
 
         const { filter } = req.query
         const cardData = await cardThemeModel.find({});
 
         switch (filter) {
             case "alphabets":
-                let dataReturn = [];
+                let results = [];
                 for (let x of Alphabets) {
-                    let regex = new RegExp(`^[${x}${x.toLowerCase()}]`);
-                    dataReturn.push({
+                    let regexFilter = new RegExp(`^[${x}${x.toLowerCase()}]`);
+                    results.push({
                         title: x,
-                        data: cardData.filter((card) => regex.test(card.themeName))
+                        data: cardData.filter((card) => regexFilter.test(card.themeName))
                     })
                 }
-                return res.json(dataReturn);
+                return res.status(200).json({
+                    status: "success",
+                    message: `Successfully received ${cardData.length} card themes sorted by A - Z`,
+                    data: results
+                });
 
             default:
-                return res.status(200).json(cardData);
+                return res.status(200).json({
+                    status: "success",
+                    mesage: `Successfully received ${cardData.length} card themes`,
+                    data: cardData
+                });
         }
     }
 
@@ -31,26 +39,33 @@ class ApiCardThemeController {
 
     async post(req, res, next) {
         const { themeName } = req.body;
-        let { themeFront, themeBack } = req.files;
+        let { cardFront, cardBack } = req.files;
 
-        themeFront = themeFront[0];
-        themeBack = themeBack[0];
+        cardFront = cardFront[0];
+        cardBack = cardBack[0];
 
         const newCardTheme = new cardThemeModel({
             themeName,
-            cardFront: themeFront.filename,
-            cardBack: themeBack.filename,
+            cardFront: cardFront.filename,
+            cardBack: cardBack.filename,
         });
 
         const createNewCardTheme = await newCardTheme.save();
 
         if (createNewCardTheme) {
-            return res.redirect("/admin/card-themes/all");
+            return res.status(201).json({
+                status: "success",
+                message: "New card theme created successfully"
+            })
         } else {
-            return res.status(400).json({
-                message: "Bad request",
-                description: err.message,
-            });
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
         }
     }
 
@@ -58,39 +73,47 @@ class ApiCardThemeController {
         try {
             const { themeId, themeName } = req.body;
 
-            let { themeFront, themeBack } = req.files;
+            let { cardFront, cardBack } = req.files;
 
             let updateData = {
                 themeName,
             };
-            if (themeFront) {
+
+            if (cardFront) {
                 updateData = {
                     ...updateData,
-                    cardFront: themeFront[0].filename,
+                    cardFront: cardFront[0].filename,
                 };
             }
-            if (themeBack) {
+            if (cardBack) {
                 updateData = {
                     ...updateData,
-                    cardBack: themeBack[0].filename,
+                    cardBack: cardBack[0].filename,
                 };
             }
 
             const updateCardTheme = await cardThemeModel.findByIdAndUpdate(themeId, updateData);
 
             if (updateCardTheme) {
-                return res.redirect(`/admin/card-themes/all`);
+                return res.status(303).json({
+                    status: "redirect",
+                    url: "/admin/card-themes/all"
+                })
             } else {
-                return res.status(400).json({
-                    message: "Bad request",
-                    description: "Have some problems",
-                });
+                return res.status(503).json({
+                    status: "error",
+                    message: "There is a problem from the server",
+                })
             }
         } catch (err) {
-            return res.status(400).json({
-                message: "Bad request",
-                description: err.message,
-            });
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
         }
     }
 

@@ -1,28 +1,32 @@
+import {IApiResponse} from "../type/response";
+
 const submitButton: HTMLButtonElement = document.getElementById("submitButton") as HTMLButtonElement;
 
-const themeId: HTMLInputElement = document.getElementsByName("themeId")[0] as HTMLInputElement;
-const themeName: HTMLInputElement = document.getElementsByName("themeName")[0] as HTMLInputElement;
-const cardFront: HTMLInputElement = document.getElementsByName("themeFront")[0] as HTMLInputElement;
-const cardBack: HTMLInputElement = document.getElementsByName("themeBack")[0] as HTMLInputElement;
+console.log(submitButton);
 
-// formData.append("themeName");
+const themeId: HTMLInputElement = document.getElementById("themeId") as HTMLInputElement;
+const themeName: HTMLInputElement = document.getElementById("themeName") as HTMLInputElement;
+const cardFront: HTMLInputElement = document.getElementById("cardFront") as HTMLInputElement;
+const cardBack: HTMLInputElement = document.getElementById("cardBack") as HTMLInputElement;
 submitButton.addEventListener("click", (event) => {
-	event.preventDefault();
+    event.preventDefault();
 
-	const formData: FormData = new FormData();
-	formData.append("themeId", themeId.value);
-	formData.append("themeName", themeName.value);
-	formData.append("themeFront", cardFront.files ? cardFront.files[0] : "");
-	formData.append("themeBack", cardBack.files ? cardBack.files[0] : "");
+    const editData: FormData = new FormData();
+    editData.append("themeId", themeId.value);
+    editData.append("themeName", themeName.value);
+    editData.append("cardFront", cardFront.files ? cardFront.files[0] : "");
+    editData.append("cardBack", cardBack.files ? cardBack.files[0] : "");
 
-	const requestOptions = {
-		method: "PUT",
-		body: formData,
-	};
+    const requestOptions = {
+        method: "PUT",
+        body: editData,
+    };
 
-	fetch("/api/card-themes", requestOptions).then((res) => {
-		if (res.url) {
-			window.location.href = res.url;
-		}
-	});
+    fetch("/api/card-themes", requestOptions).then((res: Response) => res.json()).then((res: IApiResponse) => {
+        if (res.status === "redirect") {
+            window.location.href = res.url!
+        } else {
+            console.log(res)
+        }
+    });
 });
