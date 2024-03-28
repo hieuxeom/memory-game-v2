@@ -85,7 +85,7 @@ const handleGameWin = () => {
         gameTurn,
     };
 
-    fetch("/game/results", {
+    fetch("/api/game-results", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

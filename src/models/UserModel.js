@@ -5,7 +5,6 @@ const ObjectId = Schema.ObjectId;
 
 const UserSchema = new Schema(
     {
-        _id: ObjectId,
         displayName: String,
         email: String,
         photoURL: String,

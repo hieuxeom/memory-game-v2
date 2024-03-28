@@ -1,4 +1,5 @@
 import {ICardFilterResponse, ICardThemeResponse} from "../type/cardTheme";
+import {IApiResponse} from "../type/response";
 
 const listThemesContainer: HTMLDivElement = document.getElementById("listThemesContainer") as HTMLDivElement;
 const searchParams = new URLSearchParams(window.location.search);
@@ -6,11 +7,13 @@ const filter = searchParams.get("filter") ?? "default"
 
 if (filter === "default") {
     fetch(`/api/card-themes`)
-        .then((res) => res.json())
-        .then((listCardThemes): NodeListOf<HTMLButtonElement> => {
-            listThemesContainer.innerHTML = listCardThemes
-                .map((cardTheme: ICardThemeResponse) => {
-                    return `<div class="text-xl flex justify-between items-center">
+        .then((res: Response) => res.json())
+        .then((res: IApiResponse): NodeListOf<HTMLButtonElement> => {
+            if (res.status === "success") {
+                const listCardThemes = res.data
+                listThemesContainer.innerHTML = listCardThemes
+                    .map((cardTheme: ICardThemeResponse) => {
+                        return `<div class="text-xl flex justify-between items-center">
                             <div class="w-3/4">
                                 <p class="text-secondary">${cardTheme.themeName}</p>
                             </div>
@@ -27,39 +30,27 @@ if (filter === "default") {
                                 </button>
                             </div>
 			            </div>`;
-                }).join("");
-
+                    }).join("");
+            }
             return document.querySelectorAll(".delete-theme");
         })
-        .then((listDeleteButtons) => {
-            listDeleteButtons.forEach((button) => {
-                button.addEventListener("click", () => {
-                    const cardThemeId = button.getAttribute("data-button");
-                    fetch(`/api/card-themes/${cardThemeId}`, {
-                        method: "DELETE",
-                    })
-                        .then((res) => {
-                            if (res.url) {
-                                return (window.location.href = res.url);
-                            }
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                        });
-                });
-            });
+        .then((listDeleteButtons: NodeListOf<HTMLButtonElement>) => {
+            handleMapDelete(listDeleteButtons)
         });
 } else {
     fetch(`/api/card-themes?filter=${filter}`)
-        .then((res) => res.json())
-        .then((listCardThemes) => {
+        .then((res: Response) => res.json())
+        .then((res: IApiResponse): NodeListOf<HTMLButtonElement> => {
 
-            listThemesContainer.innerHTML = listCardThemes.map(({title, data}: ICardFilterResponse) => {
-                if (data.length < 1) {
-                    return null
-                }
-                const mapData = data.map(({_id, themeName}: ICardThemeResponse) => {
-                    return `<div class="text-xl w-full flex justify-between items-center">
+            if (res.status === "success") {
+                const listCardThemes = res.data;
+
+                listThemesContainer.innerHTML = listCardThemes.map(({title, data}: ICardFilterResponse) => {
+                        if (data.length < 1) {
+                            return null
+                        }
+                        const mapData = data.map(({_id, themeName}: ICardThemeResponse) => {
+                            return `<div class="text-xl w-full flex justify-between items-center">
                                 <div class="w-3/4">
                                     <p class="text-secondary">${themeName}</p>
                                 </div>
@@ -76,37 +67,41 @@ if (filter === "default") {
                                     </button>
                                 </div>
                         </div>`
-                })
+                        })
 
-                return `<div class="w-full flex flex-col justify-center items-center gap-2">
+                        return `<div class="w-full flex flex-col justify-center items-center gap-2">
                     <div>
                         <h4 class="text-3xl text-primary">${title}</h4>
                     </div>
                     <div class="w-full flex flex-col gap-4">
                         ${mapData.join("")}
                     </div>
-                </div>
-                `
-            }).filter((item: string) => item).join("<hr class='hr'>")
-            return document.querySelectorAll(".delete-theme");
-        }).then((listDeleteButtons) => {
-        listDeleteButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                const cardThemeId = button.getAttribute("data-button");
-                fetch(`/api/card-themes/${cardThemeId}`, {
-                    method: "DELETE",
-                })
-                    .then((res) => {
-                        if (res.url) {
-                            return (window.location.href = res.url);
-                        }
+                </div>`
                     })
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            });
+                    .filter((item: string) => item).join("<hr class='hr'>")
+            }
+            return document.querySelectorAll(".delete-theme");
+        }).then((listDeleteButtons: NodeListOf<HTMLButtonElement>) => {
+        handleMapDelete(listDeleteButtons)
+    });
+}
+
+const handleMapDelete = (listButtons: NodeListOf<HTMLButtonElement>) => {
+    listButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const cardThemeId = button.getAttribute("data-button");
+            fetch(`/api/card-themes/${cardThemeId}`, {
+                method: "DELETE",
+            })
+                .then((res) => {
+                    if (res.url) {
+                        return (window.location.href = res.url);
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         });
     });
-
 }
 

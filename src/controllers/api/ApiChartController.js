@@ -14,8 +14,12 @@ class ApiChartController {
         })
 
         return res.status(200).json({
-            labels,
-            data
+            status: "success",
+            data: {
+                labels,
+                data
+            }
+
         })
     }
 
@@ -30,8 +34,11 @@ class ApiChartController {
         })
 
         return res.status(200).json({
-            labels,
-            data
+            status: "success",
+            data: {
+                labels,
+                data
+            }
         })
     }
 
@@ -48,8 +55,11 @@ class ApiChartController {
         let data = [size4x4.length, size4x5.length]
 
         return res.status(200).json({
-            labels,
-            data
+            status: "success",
+            data: {
+                labels,
+                data
+            }
         })
 
     }
@@ -74,8 +84,11 @@ class ApiChartController {
         ]
 
         return res.status(200).json({
-            labels,
-            data
+            status: "success",
+            data: {
+                labels,
+                data
+            }
         })
 
     }

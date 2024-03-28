@@ -4,11 +4,14 @@ const userId = localStorage.getItem("userData") ? JSON.parse(localStorage.getIte
 console.log(userId);
 if (userId) {
     const historyGameData = new Promise((resolve, reject) => {
-        fetch(`/api/users/${userId}/game-history`)
-            .then(res => res.json())
-            .then(async (historyData) => {
-            const resolveData = await Promise.all(historyData.map(async (data) => await new HistoryCard(data).render()));
-            historyContainer.innerHTML = resolveData.join("");
+        fetch(`/api/game-history/${userId}`)
+            .then((res) => res.json())
+            .then(async (res) => {
+            if (res.status === "success") {
+                const historyData = res.data;
+                const resolveData = await Promise.all(historyData.map(async (data) => await new HistoryCard(data).render()));
+                historyContainer.innerHTML = resolveData.join("");
+            }
         });
     });
 }

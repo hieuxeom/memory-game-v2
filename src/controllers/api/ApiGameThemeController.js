@@ -1,21 +1,55 @@
 const gameThemeModel = require("../../models/GameThemeModel");
+const cardThemeModel = require("../../models/CardThemeModel");
+const { Alphabets } = require("../../utils/alphabets");
 
 class ApiGameThemeController {
     async getAllGameThemes(req, res, next) {
-        return res.json(await gameThemeModel.find({}));
+        // return res.json(await gameThemeModel.find({}));
+        const { filter } = req.query
+        const gameThemeData = await gameThemeModel.find({});
+
+        switch (filter) {
+            case "alphabets":
+                let results = [];
+                for (let x of Alphabets) {
+                    let regexFilter = new RegExp(`^[${x}${x.toLowerCase()}]`);
+                    results.push({
+                        title: x,
+                        data: gameThemeData.filter((card) => regexFilter.test(card.themeName))
+                    })
+                }
+                return res.status(200).json({
+                    status: "success",
+                    message: `Successfully received ${gameThemeData.length} game themes sorted by A - Z`,
+                    data: results
+                });
+
+            default:
+                return res.status(200).json({
+                    status: "success",
+                    message: `Successfully received ${gameThemeData.length} game themes`,
+                    data: gameThemeData
+                });
+        }
     }
 
     async getThemeById(req, res, next) {
         const { gameThemeId } = req.params;
 
-        return res.json(await gameThemeModel.findById(gameThemeId));
+        const gameThemeData = await gameThemeModel.findById(gameThemeId);
+        return res.status(200).json({
+            status: "success",
+            message: `Successfully received data of _id = ${gameThemeData._id}`,
+            data: gameThemeData
+        })
     }
 
     async post(req, res, next) {
         try {
             if (!req.file) {
                 return res.status(400).json({
-                    message: "Please add game theme thumbnail",
+                    status: "fail",
+                    message: "Theme Thumbnail is required",
                 });
             }
 
@@ -24,7 +58,8 @@ class ApiGameThemeController {
 
             if (!themeDataParsed) {
                 return res.status(400).json({
-                    message: "Theme data is empty",
+                    status: "fail",
+                    message: "Theme Data is required",
                 });
             }
 
@@ -39,12 +74,20 @@ class ApiGameThemeController {
 
             await newGameTheme.save();
 
-            return res.redirect("/admin/game-themes/all");
+            // return res.redirect("/admin/game-themes/all");
+            return res.status(201).json({
+                status: "success",
+                message: "New game theme successfully created"
+            })
         } catch (err) {
-            return res.status(400).json({
-                message: "Bad request",
-                description: err.message,
-            });
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
         }
 
     }
@@ -68,16 +111,28 @@ class ApiGameThemeController {
                 }
             }
 
-            const editGameTheme = await gameThemeModel.findByIdAndUpdate(themeId, updateData)
+            const editStatus = await gameThemeModel.findByIdAndUpdate(themeId, updateData)
 
-            if (editGameTheme) {
-                return res.redirect(`/admin/game-themes/${themeId}`);
+            if (editStatus) {
+                return res.status(303).json({
+                    status: "redirect",
+                    url: `/admin/game-themes/${themeId}`
+                })
+            } else {
+                return res.status(503).json({
+                    status: "error",
+                    message: "There is a problem from the server",
+                })
             }
         } catch (err) {
-            return res.status(400).json({
-                message: "Bad request",
-                description: err.message,
-            });
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
         }
     }
 
@@ -85,18 +140,29 @@ class ApiGameThemeController {
         try {
             const { themeId } = req.params;
 
-            const deleteTheme = await gameThemeModel.findByIdAndDelete(themeId).then()
-            if (deleteTheme) {
-                return res.redirect("/admin/game-themes/all")
+            const deleteStatus = await gameThemeModel.findByIdAndDelete(themeId);
+
+            if (deleteStatus) {
+                // return res.redirect("/admin/game-themes/all")
+                return res.status(303).json({
+                    status: "redirect",
+                    url: "/admin/game-themes/all"
+                })
+
             } else {
-                return res.status(400).json({
-                    message: "Bad request",
+                return res.status(503).json({
+                    status: "error",
+                    message: "There is a problem from the server",
                 })
             }
         } catch (err) {
-            return res.status(400).json({
-                message: "Bad request",
-                description: err.message
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
             })
         }
     }

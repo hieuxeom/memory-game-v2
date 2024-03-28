@@ -1,6 +1,7 @@
 import {IHistoryResponse} from "../type/history";
 import {IGameThemeResponse} from "../type/gameTheme";
 import {ICardThemeResponse} from "../type/cardTheme";
+import {IApiResponse} from "../type/response";
 
 export class HistoryCard {
 
@@ -29,9 +30,12 @@ export class HistoryCard {
     async getCardThemeImage() {
         return await new Promise(((resolve, reject) => {
             fetch(`/api/card-themes/${this.cardThemeId}`)
-                .then(res => res.json())
-                .then((res: ICardThemeResponse) => {
-                    resolve(res.cardBack)
+                .then((res: Response) => res.json())
+                .then((res: IApiResponse) => {
+                    if (res.status === "success") {
+                        const cardData = res.data;
+                        resolve(cardData.cardBack)
+                    }
                 })
         }))
     }
@@ -40,9 +44,10 @@ export class HistoryCard {
         return await new Promise(((resolve, reject) => {
             fetch(`/api/game-themes/${this.gameThemeId}`)
                 .then(res => res.json())
-                .then((res: IGameThemeResponse) => {
-                    if (res) {
-                        resolve(res.themeThumbnail)
+                .then((res: IApiResponse) => {
+                    if (res.status === "success") {
+                        const gameThemeData = res.data;
+                        resolve(gameThemeData.themeThumbnail)
                     } else {
                         resolve("")
                     }

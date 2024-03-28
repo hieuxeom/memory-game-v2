@@ -1,26 +1,31 @@
 {{> adminHeader title=title buttonBackRef=buttonBackRef}}
 <main class="flex justify-center w-full h-max relative">
-	<form
-		action="/api/card-themes"
-		method="POST"
-		enctype="multipart/form-data"
-		id="formContainer"
-		class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4 rounded-xl"
-	>
-		<div class="form-row flex flex-col gap-1 w-full">
-			<label for="themeName">Theme Name</label>
-			<input type="text" name="themeName" />
-		</div>
-		<div class="form-row flex flex-col gap-1 w-full">
-			<label for="themeImage">Theme Front</label>
-			<input type="file" name="themeFront" />
-		</div>
-		<div class="form-row flex flex-col gap-1 w-full">
-			<label for="themeImage">Theme Back</label>
-			<input type="file" name="themeBack" />
-		</div>
-		<div class="form-row">
-			<input type="submit" value="Submit" class="text-2xl bg-primary text-white px-8 py-2 rounded-full w-full" />
-		</div>
-	</form>
+    <form
+        id="formContainer"
+        class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4 rounded-xl"
+    >
+        <div class="form-row flex flex-col gap-1 w-full">
+            <label for="themeName">Theme Name</label>
+            <input type="text" id="themeName" name="themeName"/>
+            <p class="hidden" id="themeNameValid"></p>
+        </div>
+        <div class="form-row flex flex-col gap-1 w-full">
+            <label for="cardFront">Theme Front</label>
+            <input type="file" id="cardFront" name="cardFront"/>
+            <p class="hidden" id="cardFrontValid"></p>
+        </div>
+        <div class="form-row flex flex-col gap-1 w-full">
+            <label for="cardBack">Theme Back</label>
+            <input type="file" id="cardBack" name="cardBack"/>
+            <p class="hidden" id="cardBackValid"></p>
+        </div>
+        <div class="form-row">
+            <div class="w-full text-center">
+                <p class="hidden" id="status">Success</p>
+            </div>
+            <button id="submitButton" value="Submit" class="text-2xl bg-primary text-white px-8 py-2 rounded-full
+			w-full">Submit
+            </button>
+        </div>
+    </form>
 </main>

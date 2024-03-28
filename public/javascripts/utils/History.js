@@ -20,9 +20,12 @@ export class HistoryCard {
     async getCardThemeImage() {
         return await new Promise(((resolve, reject) => {
             fetch(`/api/card-themes/${this.cardThemeId}`)
-                .then(res => res.json())
+                .then((res) => res.json())
                 .then((res) => {
-                resolve(res.cardBack);
+                if (res.status === "success") {
+                    const cardData = res.data;
+                    resolve(cardData.cardBack);
+                }
             });
         }));
     }
@@ -31,8 +34,9 @@ export class HistoryCard {
             fetch(`/api/game-themes/${this.gameThemeId}`)
                 .then(res => res.json())
                 .then((res) => {
-                if (res) {
-                    resolve(res.themeThumbnail);
+                if (res.status === "success") {
+                    const gameThemeData = res.data;
+                    resolve(gameThemeData.themeThumbnail);
                 }
                 else {
                     resolve("");

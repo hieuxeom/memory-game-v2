@@ -6,9 +6,14 @@ const gameThumbnail = document.getElementById("themeThumbnail");
 const listThemeTypes = document.getElementsByName("themeDataType");
 const submitEditButton = document.getElementById("submitButton");
 const onLoad = () => {
-    fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json()).then((themeData) => {
-        gameThemeName.value = themeData.themeName;
-        gameThemeData.value = themeData.rawData;
+    fetch(`/api/game-themes/${gameThemeId}`)
+        .then((res) => res.json())
+        .then((res) => {
+        if (res.status === "success") {
+            const { themeName, rawData } = res.data;
+            gameThemeName.value = themeName;
+            gameThemeData.value = rawData;
+        }
     });
 };
 submitEditButton.addEventListener("click", (e) => {

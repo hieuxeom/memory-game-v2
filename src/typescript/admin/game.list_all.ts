@@ -1,14 +1,17 @@
 import {IGameThemeResponse} from "../type/gameTheme";
+import {IApiResponse} from "../type/response";
 
 const listGameThemesContainer: HTMLElement = document.getElementById("listGameThemesContainer") as HTMLElement;
 
 const onLoad = () => {
     fetch("/api/game-themes")
-        .then((res) => res.json())
-        .then((listGameThemes): NodeListOf<HTMLElement> => {
-            listGameThemesContainer.innerHTML = listGameThemes
-                .map((gameTheme: IGameThemeResponse) => {
-                    return `<div class="text-xl flex justify-between items-center">
+        .then((res: Response) => res.json())
+        .then((res: IApiResponse): NodeListOf<HTMLElement> => {
+            if (res.status === "success") {
+                const listGameThemes = res.data;
+                listGameThemesContainer.innerHTML = listGameThemes
+                    .map((gameTheme: IGameThemeResponse) => {
+                        return `<div class="text-xl flex justify-between items-center">
                                 <div class="w-4/6">
                                     <p class="text-xl text-secondary">${gameTheme.themeName}</p>
                                 </div>
@@ -24,7 +27,8 @@ const onLoad = () => {
                                     </button>
                             </div>
                         </div>`;
-                }).join("");
+                    }).join("");
+            }
             return document.querySelectorAll(".delete-theme")
         }).then((listButtonDelete) => {
         listButtonDelete.forEach((button) => {
@@ -32,11 +36,13 @@ const onLoad = () => {
                 const themeId = button.getAttribute("data-button");
                 fetch(`/api/game-themes/${themeId}`, {
                     method: "DELETE",
-                }).then((res) => {
-                    if (res.url) {
-                        return window.location.href = res.url;
-                    }
                 })
+                    .then((res: Response) => res.json())
+                    .then((res: IApiResponse) => {
+                        if (res.status === "redirect") {
+                            return window.location.href = res.url!;
+                        }
+                    })
             })
         })
     });

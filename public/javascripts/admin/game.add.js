@@ -14,28 +14,25 @@ submitGameThemeButton.addEventListener("click", (e) => {
         }
     });
     const themeDataParsed = parseGameData(gameThemeData.value.split("\n"));
-    const formData = new FormData();
-    formData.append("themeName", gameThemeName.value);
-    formData.append("themeThumbnail", gameThumbnail.files ? gameThumbnail.files[0] : "");
-    formData.append("themeDataParsed", JSON.stringify(themeDataParsed));
-    formData.append("rawData", gameThemeData.value);
-    formData.append("themeDataType", themeDataType ?? "icon");
+    const postData = new FormData();
+    postData.append("themeName", gameThemeName.value);
+    postData.append("themeThumbnail", gameThumbnail.files ? gameThumbnail.files[0] : "");
+    postData.append("themeDataParsed", JSON.stringify(themeDataParsed));
+    postData.append("rawData", gameThemeData.value);
+    postData.append("themeDataType", themeDataType ?? "icon");
     fetch("/api/game-themes", {
         method: "POST",
-        body: formData,
+        body: postData,
     })
-        .then((response) => {
-        if (response.url) {
-            return window.location.href = response.url;
+        .then((res) => res.json())
+        .then((res) => {
+        if (res.status === "success") {
+            // show status message
+            setTimeout(() => window.location.href = "/admin/game-themes/all", 1500);
         }
         else {
-            return response.json();
+            // show error message
+            console.log(res.error);
         }
-    })
-        .then((data) => {
-        console.log("Response from server:", data);
-    })
-        .catch((error) => {
-        console.error("Error:", error);
     });
 });
