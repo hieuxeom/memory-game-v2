@@ -94,8 +94,6 @@ export class CardThemeCard extends Card {
 
     private unSelectedCurrentActiveCard = () => {
         const listCardThemes = document.querySelectorAll(".theme-card")
-        console.log(listCardThemes);
-
         listCardThemes.forEach((card) => {
             card.classList.remove("selected");
         });

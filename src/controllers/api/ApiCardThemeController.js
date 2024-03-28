@@ -5,7 +5,30 @@ const gameThemeModel = require("../../models/GameThemeModel");
 class ApiCardThemeController {
     async getWithFilter(req, res, next) {
 
-        const { filter } = req.query
+        const { filter, _s } = req.query
+
+        if (_s) {
+            const cardData = await cardThemeModel.find({
+                themeName: {
+                    $regex: new RegExp(_s, 'i')
+                }
+            })
+            if (cardData.length > 0) {
+                return res.status(200).json({
+                    status: "success",
+                    message: `Successfully received ${cardData.length} card themes`,
+                    data: cardData
+                });
+            } else {
+                console.log("cc")
+                return res.status(204).json({
+                    status: "success",
+                    message: "The request has been processed but there is no card themes to return",
+                });
+            }
+
+        }
+
         const cardData = await cardThemeModel.find({});
 
         switch (filter) {

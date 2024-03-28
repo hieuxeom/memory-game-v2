@@ -24,7 +24,7 @@ class ApiUserController {
         } else {
             return res.status(204).json({
                 status: "success",
-                message: "The request has been processed but there is no user data to return",
+                message: "This request has been processed but there is no user data to return",
             })
         }
     }
