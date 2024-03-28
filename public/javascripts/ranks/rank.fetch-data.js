@@ -1,5 +1,5 @@
 export const fetchRankData = async () => {
-    const currentFilter = document.querySelector(".btn-rank-filter.active")?.getAttribute("data-filter") ?? "overall";
+    const currentFilter = document.querySelector(".btn-tab.active")?.getAttribute("data-filter") ?? "overall";
     const listRankContainer = document.getElementById("listRankContainer");
     let rankData = null;
     rankData = await getRankData(currentFilter);

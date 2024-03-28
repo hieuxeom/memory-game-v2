@@ -6,7 +6,7 @@ export interface IRankDataResponse {
 }
 
 export const fetchRankData = async () => {
-    const currentFilter = document.querySelector(".btn-rank-filter.active")?.getAttribute("data-filter") ?? "overall";
+    const currentFilter = document.querySelector(".btn-tab.active")?.getAttribute("data-filter") ?? "overall";
     const listRankContainer: HTMLElement = document.getElementById("listRankContainer") as HTMLElement;
     let rankData: null | IRankDataResponse[] = null;
 

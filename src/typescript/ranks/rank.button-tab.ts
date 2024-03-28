@@ -1,6 +1,6 @@
 import {fetchRankData} from "./rank.fetch-data.js";
 
-const listTabButton = document.querySelectorAll(".btn-rank-filter") as NodeListOf<HTMLButtonElement>;
+const listTabButton = document.querySelectorAll(".btn-tab") as NodeListOf<HTMLButtonElement>;
 const searchParams = new URLSearchParams(window.location.search);
 
 const tab = searchParams.get("tab");

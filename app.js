@@ -36,7 +36,7 @@ app.use("/", indexRouter);
 app.use("/home", indexRouter);
 app.use("/game", gameRouter);
 app.use("/rank", rankRouter);
-app.use("/theme", themeRouter);
+app.use("/themes", themeRouter);
 app.use("/api", apiRouter);
 app.use("/admin", permit("admin"), adminRouter);
 app.use("/auth", authRouter);

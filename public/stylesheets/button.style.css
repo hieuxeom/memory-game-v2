@@ -21,15 +21,15 @@
     border-bottom: 1px solid #ccc;
 }
 
-.btn-rank-filter.inactive {
+.btn-tab.inactive {
     --tab-bgColor: var(--secondary);
 }
 
-.btn-rank-filter.active {
+.btn-tab.active {
     --tab-bgColor: var(--primary);
 }
 
-.btn-rank-filter {
+.btn-tab {
     background: var(--tab-bgColor);
     font-size: 1.5rem;
     padding: .25rem 1rem;
@@ -38,7 +38,7 @@
     border-radius: 1rem 1rem 0 0;
 }
 
-.btn-rank-filter:before {
+.btn-tab:before {
     position: absolute;
     background: var(--tab-bgColor);
     content: "";
@@ -50,7 +50,7 @@
     transform: skew(-5deg)
 }
 
-.btn-rank-filter:after {
+.btn-tab:after {
     position: absolute;
     background: var(--tab-bgColor);
     content: "";
