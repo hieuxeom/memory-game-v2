@@ -1,3 +1,5 @@
+import {IApiResponse} from "../type/response";
+
 export interface IRankDataResponse {
     gameScore: number;
     displayName: string;
@@ -9,7 +11,6 @@ export const fetchRankData = async () => {
     let rankData: null | IRankDataResponse[] = null;
 
     rankData = await getRankData(currentFilter);
-    console.log(rankData);
 
     if (rankData) {
         listRankContainer.innerHTML = rankData.map((row, index) => {
@@ -28,8 +29,14 @@ export const fetchRankData = async () => {
 
 const getRankData = (filter: string): Promise<IRankDataResponse[]> => {
     return new Promise((resolve, reject) => {
-        fetch(`/api/ranks?filter=${filter}`).then(res => res.json()).then(res => {
-            resolve(res)
+        fetch(`/api/ranks?filter=${filter}`)
+            .then((res: Response) => res.json())
+            .then((res: IApiResponse) => {
+            if (res.status === "success") {
+                resolve(res.data)
+            } else {
+                reject(null)
+            }
         })
     })
 }

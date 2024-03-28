@@ -3,7 +3,6 @@ export const fetchRankData = async () => {
     const listRankContainer = document.getElementById("listRankContainer");
     let rankData = null;
     rankData = await getRankData(currentFilter);
-    console.log(rankData);
     if (rankData) {
         listRankContainer.innerHTML = rankData.map((row, index) => {
             return `<div class="flex justify-between items-center px-4 py-2 bg-white rounded-lg shadow-md">
@@ -20,8 +19,15 @@ export const fetchRankData = async () => {
 };
 const getRankData = (filter) => {
     return new Promise((resolve, reject) => {
-        fetch(`/api/ranks?filter=${filter}`).then(res => res.json()).then(res => {
-            resolve(res);
+        fetch(`/api/ranks?filter=${filter}`)
+            .then((res) => res.json())
+            .then((res) => {
+            if (res.status === "success") {
+                resolve(res.data);
+            }
+            else {
+                reject(null);
+            }
         });
     });
 };

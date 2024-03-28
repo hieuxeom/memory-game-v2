@@ -29,15 +29,19 @@ class ApiRankController {
             if (!gameData.userId.includes("guestPlayer")) {
                 const userData = await userModel.findById(gameData.userId);
                 user.displayName = userData.displayName;
+
             } else {
                 user.displayName = id;
             }
             return user;
         }));
 
-
-
-        res.status(200).json(listTop.sort((a,b)=> b.gameScore - a.gameScore));
+        const responseData = listTop.sort((a, b) => b.gameScore - a.gameScore);
+        return res.status(200).json({
+            status: "success",
+            message: "Successfully received current ranking data",
+            data: responseData
+        });
     }
 
     // async getWithFilter(req, res, next) {
