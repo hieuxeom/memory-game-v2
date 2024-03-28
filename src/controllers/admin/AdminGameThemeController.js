@@ -68,6 +68,8 @@ class AdminGameThemeController {
         return res.render("admin/game-themes/edit", {
             containerId: "siteContainer",
             class: "px-8 py-2",
+            title: "Edit Theme",
+            buttonBackRef: "/admin/game-themes/all",
             listScripts: [
                 {
                     path: "admin/game.edit.js",

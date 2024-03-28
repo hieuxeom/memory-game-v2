@@ -5,9 +5,23 @@ const themeTotalItemsDetail = document.getElementById("themeTotalItemsDetail");
 const themePlayedDetail = document.getElementById("themePlayedDetail");
 const themeThumbnail = document.getElementById("themeThumbnail");
 const listThemeDataContainer = document.getElementById("listThemeDataContainer");
-const fetchCardData = fetch(`/api/card-themes/${currentCardThemeId}`).then((response) => response.json());
-const fetchGameData = fetch(`/api/game-themes/${gameThemeId}/`).then((response) => response.json());
+const fetchCardData = fetch(`/api/card-themes/${currentCardThemeId}`)
+    .then((res) => res.json())
+    .then((res) => {
+    console.log(res);
+    if (res.status === "success") {
+        return res.data;
+    }
+});
+const fetchGameData = fetch(`/api/game-themes/${gameThemeId}/`)
+    .then((res) => res.json())
+    .then((res) => {
+    if (res.status === "success") {
+        return res.data;
+    }
+});
 Promise.all([fetchCardData, fetchGameData]).then(([cardData, gameData]) => {
+    console.log(cardData, gameData);
     const { cardFront } = cardData;
     themeNameDetail.innerHTML = gameData.themeName;
     themeTotalItemsDetail.innerHTML = gameData.themeData.length.toString();

@@ -1,5 +1,6 @@
 import {ICardThemeResponse} from "../type/cardTheme";
 import {IGameData, IGameThemeResponse} from "../type/gameTheme";
+import {IApiResponse} from "../type/response";
 
 const gameThemeId: string = (document.getElementById("gameThemeId") as HTMLInputElement).value;
 const currentCardThemeId: string = localStorage.getItem("cardTheme") ?? "";
@@ -9,10 +10,24 @@ const themePlayedDetail: HTMLElement = document.getElementById("themePlayedDetai
 const themeThumbnail: HTMLImageElement = document.getElementById("themeThumbnail") as HTMLImageElement;
 const listThemeDataContainer: HTMLElement = document.getElementById("listThemeDataContainer") as HTMLElement;
 
-const fetchCardData = fetch(`/api/card-themes/${currentCardThemeId}`).then((response) => response.json());
-const fetchGameData = fetch(`/api/game-themes/${gameThemeId}/`).then((response) => response.json());
+const fetchCardData = fetch(`/api/card-themes/${currentCardThemeId}`)
+    .then((res) => res.json())
+    .then((res: IApiResponse) => {
+        console.log(res)
+        if (res.status === "success") {
+            return res.data
+        }
+    });
+const fetchGameData = fetch(`/api/game-themes/${gameThemeId}/`)
+    .then((res) => res.json())
+    .then((res: IApiResponse) => {
+        if (res.status === "success") {
+            return res.data
+        }
+    });
 
 Promise.all([fetchCardData, fetchGameData]).then(([cardData, gameData]: [ICardThemeResponse, IGameThemeResponse]) => {
+    console.log(cardData, gameData);
     const {cardFront} = cardData;
 
     themeNameDetail.innerHTML = gameData.themeName;

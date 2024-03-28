@@ -1,5 +1,6 @@
 import {IGameThemeResponse} from "../type/gameTheme";
 import {parseGameData} from "./game.utils.js";
+import {IApiResponse} from "../type/response";
 
 const gameThemeId: string = (document.getElementById("themeId") as HTMLInputElement)?.value ?? "";
 
@@ -9,10 +10,15 @@ const gameThumbnail: HTMLInputElement = document.getElementById("themeThumbnail"
 const listThemeTypes: NodeListOf<HTMLInputElement> = document.getElementsByName("themeDataType")! as NodeListOf<HTMLInputElement>;
 const submitEditButton: HTMLButtonElement = document.getElementById("submitButton") as HTMLButtonElement;
 const onLoad = () => {
-    fetch(`/api/game-themes/${gameThemeId}`).then((res) => res.json()).then((themeData: IGameThemeResponse) => {
-        gameThemeName.value = themeData.themeName;
-        gameThemeData.value = themeData.rawData;
-    })
+    fetch(`/api/game-themes/${gameThemeId}`)
+        .then((res: Response) => res.json())
+        .then((res: IApiResponse) => {
+            if (res.status === "success") {
+                const {themeName, rawData} = res.data;
+                gameThemeName.value = themeName;
+                gameThemeData.value = rawData;
+            }
+        })
 }
 
 submitEditButton.addEventListener("click", (e) => {

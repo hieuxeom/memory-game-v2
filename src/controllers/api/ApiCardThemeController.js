@@ -1,5 +1,6 @@
 const cardThemeModel = require("../../models/CardThemeModel");
 const { Alphabets } = require("../../utils/alphabets");
+const gameThemeModel = require("../../models/GameThemeModel");
 
 class ApiCardThemeController {
     async getWithFilter(req, res, next) {
@@ -26,15 +27,22 @@ class ApiCardThemeController {
             default:
                 return res.status(200).json({
                     status: "success",
-                    mesage: `Successfully received ${cardData.length} card themes`,
+                    message: `Successfully received ${cardData.length} card themes`,
                     data: cardData
                 });
         }
     }
 
     async getThemeById(req, res, next) {
+
         const { themeId } = req.params;
-        return res.status(200).json(await cardThemeModel.findById(themeId));
+
+        const cardThemeData = await cardThemeModel.findById(themeId);
+        return res.status(200).json({
+            status: "success",
+            message: `Successfully received data of _id = ${cardThemeData._id}`,
+            data: cardThemeData
+        })
     }
 
     async post(req, res, next) {
