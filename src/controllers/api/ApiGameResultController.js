@@ -52,18 +52,24 @@ class ApiGameResultController {
 
             if (saveGameHistory)
                 return res.status(201).json({
-                    message: "Handle game results successfully",
+                    status: "success",
+                    message: "Save game results successfully",
                 });
             else {
-                return res.status(400).json({
-                    message: "Error",
-                });
+                return res.status(503).json({
+                    status: "error",
+                    message: "There is a problem from the server",
+                })
             }
         } catch (err) {
-            return res.status(400).json({
-                message: "Bad request",
-                description: err.message,
-            });
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
         }
     }
 }

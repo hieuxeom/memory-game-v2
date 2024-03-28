@@ -64,13 +64,13 @@ router.post("/auth/change-pwd", apiAuth.changePassword)
 // User API router
 router.get("/users", apiUser.getAllUsers);
 router.get("/users/:userId", apiUser.getUserById);
-router.get("/users/:userId/game-history", apiUser.getPlayerGameHistory);
 
 // Game Result API routers
 router.post("/game-results", apiGameResult.createNewResult)
 
 //  Game History router
 router.get("/game-history", apiGameHistory.get);
+router.get("/game-history/:userId", apiGameHistory.getPlayerGameHistory);
 
 // Charts History
 router.get("/charts/game-themes", apiChart.handleGameTheme);
