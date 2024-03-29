@@ -1,18 +1,39 @@
 const gameThemeModel = require("../../models/GameThemeModel");
-const cardThemeModel = require("../../models/CardThemeModel");
 const { Alphabets } = require("../../utils/alphabets");
 
 class ApiGameThemeController {
     async getAllGameThemes(req, res, next) {
         // return res.json(await gameThemeModel.find({}));
-        const { filter } = req.query
+        const { filter, _s } = req.query
+
+        if (_s) {
+            const gameThemeData = await gameThemeModel.find({
+                themeName: {
+                    $regex: new RegExp(_s, 'i')
+                }
+            })
+            if (gameThemeData.length > 0) {
+                return res.status(200).json({
+                    status: "success",
+                    message: `Successfully received ${gameThemeData.length} game themes`,
+                    data: gameThemeData
+                });
+            } else {
+                return res.status(204).json({
+                    status: "success",
+                    message: "The request has been processed but there is no game themes to return"
+                });
+            }
+
+        }
+
         const gameThemeData = await gameThemeModel.find({});
 
         switch (filter) {
             case "alphabets":
                 let results = [];
                 for (let x of Alphabets) {
-                    let regexFilter = new RegExp(`^[${x}${x.toLowerCase()}]`);
+                    let regexFilter = new RegExp(` ^ [${x}${x.toLowerCase()}]`);
                     results.push({
                         title: x,
                         data: gameThemeData.filter((card) => regexFilter.test(card.themeName))
@@ -20,14 +41,25 @@ class ApiGameThemeController {
                 }
                 return res.status(200).json({
                     status: "success",
-                    message: `Successfully received ${gameThemeData.length} game themes sorted by A - Z`,
+                    message: `
+                Successfully
+                received ${gameThemeData.length}
+                game
+                themes
+                sorted
+                by
+                A - Z`,
                     data: results
                 });
 
             default:
                 return res.status(200).json({
                     status: "success",
-                    message: `Successfully received ${gameThemeData.length} game themes`,
+                    message: `
+                Successfully
+                received ${gameThemeData.length}
+                game
+                themes`,
                     data: gameThemeData
                 });
         }
@@ -39,7 +71,12 @@ class ApiGameThemeController {
         const gameThemeData = await gameThemeModel.findById(gameThemeId);
         return res.status(200).json({
             status: "success",
-            message: `Successfully received data of _id = ${gameThemeData._id}`,
+            message: `
+                Successfully
+                received
+                data
+                of
+                _id = ${gameThemeData._id}`,
             data: gameThemeData
         })
     }
@@ -116,7 +153,7 @@ class ApiGameThemeController {
             if (editStatus) {
                 return res.status(303).json({
                     status: "redirect",
-                    url: `/admin/game-themes/${themeId}`
+                    url: ` / admin / game - themes /${themeId}`
                 })
             } else {
                 return res.status(503).json({

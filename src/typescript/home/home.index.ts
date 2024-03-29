@@ -12,7 +12,7 @@ viewRank?.addEventListener("click", () => {
 });
 
 viewTheme?.addEventListener("click", () => {
-	window.location.href = "/theme";
+	window.location.href = "/themes?tab=card-themes";
 });
 viewUser?.addEventListener("click", () => {
 	window.location.href = "/user";

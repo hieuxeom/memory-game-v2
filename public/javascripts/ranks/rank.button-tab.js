@@ -1,5 +1,5 @@
 import { fetchRankData } from "./rank.fetch-data.js";
-const listTabButton = document.querySelectorAll(".btn-rank-filter");
+const listTabButton = document.querySelectorAll(".btn-tab");
 const searchParams = new URLSearchParams(window.location.search);
 const tab = searchParams.get("tab");
 const handleSetInActiveTab = () => {

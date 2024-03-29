@@ -1,20 +1,20 @@
 <header class="w-full flex justify-between items-center">
-	<a href="/" class="button-normal active text-white rounded-full">Back</a>
-	<h1 class="text-4xl text-secondary">Your themes</h1>
-	<div id="timer" class="opacity-0 text-white px-8 py-2 rounded-full">
-		<p class="text-[1.5rem]">12:00</p>
-	</div>
+    <a href="/" class="button-normal active text-white rounded-full">Back</a>
+    <h1 class="text-4xl text-secondary">Your themes</h1>
+    <div id="timer" class="opacity-0 text-white px-8 py-2 rounded-full">
+        <p class="text-[1.5rem]">12:00</p>
+    </div>
 </header>
 <main>
-	<div class="flex flex-col items-center justify-start w-full h-[40%] relative mt-16">
-		<h3 class="text-2xl">Card themes</h3>
-		<div id="cardThemeContainer" class="w-11/12 overflow-y-scroll p-4 grid grid-cols-4 gap-4 rounded-xl style-4">
-		</div>
-
-	</div>
-	<div class="flex flex-col items-center justify-start w-full h-[40%] relative">
-		<h3 class="text-2xl">Game themes</h3>
-		<div id="gameThemeContainer" class="w-11/12 overflow-y-scroll p-4 grid grid-cols-4 gap-4 rounded-xl style-4">
-		</div>
-	</div>
+    <div class="flex flex-col gap-4 items-center justify-start w-full h-max relative mt-16">
+        <header class="btn-rank-group w-full flex justify-center items-center gap-12">
+            <button data-tab="card-themes" class="btn-tab active">Card Themes</button>
+            <button data-tab="game-themes" class="btn-tab inactive">Game Themes</button>
+        </header>
+        <div class="w-10/12">
+            <input type="text" name="searchBox" id="searchBox" placeholder="Search themes"/>
+        </div>
+        <div id="themeContainer" class="w-11/12 overflow-y-scroll p-4 grid grid-cols-4 gap-4 rounded-xl style-4">
+        </div>
+    </div>
 </main>
