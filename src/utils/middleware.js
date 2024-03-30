@@ -46,4 +46,14 @@ const permit = (requireRole) => {
     };
 }
 
-module.exports = { loadDb, authentication, permit };
+const isExpired = () => {
+    return (req, res, next) => {
+        if (!req.cookies._id) {
+            return res.redirect("/auth/signout")
+        } else {
+            next();
+        }
+    }
+}
+
+module.exports = { loadDb, authentication, permit, isExpired };

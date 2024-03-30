@@ -7,7 +7,7 @@ const logger = require("morgan");
 const multer = require("multer");
 const hbs = require("hbs")
 const app = express();
-const { loadDb, authentication, permit } = require("./src/utils/middleware")
+const { loadDb, authentication, permit, isExpired } = require("./src/utils/middleware")
 hbs.registerPartials(path.join(__dirname, "src/views/partials"));
 
 // view engine setup
@@ -40,7 +40,7 @@ app.use("/themes", themeRouter);
 app.use("/api", apiRouter);
 app.use("/admin", permit("admin"), adminRouter);
 app.use("/auth", authRouter);
-app.use("/user", userRouter);
+app.use("/user", isExpired(), userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

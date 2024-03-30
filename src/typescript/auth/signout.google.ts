@@ -7,8 +7,7 @@ const signOutButton: HTMLButtonElement = document.getElementById("signOutButton"
 
 signOutButton.addEventListener("click", () => {
     signOut(auth).then((res: any) => {
-        localStorage.removeItem("userData");
         deleteCookie("_id")
-        window.location.href = "/auth";
+        window.location.href = "/auth/signout.hbs";
     });
 });
