@@ -1,3 +1,8 @@
+type userVipItemsType = {
+    cardThemes: [],
+    gameThemes: []
+}
+
 export interface IUser {
     _id: string;
     displayName: string;
@@ -9,6 +14,7 @@ export interface IUser {
     gamePlayed: number;
     mostPlayedSize: string;
     mostPlayedTime: number;
+    userVipItems: userVipItemsType;
     createdAt: string;
     updatedAt: string;
 }

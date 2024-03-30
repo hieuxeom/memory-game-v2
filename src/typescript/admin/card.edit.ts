@@ -8,6 +8,7 @@ const themeId: HTMLInputElement = document.getElementById("themeId") as HTMLInpu
 const themeName: HTMLInputElement = document.getElementById("themeName") as HTMLInputElement;
 const cardFront: HTMLInputElement = document.getElementById("cardFront") as HTMLInputElement;
 const cardBack: HTMLInputElement = document.getElementById("cardBack") as HTMLInputElement;
+const isVip: HTMLInputElement = document.getElementById("isVip") as HTMLInputElement;
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -16,6 +17,7 @@ submitButton.addEventListener("click", (event) => {
     editData.append("themeName", themeName.value);
     editData.append("cardFront", cardFront.files ? cardFront.files[0] : "");
     editData.append("cardBack", cardBack.files ? cardBack.files[0] : "");
+    editData.append("isVip", `${isVip.checked}`);
 
     const requestOptions = {
         method: "PUT",

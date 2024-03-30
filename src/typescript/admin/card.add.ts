@@ -14,6 +14,7 @@ const cardFrontValid: HTMLElement = document.getElementById("cardFrontValid") as
 const cardBack: HTMLInputElement = document.getElementById("cardBack") as HTMLInputElement;
 const cardBackValid: HTMLElement = document.getElementById("cardBackValid") as HTMLElement;
 
+const isVip: HTMLInputElement = document.getElementById("isVip") as HTMLInputElement;
 const status: HTMLElement = document.getElementById("status") as HTMLElement;
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ submitButton.addEventListener("click", (event) => {
     postData.append("themeName", themeName.value);
     postData.append("cardFront", cardFront.files ? cardFront.files[0] : "");
     postData.append("cardBack", cardBack.files ? cardBack.files[0] : "");
+    postData.append("isVip", `${isVip.checked}`);
 
     const requestOptions = {
         method: "POST",

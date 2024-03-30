@@ -40,7 +40,6 @@
 
 #formContainer .form-row {
     display: flex;
-    flex-direction: column;
     gap: .5rem;
 }
 
@@ -53,13 +52,17 @@
 }
 
 input:not([type="submit"], [type="radio"]),
-input:not([type="radio"]),
 textarea {
     width: 100%;
     font-size: 1.5rem;
     border-radius: 0.5rem;
     box-shadow: 3px 3px 0px 0px #182c45, -3px 3px 0px 0px #f95c47, inset 0px 3px 0px 0px #f95c47;
     padding: 4px 8px;
+}
+
+input[type="checkbox"] {
+    width: max-content;
+    box-shadow: none;
 }
 
 /*

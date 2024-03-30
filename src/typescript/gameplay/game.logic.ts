@@ -62,7 +62,11 @@ export const gameLogic = (listCards: string[]) => {
         countOpenCard = 0;
         compareValue = [];
         return listOfCards.forEach((card) => {
-            if (!card.className.includes("matched")) card.classList.remove("open");
+            if (!card.className.includes("matched") && card.className.includes("open")) {
+                card.classList.remove("open");
+                card.classList.remove("open-effect")
+                card.classList.add("close-effect")
+            }
         });
     };
 
@@ -71,7 +75,9 @@ export const gameLogic = (listCards: string[]) => {
             if (countOpenCard < 2) {
                 if (!card.className.includes("open")) {
                     countOpenCard++;
+                    card.classList.remove("close-effect")
                     card.classList.add("open");
+                    card.classList.add("open-effect")
                     compareValue.push(card);
                     if (countOpenCard === 2) {
                         totalTurn++;
@@ -99,6 +105,8 @@ export const gameLogic = (listCards: string[]) => {
                     countOpenCard--;
                     compareValue = [];
                     card.classList.remove("open");
+                    card.classList.remove("open-effect");
+                    card.classList.add("close-effect")
                 }
             }
         });

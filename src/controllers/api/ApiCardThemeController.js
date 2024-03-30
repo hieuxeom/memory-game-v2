@@ -69,7 +69,7 @@ class ApiCardThemeController {
     }
 
     async post(req, res, next) {
-        const { themeName } = req.body;
+        const { themeName, isVip } = req.body;
         let { cardFront, cardBack } = req.files;
 
         cardFront = cardFront[0];
@@ -79,6 +79,7 @@ class ApiCardThemeController {
             themeName,
             cardFront: cardFront.filename,
             cardBack: cardBack.filename,
+            isVip: isVip === "true",
         });
 
         const createNewCardTheme = await newCardTheme.save();
@@ -102,12 +103,13 @@ class ApiCardThemeController {
 
     async put(req, res, next) {
         try {
-            const { themeId, themeName } = req.body;
+            const { themeId, themeName, isVip } = req.body;
 
             let { cardFront, cardBack } = req.files;
 
             let updateData = {
                 themeName,
+                isVip: isVip === "true"
             };
 
             if (cardFront) {

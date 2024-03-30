@@ -56,17 +56,16 @@ export class GameCard extends Card {
 
     render(isNormal?: boolean) {
         return `<div data-value="${this.getValue()}"
-                    class="card relative shadow-lg h-[${isNormal ? "170" : "135"}px] rounded-lg overflow-hidden"
+                    class="card relative bg-transparent shadow-lg h-[${isNormal ? "170" : "135"}px] rounded-lg overflow-hidden"
                 >
                     <div class="card-back h-full">
                         <img src="/images/themepacks/${this.cardBack}" class="w-full h-full" alt=""/>
                     </div>
-                    <div class="card-front w-full h-full">
-                        <div>
+                    <div class="bg-transparent card-front w-full h-full">
+                        <div class="bg-transparent">
                             <img src="/images/themepacks/${this.cardFront}" class="w-full h-full" alt/>
                         </div>
-                        <div class="absolute top-0 left-0 bg-white w-auto h-full shadow-lg"></div>
-                        <div class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+                        <div class="bg-transparent absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
                             <i class="${this.icon} text-4xl"></i>
                         </div>
                     </div>

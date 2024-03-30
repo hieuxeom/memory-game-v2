@@ -14,8 +14,9 @@ if (filter === "default") {
                 listThemesContainer.innerHTML = listCardThemes
                     .map((cardTheme: ICardThemeResponse) => {
                         return `<div class="text-xl flex justify-between items-center">
-                            <div class="w-3/4">
+                            <div class="w-3/4 flex items-center gap-2">
                                 <p class="text-secondary">${cardTheme.themeName}</p>
+                                ${cardTheme.isVip ? ("<span class='tag-vip'>VIP</span>") : ""}
                             </div>
                             <div class="w-1/4 flex justify-center items-center gap-4">
                                 <a href="/admin/card-themes/edit/${cardTheme._id}"
@@ -49,11 +50,12 @@ if (filter === "default") {
                         if (data.length < 1) {
                             return null
                         }
-                        const mapData = data.map(({_id, themeName}: ICardThemeResponse) => {
+                        const mapData = data.map(({_id, themeName, isVip}: ICardThemeResponse) => {
                             return `<div class="text-xl w-full flex justify-between items-center">
-                                <div class="w-3/4">
-                                    <p class="text-secondary">${themeName}</p>
-                                </div>
+                                <div class="w-3/4 flex items-center gap-2">
+                                <p class="text-secondary">${themeName}</p>
+                                ${isVip ? ("<span class='tag-vip'>VIP</span>") : ""}
+                            </div>
                                 <div class="w-1/4 flex justify-center items-center gap-4">
                                     <a href="/admin/card-themes/edit/${_id}"
                                        class="block flex justify-center items-center text-sm text-white rounded-xl bg-warning w-8 h-8"

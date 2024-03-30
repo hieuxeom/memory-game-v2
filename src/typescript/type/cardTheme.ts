@@ -3,6 +3,7 @@ export interface ICardThemeResponse {
     cardBack: string;
     cardFront: string;
     themeName: string;
+    isVip: boolean
 }
 
 export interface ICardFilterResponse {

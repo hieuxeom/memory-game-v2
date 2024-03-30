@@ -1,3 +1,5 @@
+import {IUser} from "../type/user";
+
 const listTabs = document.querySelectorAll(".btn-tab") as NodeListOf<HTMLButtonElement>;
 
 const searchParams = new URLSearchParams(window.location.search);
@@ -14,3 +16,19 @@ listTabs.forEach((button) => {
         window.location.href = `/themes?tab=${button.getAttribute("data-tab")}`;
     })
 })
+
+export const getListVipCards = () => {
+    if (localStorage.getItem("userData")) {
+        return (JSON.parse(localStorage.getItem("userData")!) as IUser).userVipItems.cardThemes;
+    } else {
+        return []
+    }
+}
+
+export const getListVipGames = () => {
+    if (localStorage.getItem("userData")) {
+        return (JSON.parse(localStorage.getItem("userData")!) as IUser).userVipItems.gameThemes;
+    } else {
+        return []
+    }
+}

@@ -1,4 +1,3 @@
-"use strict";
 const listTabs = document.querySelectorAll(".btn-tab");
 const searchParams = new URLSearchParams(window.location.search);
 const tab = searchParams.get("tab") ?? "card-themes";
@@ -15,3 +14,19 @@ listTabs.forEach((button) => {
         window.location.href = `/themes?tab=${button.getAttribute("data-tab")}`;
     });
 });
+export const getListVipCards = () => {
+    if (localStorage.getItem("userData")) {
+        return JSON.parse(localStorage.getItem("userData")).userVipItems.cardThemes;
+    }
+    else {
+        return [];
+    }
+};
+export const getListVipGames = () => {
+    if (localStorage.getItem("userData")) {
+        return JSON.parse(localStorage.getItem("userData")).userVipItems.gameThemes;
+    }
+    else {
+        return [];
+    }
+};

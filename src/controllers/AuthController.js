@@ -31,7 +31,7 @@ class AuthController {
         })
     }
 
-    register(req, res,next){
+    register(req, res, next) {
         return res.render("auth/register", {
             containerId: "authContainer",
             class: "px-8 py-2",
@@ -41,6 +41,17 @@ class AuthController {
                     type: "module",
                 },
             ],
+        })
+    }
+
+    signout(req, res, next) {
+        return res.render("auth/signout.hbs", {
+            listScripts: [
+                {
+                    path: "/auth/signout.js",
+                    type: "module",
+                }
+            ]
         })
     }
 }

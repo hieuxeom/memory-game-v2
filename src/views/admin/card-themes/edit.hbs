@@ -1,9 +1,9 @@
 {{> adminHeader title=title buttonBackRef=buttonBackRef}}
-<main class="flex flex-col justify-center w-full h-max relative">
+<main class="flex flex-col gap-4 justify-center w-full h-max relative">
     <form
         action="/api/card-themes"
         id="formContainer"
-        class="w-11/12 h-4/6 my-16 p-4 flex flex-col gap-4 rounded-xl"
+        class="w-11/12 h-max mt-16 p-4 flex flex-col gap-4 rounded-xl"
     >
         <input type="hidden" id="themeId" name="themeId" value="{{themeData._id}}"/>
         <div class="form-row flex flex-col gap-1 w-full">
@@ -17,6 +17,10 @@
         <div class="form-row flex flex-col gap-1 w-full">
             <label for="cardBack">Theme Back</label>
             <input type="file" id="cardBack" name="cardBack"/>
+        </div>
+        <div class="form-row flex flex-row items-center justify-start">
+            <input type="checkbox" name="isVip" id="isVip" {{#if themeData.isVip}} checked {{/if}}>
+            <label for="isVip">Is Vip Item?</label>
         </div>
         <div class="form-row">
             <input id="submitButton" type="submit" value="Submit" class="text-2xl bg-primary text-white px-8 py-2 rounded-full w-full"/>
