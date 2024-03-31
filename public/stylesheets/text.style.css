@@ -3,6 +3,11 @@
     text-shadow: 2px 2px 0px rgba(24,44,69,0.94);
 }
 
+.text-white-shadow {
+    color: white;
+    text-shadow: 2px 2px 0px rgba(24,44,69,0.94);
+}
+
 .text-header-shadow {
     color: var(--primary);
     text-shadow: 2px 2px 2px #182C45;

@@ -15,6 +15,7 @@ export interface IUser {
     mostPlayedSize: string;
     mostPlayedTime: number;
     userVipItems: userVipItemsType;
+    coins: Number;
     createdAt: string;
     updatedAt: string;
 }

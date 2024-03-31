@@ -6,6 +6,6 @@ const signOutButton = document.getElementById("signOutButton");
 signOutButton.addEventListener("click", () => {
     signOut(auth).then((res) => {
         deleteCookie("_id");
-        window.location.href = "/auth/signout.hbs";
+        window.location.href = "/auth/signout";
     });
 });

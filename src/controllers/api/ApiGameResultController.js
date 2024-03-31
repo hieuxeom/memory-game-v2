@@ -5,7 +5,7 @@ const userModel = require("../../models/UserModel");
 
 class ApiGameResultController {
     async createNewResult(req, res, next) {
-        const { userId, gameThemeId, cardThemeId } = req.body;
+        const { userId, gameThemeId, cardThemeId, totalCoins } = req.body;
 
         try {
             // save game history
@@ -16,6 +16,7 @@ class ApiGameResultController {
                 // count up game theme and card themes
                 const countUpGameTheme = await gameTheme.findByIdAndUpdate(gameThemeId, { $inc: { played: 1 } }, { new: true });
                 const countUpCardTheme = await cardTheme.findByIdAndUpdate(cardThemeId, { $inc: { used: 1 } }, { new: true });
+                const countUpPlayerCoins = await userModel.findByIdAndUpdate(userId, { $inc: { coins: totalCoins } }, { new: true });
 
                 // get history
                 const listUserHistory = await historyGameModel.find({

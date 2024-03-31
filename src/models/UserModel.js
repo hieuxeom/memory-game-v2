@@ -23,6 +23,7 @@ const UserSchema = new Schema(
         mostPlayedSize: { type: String },
         mostPlayedTime: { type: Number },
         gamePlayed: { type: Number, default: 0 },
+        coins: { type: Number, default: 0 },
         userVipItems: {
             type: UserVipItems, default: {
                 cardThemes: [],

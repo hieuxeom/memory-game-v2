@@ -45,7 +45,7 @@ class AuthController {
     }
 
     signout(req, res, next) {
-        return res.render("auth/signout.hbs", {
+        return res.render("auth/signout", {
             listScripts: [
                 {
                     path: "/auth/signout.js",

@@ -12,8 +12,9 @@ export class HistoryCard {
     gameTurn: number;
     gameTime: number;
     gameScore: number;
+    totalCoins: number;
 
-    constructor({cardThemeId, gameThemeId, gameSize, gameTime, gameTurn, gameScore, createdAt}: IHistoryResponse) {
+    constructor({cardThemeId, gameThemeId, gameSize, gameTime, gameTurn, gameScore, createdAt, totalCoins}: IHistoryResponse) {
         this.cardThemeId = cardThemeId
         this.gameThemeId = gameThemeId
         this.gameSize = gameSize
@@ -21,6 +22,7 @@ export class HistoryCard {
         this.gameTime = gameTime
         this.gameTurn = gameTurn
         this.gameScore = gameScore
+        this.totalCoins = totalCoins
     }
 
     convertTimeToString() {
@@ -66,10 +68,18 @@ export class HistoryCard {
                             <p class="text-4xl text-header-shadow">-</p>
                             <p class="text-6xl text-header-shadow">${this.gameScore}</p>
                         </div>
-                        <div class="flex gap-1 items-center">
-                            <p class="text-primary">${this.gameTurn}</p>
-                            <p>turns in</p>
-                            <p class="text-primary">${this.gameTime}s</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex gap-1 items-center">
+                                <p class="text-primary">${this.gameTurn}</p>
+                                <p>turns in</p>
+                                <p class="text-primary">${this.gameTime}s</p>
+                            </div>
+                            ${this.totalCoins ?
+                                `<div class="flex items-center gap-1">
+                                    <span class="noto--coin"></span>
+                                    <p class="text-primary">${this.totalCoins}</p>
+                                </div>`
+                                : ""}
                         </div>
                     </div>
                     <div class="w-1/2 flex justify-center gap-2 items-center">

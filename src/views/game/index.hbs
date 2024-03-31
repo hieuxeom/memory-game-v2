@@ -34,17 +34,49 @@
     </section>
 </main>
 
-<section id="notification" class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-800/50">
+<section id="notification" class=" absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-800/50">
     <div class="w-3/4 relative">
         <img src="/images/win_noti_2.png" alt="">
         <div class="absolute w-full top-28 left-0 transform-x-[-50%] flex flex-col gap-4">
             <div class="flex justify-between px-8">
                 <h3 class="text-secondary text-3xl">Your Score:</h3>
-                <h3 id="gameScore" class="text-primary-shadow text-3xl">1200</h3>
+                <h3 id="gameScore" class="bg-white px-4 py-0.5 text-header-shadow rounded-xl shadow-1 text-3xl">1200</h3>
             </div>
             <div class="flex justify-between px-8">
                 <h3 class="text-secondary text-3xl">Highest Score:</h3>
-                <h3 id="playerHighestScore" class="text-primary-shadow text-3xl">4900</h3>
+                <h3 id="playerHighestScore" class="bg-white text-header-shadow px-4 py-0.5 text-header-shadow rounded-xl shadow-1 text-3xl">4900</h3>
+            </div>
+            <div class="flex justify-between px-8">
+                <h3 class="text-secondary text-3xl">Total Coins:</h3>
+                <div class="flex items-center gap-1 bg-white text-3xl px-4 py-0.5 text-header-shadow rounded-xl shadow-1 text-3xl">
+                    <span class="noto--coin"></span>
+                    <h3 id="totalCoins" class="">4900</h3>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between px-8 text-xl">
+                    <h4 class="text-secondary">Score Coins:</h4>
+                    <div class="flex items-center text-white-shadow gap-1">
+                        <span class="noto--coin"></span>
+                        <p id="scoreCoins">100</p>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex justify-between px-8 text-xl">
+                        <h4 class="text-secondary">Size Bonus:</h4>
+                        <div class="flex items-center text-white-shadow gap-1">
+                            <span class="noto--coin"></span>
+                            <p id="gameSizeBonus">100</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between px-8 text-xl">
+                        <h4 class="text-secondary">Time Bonus:</h4>
+                        <div class="flex items-center text-white-shadow gap-1">
+                            <span class="noto--coin"></span>
+                            <p id="gameTimeBonus">100</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="absolute text-2xl  left-12 bottom-10 flex justify-between">

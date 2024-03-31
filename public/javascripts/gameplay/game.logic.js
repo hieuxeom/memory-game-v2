@@ -11,7 +11,7 @@ function shuffleAndSlice(array, length) {
     array.length = length / 2;
     return [...array, ...array];
 }
-const getCurrentScore = () => {
+export const getCurrentScore = () => {
     return Number(scoreValue.getAttribute("data-score"));
 };
 const setNewScore = (newScore) => {
@@ -32,7 +32,8 @@ const setTotalTurn = (totalTurn) => {
     return localStorage.setItem('gameTurn', totalTurn.toString());
 };
 export const gameLogic = (listCards) => {
-    let countOpenCard = 0;
+    let countOpenCards = 0;
+    let countMatchedCards = 0;
     let compareValue = [];
     let turnClick = 1;
     let totalTurn = localStorage.getItem('gameTurn') ? Number(localStorage.getItem('gameTurn')) : 0;
@@ -40,7 +41,7 @@ export const gameLogic = (listCards) => {
     gameContainer.innerHTML = gameData.join("");
     const listOfCards = document.querySelectorAll(".card");
     const handleHideCard = () => {
-        countOpenCard = 0;
+        countOpenCards = 0;
         compareValue = [];
         return listOfCards.forEach((card) => {
             if (!card.className.includes("matched") && card.className.includes("open")) {
@@ -52,26 +53,30 @@ export const gameLogic = (listCards) => {
     };
     listOfCards.forEach((card) => {
         card.addEventListener("click", () => {
-            if (countOpenCard < 2) {
+            if (countOpenCards < 2) {
                 if (!card.className.includes("open")) {
-                    countOpenCard++;
+                    countOpenCards++;
                     card.classList.remove("close-effect");
                     card.classList.add("open");
                     card.classList.add("open-effect");
                     compareValue.push(card);
-                    if (countOpenCard === 2) {
+                    if (countOpenCards === 2) {
                         totalTurn++;
                         setTotalTurn(totalTurn);
                         if (isMatch(compareValue)) {
-                            compareValue.forEach((e) => {
-                                e.style.visibility = 'hidden';
-                                e.classList.add("matched");
-                            });
+                            let tempCompare = compareValue;
+                            countMatchedCards += 2;
+                            setTimeout(() => {
+                                tempCompare.forEach((e) => {
+                                    e.style.visibility = 'hidden';
+                                    e.classList.add("matched");
+                                });
+                            }, 500);
                             setNewScore(getCurrentScore() + calculateScore(turnClick));
                             turnClick = 1;
                             compareValue = [];
-                            countOpenCard = 0;
-                            if (document.querySelectorAll(".matched").length === sizeGame && Number(timer.getAttribute("data-time")) > 0) {
+                            countOpenCards = 0;
+                            if (countMatchedCards === sizeGame && Number(timer.getAttribute("data-time")) > 0) {
                                 setTimeout(() => gameLogic(listCards), 250);
                             }
                         }
@@ -84,7 +89,7 @@ export const gameLogic = (listCards) => {
                     }
                 }
                 else {
-                    countOpenCard--;
+                    countOpenCards--;
                     compareValue = [];
                     card.classList.remove("open");
                     card.classList.remove("open-effect");

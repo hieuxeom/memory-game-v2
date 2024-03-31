@@ -1,6 +1,8 @@
 import { renderGame } from "./game.generator.js";
 import { Timer } from "../utils/Timer.js";
 import { showNotifyBoard } from "./game.notify.js";
+import { gameTime, gameSize } from "../type/general.js";
+import { getCurrentScore } from "./game.logic.js";
 const selectTimeContainer = document.getElementById("selectGameTime");
 const buttonStart = document.getElementById("startGame");
 const handleUnSelectTime = (listTimes) => {
@@ -44,9 +46,68 @@ const startGame = async () => {
         await renderGame();
     }
 };
+const calculateCoins = () => {
+    const currentScore = getCurrentScore();
+    let scoreCoin = currentScore * 10 / 100;
+    let gameSizeBonus = 0;
+    let gameTimeBonus = 0;
+    const sizeGame = gameSize === "4x4" ? 16 : 20;
+    switch (sizeGame) {
+        case 16:
+            if (currentScore > 10000) {
+                gameSizeBonus = 200;
+            }
+            else if (currentScore > 5000) {
+                gameSizeBonus = 100;
+            }
+            break;
+        case 20:
+            if (currentScore > 10000) {
+                gameSizeBonus = 400;
+            }
+            else if (currentScore > 5000) {
+                gameSizeBonus = 200;
+            }
+            break;
+    }
+    switch (gameTime) {
+        case "60":
+            if (currentScore > 10000) {
+                gameTimeBonus = 500;
+            }
+            else if (currentScore > 5000) {
+                gameTimeBonus = 250;
+            }
+            break;
+        case "120":
+            if (currentScore > 15000) {
+                gameTimeBonus = 500;
+            }
+            else if (currentScore > 10000) {
+                gameTimeBonus = 250;
+            }
+            break;
+        case "300":
+            if (currentScore > 20000) {
+                gameTimeBonus = 500;
+            }
+            else if (currentScore > 15000) {
+                gameTimeBonus = 250;
+            }
+            break;
+        default:
+            break;
+    }
+    return {
+        scoreCoin,
+        gameTimeBonus,
+        gameSizeBonus,
+        totalCoins: scoreCoin + gameTimeBonus + gameSizeBonus,
+    };
+};
 const handleGameWin = () => {
     let _id = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData"))._id : null;
-    console.log(_id);
+    const { scoreCoin, gameTimeBonus, gameSizeBonus, totalCoins } = calculateCoins();
     if (!_id) {
         if (localStorage.getItem("guestId")) {
             _id = localStorage.getItem("guestId");
@@ -70,6 +131,7 @@ const handleGameWin = () => {
         gameSize,
         gameScore,
         gameTurn,
+        totalCoins,
     };
     fetch("/api/game-results", {
         method: "POST",
@@ -81,10 +143,10 @@ const handleGameWin = () => {
         .then((res) => res.json())
         .then((log) => console.log(log));
     if (_id) {
-        showNotifyBoard(gameScore);
+        showNotifyBoard(gameScore, totalCoins, scoreCoin, gameSizeBonus, gameTimeBonus);
     }
     else {
-        showNotifyBoard(gameScore, false);
+        showNotifyBoard(gameScore);
     }
 };
 const gameFlow = () => {
