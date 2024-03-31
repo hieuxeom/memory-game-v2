@@ -4,6 +4,7 @@ export interface ICardThemeResponse {
     cardFront: string;
     themeName: string;
     isVip: boolean
+    price: number;
 }
 
 export interface ICardFilterResponse {

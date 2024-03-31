@@ -31,6 +31,7 @@ const apiRouter = require("./src/routes/apiRouter");
 const adminRouter = require("./src/routes/adminRouter");
 const authRouter = require("./src/routes/authRouter");
 const userRouter = require("./src/routes/userRouter.js");
+const shopRouter = require("./src/routes/shopRouter.js");
 
 app.use("/", indexRouter);
 app.use("/home", indexRouter);
@@ -41,6 +42,7 @@ app.use("/api", apiRouter);
 app.use("/admin", permit("admin"), adminRouter);
 app.use("/auth", authRouter);
 app.use("/user", isExpired(), userRouter);
+app.use("/shop", shopRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -3,6 +3,10 @@ const playGame = document.getElementById("playGame");
 const viewRank = document.getElementById("viewRank");
 const viewTheme = document.getElementById("viewTheme");
 const viewUser = document.getElementById("viewUser");
+const viewShop = document.getElementById("viewShop");
+viewShop?.addEventListener("click", () => {
+    window.location.href = "/shop";
+});
 playGame?.addEventListener("click", () => {
     window.location.href = "/game";
 });

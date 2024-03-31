@@ -8,6 +8,7 @@ const cardFrontValid = document.getElementById("cardFrontValid");
 const cardBack = document.getElementById("cardBack");
 const cardBackValid = document.getElementById("cardBackValid");
 const isVip = document.getElementById("isVip");
+const price = document.getElementById("price");
 const status = document.getElementById("status");
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -16,6 +17,7 @@ submitButton.addEventListener("click", (event) => {
     postData.append("cardFront", cardFront.files ? cardFront.files[0] : "");
     postData.append("cardBack", cardBack.files ? cardBack.files[0] : "");
     postData.append("isVip", `${isVip.checked}`);
+    postData.append("price", `${isVip.checked ? price.value : 0}`);
     const requestOptions = {
         method: "POST",
         body: postData,
@@ -31,4 +33,7 @@ submitButton.addEventListener("click", (event) => {
             showMessage(status, res.message);
         }
     });
+});
+isVip.addEventListener("click", () => {
+    price.disabled = !isVip.checked;
 });

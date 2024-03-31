@@ -41,25 +41,14 @@ class ApiGameThemeController {
                 }
                 return res.status(200).json({
                     status: "success",
-                    message: `
-                Successfully
-                received ${gameThemeData.length}
-                game
-                themes
-                sorted
-                by
-                A - Z`,
+                    message: `Successfully received ${gameThemeData.length} game themes sorted by A - Z`,
                     data: results
                 });
 
             default:
                 return res.status(200).json({
                     status: "success",
-                    message: `
-                Successfully
-                received ${gameThemeData.length}
-                game
-                themes`,
+                    message: `Successfully received ${gameThemeData.length} game themes`,
                     data: gameThemeData
                 });
         }
@@ -71,12 +60,19 @@ class ApiGameThemeController {
         const gameThemeData = await gameThemeModel.findById(gameThemeId);
         return res.status(200).json({
             status: "success",
-            message: `
-                Successfully
-                received
-                data
-                of
-                _id = ${gameThemeData._id}`,
+            message: `Successfully received data of _id = ${gameThemeData._id}`,
+            data: gameThemeData
+        })
+    }
+
+    async getThemesVip(req, res, next) {
+        const gameThemeData = await gameThemeModel.find({
+            isVip: true,
+        })
+
+        return res.status(200).json({
+            status: "success",
+            message: `Successfully received ${gameThemeData.length} themes VIP`,
             data: gameThemeData
         })
     }

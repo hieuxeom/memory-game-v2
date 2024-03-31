@@ -31,6 +31,8 @@ class ThemeController {
         return res.render("theme/index", {
             containerId: "siteContainer",
             class: "px-8 py-2",
+            title: "Themes Inventory",
+            buttonBackRef: "/",
             listScripts
         });
     }

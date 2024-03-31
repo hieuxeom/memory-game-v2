@@ -9,6 +9,7 @@ const themeName: HTMLInputElement = document.getElementById("themeName") as HTML
 const cardFront: HTMLInputElement = document.getElementById("cardFront") as HTMLInputElement;
 const cardBack: HTMLInputElement = document.getElementById("cardBack") as HTMLInputElement;
 const isVip: HTMLInputElement = document.getElementById("isVip") as HTMLInputElement;
+const price: HTMLInputElement = document.getElementById("price") as HTMLInputElement;
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -18,6 +19,7 @@ submitButton.addEventListener("click", (event) => {
     editData.append("cardFront", cardFront.files ? cardFront.files[0] : "");
     editData.append("cardBack", cardBack.files ? cardBack.files[0] : "");
     editData.append("isVip", `${isVip.checked}`);
+    editData.append("price", `${isVip.checked ? price.value : 0}`);
 
     const requestOptions = {
         method: "PUT",
@@ -32,3 +34,8 @@ submitButton.addEventListener("click", (event) => {
         }
     });
 });
+
+isVip.addEventListener("click", () => {
+    price.disabled = !isVip.checked;
+})
+

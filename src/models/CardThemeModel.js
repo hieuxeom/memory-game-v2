@@ -9,6 +9,7 @@ const CardThemeSchema = new Schema(
 		cardFront: String,
 		cardBack: String,
 		isVip: Boolean,
+		price: Number,
 		used: { type: Number, default: 0 },
 	},
 	{ timestamps: true }

@@ -68,8 +68,20 @@ class ApiCardThemeController {
         })
     }
 
+    async getThemesVip(req, res, next) {
+
+        const cardThemeData = await cardThemeModel.find({
+            isVip: true,
+        });
+        return res.status(200).json({
+            status: "success",
+            message: `Successfully received ${cardThemeData.length} card(s) themes VIP`,
+            data: cardThemeData
+        })
+    }
+
     async post(req, res, next) {
-        const { themeName, isVip } = req.body;
+        const { themeName, isVip, price } = req.body;
         let { cardFront, cardBack } = req.files;
 
         cardFront = cardFront[0];
@@ -80,6 +92,7 @@ class ApiCardThemeController {
             cardFront: cardFront.filename,
             cardBack: cardBack.filename,
             isVip: isVip === "true",
+            price: price
         });
 
         const createNewCardTheme = await newCardTheme.save();
@@ -92,24 +105,21 @@ class ApiCardThemeController {
         } else {
             return res.status(503).json({
                 status: "error",
-                message: "There is a problem from the server",
-                error: {
-                    name: err.name,
-                    message: err.message
-                }
+                message: "There is a problem from the server"
             })
         }
     }
 
     async put(req, res, next) {
         try {
-            const { themeId, themeName, isVip } = req.body;
+            const { themeId, themeName, isVip, price } = req.body;
 
             let { cardFront, cardBack } = req.files;
 
             let updateData = {
                 themeName,
-                isVip: isVip === "true"
+                isVip: isVip === "true",
+                price,
             };
 
             if (cardFront) {

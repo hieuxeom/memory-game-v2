@@ -1,0 +1,32 @@
+{{> siteHeader title=title buttonBackRef=buttonBackRef}}
+<main class="relative flex justify-center w-full h-4/5">
+    <div class="w-full h-4/6 mt-16 p-4 flex flex-col gap-4 rounded-xl">
+        <header class="btn-rank-group w-full flex justify-center items-center gap-12">
+            <button data-tab="card-themes" class="btn-tab inactive">Card Themes</button>
+            <button data-tab="game-themes" class="btn-tab inactive">Game Themes</button>
+        </header>
+        <main id="listCards" class="w-full h-full grid grid-cols-4 gap-2 overflow-y-scroll style-4">
+
+        </main>
+    </div>
+    <section id="vipDetails" class="h-max w-full absolute -bottom-16 left-0 bg-white px-8 py-4">
+        <div class="flex gap-4 max-h-[170px]">
+            <div class="w-max">
+                <img src="/images/themepacks/1711773872456-test.png" class="h-full back-face" alt=""/>
+            </div>
+            <div class="w-max">
+                <img src="/images/themepacks/1711773853910-test.png" class="h-full front-face" alt=""/>
+            </div>
+            <div class="w-full flex flex-col items-center justify-center gap-4">
+                <div class="flex items-center justify-center text-header-shadow text-4xl gap-2">
+                    <span class="noto--coin"></span>
+                    <h4 class="price">500</h4>
+                </div>
+                <div>
+                    <button data-price="" data-id="" id="buyButton" class="button-small rounded-xl text-white">Buy</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>

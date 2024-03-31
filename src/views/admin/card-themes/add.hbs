@@ -19,9 +19,15 @@
             <input type="file" id="cardBack" name="cardBack"/>
             <p class="hidden" id="cardBackValid"></p>
         </div>
-        <div class="form-row flex flex-row items-center justify-start">
-            <input type="checkbox" name="isVip" id="isVip">
-            <label for="isVip">Is Vip Item?</label>
+        <div class="flex items-center">
+            <div class="w-1/2 form-row flex flex-row items-center justify-start">
+                <input type="checkbox" name="isVip" id="isVip">
+                <label for="isVip">Is Vip Item?</label>
+            </div>
+            <div class="w-1/2 form-row">
+                <label for="price">Price</label>
+                <input type="number" name="price" id="price" disabled>
+            </div>
         </div>
         <div class="form-row flex-col">
             <div class="w-full text-center">
