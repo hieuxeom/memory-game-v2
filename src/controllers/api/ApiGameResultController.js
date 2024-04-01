@@ -4,65 +4,113 @@ const cardTheme = require("../../models/CardThemeModel");
 const userModel = require("../../models/UserModel");
 
 class ApiGameResultController {
-    async createNewResult(req, res, next) {
+    constructor() {
+        this.handleResult = this.handleResult.bind(this);
+    }
+
+    async createGameResult(gameData) {
+        const newGameHistory = new historyGameModel(gameData);
+        return newGameHistory.save();
+    }
+
+    async countUpGameTheme(themeId) {
+        return gameTheme.findByIdAndUpdate(themeId, { $inc: { played: 1 } });
+    }
+
+    async countUpCardTheme(themeId) {
+        return cardTheme.findByIdAndUpdate(themeId, { $inc: { used: 1 } });
+    }
+
+    async countUpPlayerCoins(userId, totalCoins) {
+        return userModel.findByIdAndUpdate(userId, { $inc: { coins: totalCoins } });
+    }
+
+    async getUserHistory(userId) {
+        return historyGameModel.find({ userId: userId });
+    }
+
+    getHighestScore(userHistory) {
+        return userHistory.sort((a, b) => b.gameScore - a.gameScore)[0].gameScore;
+    }
+
+    getAverageScore(userHistory) {
+        return userHistory.reduce((prev, current) => prev + current.gameScore, 0) / userHistory.length;
+    }
+
+    getMostPlayingSize(userHistory) {
+        const countSize4x4 = userHistory.filter((row) => row.gameSize === "4x4").length;
+        const countSize4x5 = userHistory.filter((row) => row.gameSize === "4x5").length
+        return countSize4x4 >= countSize4x5 ? "4x4" : "4x5";
+    }
+
+    getMostPlayingTime(userHistory) {
+        const time60 = userHistory.filter((row) => row.gameTime === 60 || row.gameTime === 5).length
+        const time120 = userHistory.filter((row) => row.gameTime === 120).length
+        const time300 = userHistory.filter((row) => row.gameTime === 300).length
+
+        if (time60 > time120 && time60 > time300) {
+            return 60
+        } else if (time120 > time300) {
+            return 120
+        } else {
+            return 300
+        }
+    }
+
+    getTotalGamesPlayed(userHistory) {
+        return userHistory.length
+    }
+
+    async updateUserAnalysis(userId) {
+        const userHistory = await this.getUserHistory(userId)
+
+        // calculate highest score & average score
+        const highestScore = this.getHighestScore(userHistory)
+        const averageScore = this.getAverageScore(userHistory)
+
+        const mostPlayedSize = this.getMostPlayingSize(userHistory)
+        const mostPlayedTime = this.getMostPlayingTime(userHistory)
+
+        const gamePlayed = this.getTotalGamesPlayed(userHistory);
+
+        return userModel.findByIdAndUpdate(userId, {
+            highestScore,
+            averageScore,
+            mostPlayedSize,
+            mostPlayedTime,
+            gamePlayed
+        });
+    }
+
+    async handleResult(req, res, next) {
         const { userId, gameThemeId, cardThemeId, totalCoins } = req.body;
 
         try {
+            console.log(this);
             // save game history
-            const newGameHistory = new historyGameModel(req.body);
-            const saveGameHistory = await newGameHistory.save();
-
+            await this.createGameResult(req.body)
+            let newUserData = {};
             if (!userId.includes("guestPlayer")) {
                 // count up game theme and card themes
-                const countUpGameTheme = await gameTheme.findByIdAndUpdate(gameThemeId, { $inc: { played: 1 } }, { new: true });
-                const countUpCardTheme = await cardTheme.findByIdAndUpdate(cardThemeId, { $inc: { used: 1 } }, { new: true });
-                const countUpPlayerCoins = await userModel.findByIdAndUpdate(userId, { $inc: { coins: totalCoins } }, { new: true });
+                await Promise.all([
+                    this.countUpGameTheme(gameThemeId),
+                    this.countUpCardTheme(cardThemeId),
+                    this.countUpPlayerCoins(userId, totalCoins)
+                ])
 
-                // get history
-                const listUserHistory = await historyGameModel.find({
-                    userId: userId,
-                });
+                await this.updateUserAnalysis(userId)
 
-                // calculate highest score & average score
-                const highestScore = listUserHistory.sort((a, b) => b.gameScore - a.gameScore)[0].gameScore;
-                const averageScore = listUserHistory.reduce((prev, current) => prev + current.gameScore, 0) / listUserHistory.length;
-
-                const mostPlayedSize = listUserHistory.filter((row) => row.gameSize === "4x4").length >= listUserHistory.filter((row) => row.gameSize === "4x5").length ? "4x4" : "4x5"
-                let mostPlayedTime = 60
-                const time60 = listUserHistory.filter((row) => row.gameTime === 60 || row.gameTime === 5).length
-                const time120 = listUserHistory.filter((row) => row.gameTime === 120).length
-                const time300 = listUserHistory.filter((row) => row.gameTime === 300).length
-
-                if (time60 > time120 && time60 > time300) {
-                    mostPlayedTime = 60
-                } else if (time120 > time300) {
-                    mostPlayedTime = 120
-                } else {
-                    mostPlayedTime = 300
-                }
-
-                // Set new average game time & count game played
-                const setNewUserAnalytics = await userModel.findByIdAndUpdate(userId, {
-                    highestScore,
-                    averageScore,
-                    mostPlayedSize,
-                    mostPlayedTime,
-                    gamePlayed: listUserHistory.length
-                });
+                newUserData = await userModel.findById(userId);
+                console.log(newUserData);
             }
 
-            if (saveGameHistory)
-                return res.status(201).json({
-                    status: "success",
-                    message: "Save game results successfully",
-                });
-            else {
-                return res.status(503).json({
-                    status: "error",
-                    message: "There is a problem from the server",
-                })
-            }
+            return res.status(201).json({
+                status: "success",
+                message: "Save game results successfully",
+                data: newUserData
+            });
         } catch (err) {
+            console.log(err)
             return res.status(503).json({
                 status: "error",
                 message: "There is a problem from the server",

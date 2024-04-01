@@ -33,7 +33,7 @@ const apiGameHistory = require("../controllers/api/ApiGameHistoryController");
 const apiChart = require("../controllers/api/ApiChartController");
 const apiRank = require("../controllers/api/ApiRankController");
 const apiGameResult = require("../controllers/api/ApiGameResultController");
-
+const apiShop = require("../controllers/api/ApiShopController");
 const multiCardUpload = cardThemeUpload.fields([
     { name: "cardFront", maxCount: 1 },
     { name: "cardBack", maxCount: 1 },
@@ -68,7 +68,7 @@ router.get("/users", apiUser.getAllUsers);
 router.get("/users/:userId", apiUser.getUserById);
 
 // Game Result API routers
-router.post("/game-results", apiGameResult.createNewResult)
+router.post("/game-results", apiGameResult.handleResult)
 
 //  Game History router
 router.get("/game-history", apiGameHistory.get);
@@ -83,5 +83,8 @@ router.get("/charts/game-times", apiChart.handleGameTime);
 // Rank router
 router.get("/ranks", apiRank.get)
 router.get("/ranks", apiRank.get)
+
+// Shop router
+router.post("/shop", apiShop.buy)
 
 module.exports = router;

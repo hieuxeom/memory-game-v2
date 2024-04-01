@@ -141,7 +141,11 @@ const handleGameWin = () => {
         body: JSON.stringify(historyData),
     })
         .then((res) => res.json())
-        .then((log) => console.log(log));
+        .then((res) => {
+        if (res.status === "success" && res.data) {
+            localStorage.setItem("userData", JSON.stringify(res.data));
+        }
+    });
     if (_id) {
         showNotifyBoard(gameScore, totalCoins, scoreCoin, gameSizeBonus, gameTimeBonus);
     }

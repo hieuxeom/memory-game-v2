@@ -1,10 +1,6 @@
-// <div data-value=""
-// class="card relative bg-transparent shadow-lg h-[170px] rounded-lg overflow-hidden">
-// <div class="card-back h-full">
-// <img src="/images/themepacks/1711773872456-test.png" class="w-full h-full" alt/>
-// </div>
-// </div>
 const listCards = document.getElementById("listCards");
+const vipDetailsContainer = document.getElementById("vipDetails");
+vipDetailsContainer.style.visibility = "hidden";
 fetch("/api/card-themes/vip")
     .then((res) => res.json())
     .then((res) => {
@@ -33,14 +29,43 @@ fetch("/api/card-themes/vip")
     });
 });
 const setVipDetails = ({ _id, cardFront, cardBack, price }) => {
+    vipDetailsContainer.style.visibility = "visible";
     const backFace = document.querySelector("#vipDetails .back-face");
     const frontFace = document.querySelector("#vipDetails .front-face");
     const priceValue = document.querySelector("#vipDetails .price");
-    const buyButton = document.getElementById("#buyButton");
+    const buyButton = document.getElementById("buyButton");
     backFace.src = `/images/themepacks/${cardBack}`;
     frontFace.src = `/images/themepacks/${cardFront}`;
     priceValue.innerHTML = `${price}`;
-    buyButton.dataset.price = `${price}`;
-    buyButton.dataset.id = `${_id}`;
+    const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : "";
+    if (userId) {
+        // const postData = new FormData();
+        // postData.append("userId", userId);
+        // postData.append("themeId", _id);
+        // postData.append("typeTheme", "card");
+        const postData = {
+            userId,
+            themeId: _id,
+            typeTheme: "card",
+        };
+        buyButton.addEventListener("click", () => {
+            fetch("/api/shop", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(postData),
+            }).then((res) => res.json())
+                .then((res) => {
+                if (res.status === "success") {
+                    localStorage.setItem("userData", JSON.stringify(res.data));
+                    window.location.reload();
+                }
+                else {
+                    console.log(res.message);
+                }
+            });
+        });
+    }
 };
 export {};

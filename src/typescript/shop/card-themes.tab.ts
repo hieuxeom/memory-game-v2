@@ -1,14 +1,11 @@
-// <div data-value=""
-// class="card relative bg-transparent shadow-lg h-[170px] rounded-lg overflow-hidden">
-// <div class="card-back h-full">
-// <img src="/images/themepacks/1711773872456-test.png" class="w-full h-full" alt/>
-// </div>
-// </div>
-
 import {IApiResponse} from "../type/response";
 import {ICardThemeResponse} from "../type/cardTheme";
+import {IUser} from "../type/user";
 
 const listCards: HTMLElement = document.getElementById("listCards") as HTMLElement;
+
+const vipDetailsContainer: HTMLElement = document.getElementById("vipDetails") as HTMLElement
+vipDetailsContainer.style.visibility = "hidden"
 
 fetch("/api/card-themes/vip")
     .then((res: Response) => res.json())
@@ -42,15 +39,47 @@ fetch("/api/card-themes/vip")
     })
 
 const setVipDetails = ({_id, cardFront, cardBack, price}: ICardThemeResponse) => {
+
+    vipDetailsContainer.style.visibility = "visible";
     const backFace = document.querySelector("#vipDetails .back-face") as HTMLImageElement;
     const frontFace = document.querySelector("#vipDetails .front-face") as HTMLImageElement
     const priceValue = document.querySelector("#vipDetails .price") as HTMLElement;
-    const buyButton = document.getElementById("#buyButton") as HTMLButtonElement;
+    const buyButton = document.getElementById("buyButton") as HTMLButtonElement;
 
     backFace.src = `/images/themepacks/${cardBack}`
     frontFace.src = `/images/themepacks/${cardFront}`
     priceValue.innerHTML = `${price}`;
-    buyButton.dataset.price = `${price}`
-    buyButton.dataset.id = `${_id}`
 
+    const userId = localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')!) as IUser)._id : "";
+    if (userId) {
+        // const postData = new FormData();
+        // postData.append("userId", userId);
+        // postData.append("themeId", _id);
+        // postData.append("typeTheme", "card");
+
+        const postData = {
+            userId,
+            themeId: _id,
+            typeTheme: "card",
+        }
+
+        buyButton.addEventListener("click", () => {
+            fetch("/api/shop", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(postData),
+            }).then((res) => res.json())
+                .then((res: IApiResponse) => {
+                    if (res.status === "success") {
+                        localStorage.setItem("userData", JSON.stringify(res.data));
+                        window.location.reload();
+                    } else {
+                        console.log(res.message)
+                    }
+                })
+        })
+    }
 }
+
