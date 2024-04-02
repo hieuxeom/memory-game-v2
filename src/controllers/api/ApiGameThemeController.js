@@ -76,7 +76,7 @@ class ApiGameThemeController {
         })
     }
 
-    async post(req, res, next) {
+    async createNewGameTheme(req, res, next) {
         try {
             if (!req.file) {
                 return res.status(400).json({
@@ -125,7 +125,7 @@ class ApiGameThemeController {
 
     }
 
-    async put(req, res, next) {
+    async editGameTheme(req, res, next) {
         try {
             console.log("vcl")
             let { themeId, themeName, themeDataParsed, rawData, themeDataType } = req.body;
@@ -169,7 +169,7 @@ class ApiGameThemeController {
         }
     }
 
-    async recover(req, res, next) {
+    async recoverTheme(req, res, next) {
         try {
             const { themeId } = req.params;
 
