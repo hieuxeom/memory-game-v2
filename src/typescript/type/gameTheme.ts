@@ -13,4 +13,7 @@ export interface IGameThemeResponse {
 	themeThumbnail: string;
 	type: GameIconType;
 	played: number;
+	price: number;
+	isVip: boolean;
+	isDeleted: boolean;
 }

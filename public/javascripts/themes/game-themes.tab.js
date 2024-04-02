@@ -1,14 +1,24 @@
 import { GameThemeCard } from "../utils/Card.js";
 import { currentCardTheme, currentGameTheme } from "../type/general.js";
+import { getListVipGames } from "./themes.index.js";
 const themeContainer = document.getElementById("themeContainer");
 const searchBox = document.getElementById("searchBox");
 const getListGameThemes = (search) => {
+    const ownedVipGames = getListVipGames();
     return fetch(`/api/game-themes?${search ? (`_s=${search}`) : ""}`)
         .then((res) => res.json())
         .then((res) => {
         if (res.status === "success") {
-            const listGameThemes = res.data;
+            let listGameThemes = res.data;
             let idSelected = currentGameTheme;
+            listGameThemes = listGameThemes.filter((game) => {
+                if (!game.isVip) {
+                    return game;
+                }
+                if (game.isVip && ownedVipGames.includes(game._id)) {
+                    return game;
+                }
+            });
             if (!currentCardTheme) {
                 idSelected = listGameThemes[0]._id;
                 localStorage.setItem("gameTheme", idSelected);

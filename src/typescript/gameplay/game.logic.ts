@@ -5,15 +5,29 @@ const gameContainer: HTMLElement = (document.getElementById("gameContainer") as 
 const timer: HTMLElement = document.getElementById("secondValue") as HTMLElement;
 const scoreValue: HTMLElement = document.getElementById("score") as HTMLElement;
 
-function shuffleAndSlice(array: string[], length: number): string[] {
+// function shuffleAndSlice(array: string[], length: number): string[] {
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//
+//     array.length = length / 2;
+//
+//     return [...array, ...array];
+// }
+
+function shuffleAndSlice(array: string[], length: number, next: boolean = true): string[] {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
 
-    array.length = length / 2;
-
-    return [...array, ...array];
+    if (next) {
+        array.length = length / 2;
+        return shuffleAndSlice([...array, ...array], length, false);
+    } else {
+        return [...array]
+    }
 }
 
 export const getCurrentScore = () => {

@@ -1,6 +1,4 @@
 const listCards = document.getElementById("listCards");
-const vipDetailsContainer = document.getElementById("vipDetails");
-vipDetailsContainer.style.visibility = "hidden";
 fetch("/api/card-themes/vip")
     .then((res) => res.json())
     .then((res) => {
@@ -29,6 +27,7 @@ fetch("/api/card-themes/vip")
     });
 });
 const setVipDetails = ({ _id, cardFront, cardBack, price }) => {
+    const vipDetailsContainer = document.getElementById("vipDetails");
     vipDetailsContainer.style.visibility = "visible";
     const backFace = document.querySelector("#vipDetails .back-face");
     const frontFace = document.querySelector("#vipDetails .front-face");
@@ -39,10 +38,6 @@ const setVipDetails = ({ _id, cardFront, cardBack, price }) => {
     priceValue.innerHTML = `${price}`;
     const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : "";
     if (userId) {
-        // const postData = new FormData();
-        // postData.append("userId", userId);
-        // postData.append("themeId", _id);
-        // postData.append("typeTheme", "card");
         const postData = {
             userId,
             themeId: _id,

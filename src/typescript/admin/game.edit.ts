@@ -9,17 +9,27 @@ const gameThemeData: HTMLTextAreaElement = document.getElementById("themeData")!
 const gameThumbnail: HTMLInputElement = document.getElementById("themeThumbnail")! as HTMLInputElement;
 const listThemeTypes: NodeListOf<HTMLInputElement> = document.getElementsByName("themeDataType")! as NodeListOf<HTMLInputElement>;
 const submitEditButton: HTMLButtonElement = document.getElementById("submitButton") as HTMLButtonElement;
+
+const isVip: HTMLInputElement = document.getElementById("isVip") as HTMLInputElement;
+const price: HTMLInputElement = document.getElementById("price") as HTMLInputElement
 const onLoad = () => {
     fetch(`/api/game-themes/${gameThemeId}`)
         .then((res: Response) => res.json())
         .then((res: IApiResponse) => {
             if (res.status === "success") {
-                const {themeName, rawData} = res.data;
+                const {themeName, rawData, isVip: vipStatus, price: themePrice} = res.data;
                 gameThemeName.value = themeName;
                 gameThemeData.value = rawData;
+                isVip.checked = vipStatus;
+                price.value = themePrice
             }
         })
 }
+
+isVip.addEventListener("change", () => {
+    console.log(isVip);
+    price.disabled = !isVip.checked;
+})
 
 submitEditButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -45,13 +55,16 @@ submitEditButton.addEventListener("click", (e) => {
     fetch("/api/game-themes/", {
         method: "PUT",
         body: formData
-    }).then((res) => {
-        if (res.url) {
-            return window.location.href = res.url
-        }
-    }).catch((err) => {
-        console.log(err)
     })
+        .then((res) => res.json())
+        .then((res: IApiResponse) => {
+            if (res.status === "redirect") {
+                window.location.href = res.url!
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
 })
 
 onLoad()

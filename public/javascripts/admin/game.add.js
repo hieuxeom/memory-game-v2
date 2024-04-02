@@ -4,6 +4,12 @@ const gameThemeName = document.getElementById("themeName");
 const gameThemeData = document.getElementById("themeData");
 const gameThumbnail = document.getElementById("themeThumbnail");
 const listThemeTypes = document.getElementsByName("themeDataType");
+const isVip = document.getElementById("isVip");
+const price = document.getElementById("price");
+isVip.addEventListener("change", () => {
+    console.log(isVip);
+    price.disabled = !isVip.checked;
+});
 submitGameThemeButton.addEventListener("click", (e) => {
     e.preventDefault();
     let themeDataType = null;
@@ -20,6 +26,8 @@ submitGameThemeButton.addEventListener("click", (e) => {
     postData.append("themeDataParsed", JSON.stringify(themeDataParsed));
     postData.append("rawData", gameThemeData.value);
     postData.append("themeDataType", themeDataType ?? "icon");
+    postData.append("isVip", `${isVip.checked}`);
+    postData.append("price", `${isVip.checked ? price.value : 0}`);
     fetch("/api/game-themes", {
         method: "POST",
         body: postData,

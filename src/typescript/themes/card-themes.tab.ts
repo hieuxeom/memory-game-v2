@@ -16,7 +16,7 @@ const getListCardThemes = async (search?: string) => {
                 if (res.data) {
                     // const listCardThemes: ICardThemeResponse[] = res.data;
                     let listCardThemes: ICardThemeResponse[] = res.data;
-                    console.log(ownedVipCards)
+
                     listCardThemes = listCardThemes.filter((card) => {
                         if (!card.isVip) {
                             return card

@@ -17,4 +17,6 @@ listTabs.forEach((button) => {
         window.location.href = `/shop?tab=${button.getAttribute("data-tab")}`;
     });
 });
+const vipDetailsContainer = document.getElementById("vipDetails");
+vipDetailsContainer.style.visibility = "hidden";
 export {};

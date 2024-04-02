@@ -3,13 +3,28 @@ const sizeGame = gameSize === "4x4" ? 16 : 20;
 const gameContainer = document.getElementById("gameContainer") ?? null;
 const timer = document.getElementById("secondValue");
 const scoreValue = document.getElementById("score");
-function shuffleAndSlice(array, length) {
+// function shuffleAndSlice(array: string[], length: number): string[] {
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//
+//     array.length = length / 2;
+//
+//     return [...array, ...array];
+// }
+function shuffleAndSlice(array, length, next = true) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
-    array.length = length / 2;
-    return [...array, ...array];
+    if (next) {
+        array.length = length / 2;
+        return shuffleAndSlice([...array, ...array], length, false);
+    }
+    else {
+        return [...array];
+    }
 }
 export const getCurrentScore = () => {
     return Number(scoreValue.getAttribute("data-score"));

@@ -6,3 +6,12 @@
     border-radius: 9999px;
     letter-spacing: .125rem
 }
+
+.tag-deleted {
+    background: #dc2626;
+    color: white;
+    font-size: .75rem;
+    padding: .025rem 1rem;
+    border-radius: 9999px;
+    letter-spacing: .125rem
+}

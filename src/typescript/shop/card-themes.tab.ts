@@ -4,9 +4,6 @@ import {IUser} from "../type/user";
 
 const listCards: HTMLElement = document.getElementById("listCards") as HTMLElement;
 
-const vipDetailsContainer: HTMLElement = document.getElementById("vipDetails") as HTMLElement
-vipDetailsContainer.style.visibility = "hidden"
-
 fetch("/api/card-themes/vip")
     .then((res: Response) => res.json())
     .then((res: IApiResponse): [ICardThemeResponse[], NodeListOf<HTMLElement>] => {
@@ -39,7 +36,7 @@ fetch("/api/card-themes/vip")
     })
 
 const setVipDetails = ({_id, cardFront, cardBack, price}: ICardThemeResponse) => {
-
+    const vipDetailsContainer: HTMLElement = document.getElementById("vipDetails") as HTMLElement
     vipDetailsContainer.style.visibility = "visible";
     const backFace = document.querySelector("#vipDetails .back-face") as HTMLImageElement;
     const frontFace = document.querySelector("#vipDetails .front-face") as HTMLImageElement
@@ -52,10 +49,6 @@ const setVipDetails = ({_id, cardFront, cardBack, price}: ICardThemeResponse) =>
 
     const userId = localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')!) as IUser)._id : "";
     if (userId) {
-        // const postData = new FormData();
-        // postData.append("userId", userId);
-        // postData.append("themeId", _id);
-        // postData.append("typeTheme", "card");
 
         const postData = {
             userId,

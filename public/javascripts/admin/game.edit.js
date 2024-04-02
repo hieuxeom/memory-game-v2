@@ -5,17 +5,25 @@ const gameThemeData = document.getElementById("themeData");
 const gameThumbnail = document.getElementById("themeThumbnail");
 const listThemeTypes = document.getElementsByName("themeDataType");
 const submitEditButton = document.getElementById("submitButton");
+const isVip = document.getElementById("isVip");
+const price = document.getElementById("price");
 const onLoad = () => {
     fetch(`/api/game-themes/${gameThemeId}`)
         .then((res) => res.json())
         .then((res) => {
         if (res.status === "success") {
-            const { themeName, rawData } = res.data;
+            const { themeName, rawData, isVip: vipStatus, price: themePrice } = res.data;
             gameThemeName.value = themeName;
             gameThemeData.value = rawData;
+            isVip.checked = vipStatus;
+            price.value = themePrice;
         }
     });
 };
+isVip.addEventListener("change", () => {
+    console.log(isVip);
+    price.disabled = !isVip.checked;
+});
 submitEditButton.addEventListener("click", (e) => {
     e.preventDefault();
     let themeDataType = null;
@@ -36,11 +44,14 @@ submitEditButton.addEventListener("click", (e) => {
     fetch("/api/game-themes/", {
         method: "PUT",
         body: formData
-    }).then((res) => {
-        if (res.url) {
-            return window.location.href = res.url;
+    })
+        .then((res) => res.json())
+        .then((res) => {
+        if (res.status === "redirect") {
+            window.location.href = res.url;
         }
-    }).catch((err) => {
+    })
+        .catch((err) => {
         console.log(err);
     });
 });

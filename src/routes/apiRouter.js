@@ -44,18 +44,22 @@ const gameThumbnailUpload = gameThemeUpload.single("themeThumbnail");
 // Card Themes Router
 router.get("/card-themes/vip", apiCardTheme.getThemesVip);
 router.get("/card-themes/:themeId", apiCardTheme.getThemeById);
-router.get("/card-themes", apiCardTheme.getWithFilter);
+router.put("/card-themes/:themeId/recover", apiCardTheme.recover);
+router.put("/card-themes/:themeId/delete", apiCardTheme.softDeleted);
+router.delete("/card-themes/:themeId", apiCardTheme.forceDeleted)
+router.get("/card-themes", apiCardTheme.handleGetAll);
 router.post("/card-themes", multiCardUpload, apiCardTheme.post);
 router.put("/card-themes", multiCardUpload, apiCardTheme.put);
-router.delete("/card-themes/:themeId", apiCardTheme.delete);
 
 // Game Themes Router
 router.get("/game-themes/vip", apiGameTheme.getThemesVip);
 router.get("/game-themes/:gameThemeId", apiGameTheme.getThemeById);
+router.put("/game-themes/:themeId/recover", apiGameTheme.recover);
+router.put("/game-themes/:themeId/delete", apiGameTheme.softDelete);
+router.delete("/game-themes/:themeId", apiGameTheme.forceDelete);
 router.get("/game-themes", apiGameTheme.getAllGameThemes);
 router.post("/game-themes", gameThumbnailUpload, apiGameTheme.post);
 router.put("/game-themes", gameThumbnailUpload, apiGameTheme.put);
-router.delete("/game-themes/:themeId", apiGameTheme.delete);
 
 //Auth Router
 router.post("/googleSignIn", apiAuth.loginWithGoogle);

@@ -21,3 +21,6 @@ listTabs.forEach((button) => {
         window.location.href = `/shop?tab=${button.getAttribute("data-tab")}`;
     })
 })
+
+const vipDetailsContainer: HTMLElement = document.getElementById("vipDetails") as HTMLElement
+vipDetailsContainer.style.visibility = "hidden"

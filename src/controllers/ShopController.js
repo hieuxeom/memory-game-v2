@@ -1,17 +1,32 @@
 class ShopController {
     index(req, res, next) {
-        return res.render("shop/index", {
+        const { tab } = req.query;
+
+        let scriptPath = "";
+        let view = ""
+        switch (tab) {
+            case "card-themes":
+                scriptPath = "/shop/card-themes.tab.js"
+                view = "card"
+                break;
+            case "game-themes":
+                scriptPath = "/shop/game-themes.tab.js"
+                view = "game"
+                break;
+            default:
+                scriptPath = "/shop/card-themes.tab.js"
+                view = "card"
+                break;
+        }
+
+        return res.render(`shop/${view}`, {
             containerId: "siteContainer",
             class: "px-8 py-2",
             title: "Vip Shop",
             buttonBackRef: "/",
             listScripts: [
                 {
-                    path: "/shop/card-themes.tab.js",
-                    type: "module"
-                },
-                {
-                    path: "/shop/game-themes.tab.js",
+                    path: scriptPath,
                     type: "module"
                 },
                 {

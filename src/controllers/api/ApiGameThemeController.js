@@ -3,7 +3,6 @@ const { Alphabets } = require("../../utils/alphabets");
 
 class ApiGameThemeController {
     async getAllGameThemes(req, res, next) {
-        // return res.json(await gameThemeModel.find({}));
         const { filter, _s } = req.query
 
         if (_s) {
@@ -55,9 +54,9 @@ class ApiGameThemeController {
     }
 
     async getThemeById(req, res, next) {
-        const { gameThemeId } = req.params;
+        const { gameThemeId: themeId } = req.params;
 
-        const gameThemeData = await gameThemeModel.findById(gameThemeId);
+        const gameThemeData = await gameThemeModel.findById(themeId);
         return res.status(200).json({
             status: "success",
             message: `Successfully received data of _id = ${gameThemeData._id}`,
@@ -87,7 +86,7 @@ class ApiGameThemeController {
             }
 
             const { filename } = req.file;
-            let { themeName, themeDataParsed, rawData, themeDataType } = req.body;
+            let { themeName, themeDataParsed, rawData, themeDataType, isVip, price } = req.body;
 
             if (!themeDataParsed) {
                 return res.status(400).json({
@@ -101,13 +100,14 @@ class ApiGameThemeController {
                     themeData: JSON.parse(themeDataParsed),
                     rawData: rawData,
                     themeThumbnail: filename,
-                    type: themeDataType
+                    type: themeDataType,
+                    isVip: Boolean(isVip),
+                    price: Number(price)
                 })
             ;
 
             await newGameTheme.save();
 
-            // return res.redirect("/admin/game-themes/all");
             return res.status(201).json({
                 status: "success",
                 message: "New game theme successfully created"
@@ -127,7 +127,7 @@ class ApiGameThemeController {
 
     async put(req, res, next) {
         try {
-
+            console.log("vcl")
             let { themeId, themeName, themeDataParsed, rawData, themeDataType } = req.body;
 
             let updateData = {
@@ -147,9 +147,9 @@ class ApiGameThemeController {
             const editStatus = await gameThemeModel.findByIdAndUpdate(themeId, updateData)
 
             if (editStatus) {
-                return res.status(303).json({
+                return res.status(200).json({
                     status: "redirect",
-                    url: ` / admin / game - themes /${themeId}`
+                    url: `/admin/game-themes/${themeId}`
                 })
             } else {
                 return res.status(503).json({
@@ -169,15 +169,79 @@ class ApiGameThemeController {
         }
     }
 
-    async delete(req, res, next) {
+    async recover(req, res, next) {
+        try {
+            const { themeId } = req.params;
+
+            const deleteStatus = await gameThemeModel.findByIdAndUpdate(themeId, {
+                isDeleted: false,
+            });
+
+            if (deleteStatus) {
+                return res.status(200).json({
+                    status: "redirect",
+                    url: "/admin/game-themes/all"
+                })
+
+            } else {
+                return res.status(503).json({
+                    status: "error",
+                    message: "There is a problem from the server",
+                })
+            }
+        } catch (err) {
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
+        }
+    }
+
+    async softDelete(req, res, next) {
+        try {
+            const { themeId } = req.params;
+            console.log(themeId);
+
+            const deleteStatus = await gameThemeModel.findByIdAndUpdate(themeId, {
+                isDeleted: true,
+            });
+
+            if (deleteStatus) {
+                return res.status(200).json({
+                    status: "redirect",
+                    url: "/admin/game-themes/all"
+                })
+
+            } else {
+                return res.status(503).json({
+                    status: "error",
+                    message: "There is a problem from the server",
+                })
+            }
+        } catch (err) {
+            return res.status(503).json({
+                status: "error",
+                message: "There is a problem from the server",
+                error: {
+                    name: err.name,
+                    message: err.message
+                }
+            })
+        }
+    }
+
+    async forceDelete(req, res, next) {
         try {
             const { themeId } = req.params;
 
             const deleteStatus = await gameThemeModel.findByIdAndDelete(themeId);
 
             if (deleteStatus) {
-                // return res.redirect("/admin/game-themes/all")
-                return res.status(303).json({
+                return res.status(200).json({
                     status: "redirect",
                     url: "/admin/game-themes/all"
                 })
