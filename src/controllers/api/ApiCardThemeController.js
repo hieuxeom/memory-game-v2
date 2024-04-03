@@ -5,24 +5,25 @@ const gameThemeModel = require("../../models/GameThemeModel");
 class ApiCardThemeController {
 
     constructor() {
-        this.handleGetAll = this.handleGetAll.bind(this);
+        this.getThemesByQuery = this.getThemesByQuery.bind(this);
     }
 
-    async handleGetAll(req, res, next) {
+    async getThemesByQuery(req, res, next) {
         const { filter, page, _s } = req.query;
 
         if (_s) {
             return this.getThemesBySearch(req, res, next)
         } else if (filter) {
             return this.getThemesByFilter(req, res, next)
-        } else {
+        } else if (page) {
             return this.getThemesByPagination(req, res, next)
+        } else {
+            return this.getAllThemes(req, res, next)
         }
     }
 
     async getThemesBySearch(req, res, next) {
-        const { _s } = req.query
-        ;
+        const { _s } = req.query;
 
         const cardData = await cardThemeModel.find({
             themeName: {
@@ -36,12 +37,21 @@ class ApiCardThemeController {
                 data: cardData
             });
         } else {
-            console.log("cc")
             return res.status(204).json({
                 status: "success",
                 message: "The request has been processed but there is no card themes to return",
             });
         }
+    }
+
+    async getAllThemes(req, res, next) {
+        const cardData = await cardThemeModel.find({});
+
+        return res.status(200).json({
+            status: "success",
+            message: `Successfully received ${cardData.length} card themes`,
+            data: cardData
+        });
     }
 
     async getThemesByFilter(req, res, next) {
@@ -65,13 +75,6 @@ class ApiCardThemeController {
                     message: `Successfully received ${cardData.length} card themes sorted by A - Z`,
                     data: results
                 });
-
-            default:
-                return res.status(200).json({
-                    status: "success",
-                    message: `Successfully received ${cardData.length} card themes`,
-                    data: cardData
-                });
         }
     }
 
@@ -84,7 +87,6 @@ class ApiCardThemeController {
             .limit(limit)
             .skip((page - 1) * limit);
 
-        console.log(await cardThemeModel.count());
         return res.status(200).json({
             status: "success",
             message: `Successfully received ${gameThemesData.length} game themes on page ${page}`,
@@ -95,7 +97,7 @@ class ApiCardThemeController {
         })
 
     }
-    
+
     async getThemeById(req, res, next) {
 
         const { themeId } = req.params;
@@ -120,7 +122,7 @@ class ApiCardThemeController {
         })
     }
 
-    async post(req, res, next) {
+    async createNewCardTheme(req, res, next) {
         const { themeName, isVip, price } = req.body;
         let { cardFront, cardBack } = req.files;
 
@@ -150,7 +152,7 @@ class ApiCardThemeController {
         }
     }
 
-    async put(req, res, next) {
+    async editCardTheme(req, res, next) {
         try {
             const { themeId, themeName, isVip, price } = req.body;
 
@@ -200,7 +202,7 @@ class ApiCardThemeController {
         }
     }
 
-    async recover(req, res, next) {
+    async recoverTheme(req, res, next) {
         try {
             const { themeId } = req.params;
             console.log(themeId);

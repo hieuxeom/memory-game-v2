@@ -24,7 +24,7 @@ loginWithGoogle.addEventListener("click", () => {
                 provider: "google",
             };
 
-            fetch("/api/googleSignIn", {
+            fetch("/api/auth/googleSignIn", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
