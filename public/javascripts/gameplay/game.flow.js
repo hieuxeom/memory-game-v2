@@ -117,6 +117,8 @@ const handleGameWin = () => {
             localStorage.setItem("guestId", _id);
         }
     }
+    const confettiContainer = document.getElementById("confetti");
+    confettiContainer.style.display = "block";
     const gameThemeId = localStorage.getItem("gameTheme");
     const cardThemeId = localStorage.getItem("cardTheme");
     const gameSize = localStorage.getItem("gameSize");

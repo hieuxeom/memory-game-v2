@@ -127,6 +127,8 @@ const handleGameWin = () => {
             localStorage.setItem("guestId", _id)
         }
     }
+    const confettiContainer: HTMLCanvasElement = document.getElementById("confetti") as HTMLCanvasElement;
+    confettiContainer.style.display = "block";
 
     const gameThemeId = localStorage.getItem("gameTheme");
     const cardThemeId = localStorage.getItem("cardTheme");

@@ -34,7 +34,7 @@
     </section>
 </main>
 
-<section id="notification" class=" absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-800/50">
+<section id="notification" class="z-20 absolute top-0 left-0 w-full h-full flex justify-center items-center bg-slate-800/50">
     <div class="w-3/4 relative">
         <img src="/images/win_noti_2.png" alt="">
         <div class="absolute w-full top-28 left-0 transform-x-[-50%] flex flex-col gap-4">
@@ -93,3 +93,19 @@
         </div>
     </div>
 </section>
+
+<canvas id="confetti" class="hidden z-10 absolute w-full h-full top-0 left-0"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+<script>
+    const confettiSettings = {
+        target: 'confetti',
+        size: 1.8,
+        props: [
+            "circle",
+            "square",
+        ]
+    };
+    const confetti = new ConfettiGenerator(confettiSettings);
+    confetti.render();
+</script>
