@@ -112,9 +112,21 @@ class ApiCardThemeController {
 
     async getThemesVip(req, res, next) {
 
-        const cardThemeData = await cardThemeModel.find({
-            isVip: true,
-        });
+        const { sort } = req.query;
+
+        let cardThemeData;
+        if (sort) {
+            cardThemeData = await cardThemeModel.find({
+                isVip: true,
+            }).sort({
+                price: sort
+            })
+        } else {
+            cardThemeData = await cardThemeModel.find({
+                isVip: true,
+            })
+        }
+
         return res.status(200).json({
             status: "success",
             message: `Successfully received ${cardThemeData.length} card(s) themes VIP`,

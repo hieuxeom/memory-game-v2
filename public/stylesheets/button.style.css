@@ -62,6 +62,10 @@
     transform: skew(5deg)
 }
 
-/*.btn-rank-filter.active {*/
-/*    background: var(--primary)*/
-/*}*/
+.sort-button {
+    background: var(--secondary);
+}
+
+.sort-button.active {
+    background: var(--primary);
+}

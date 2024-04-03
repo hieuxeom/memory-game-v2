@@ -8,11 +8,19 @@
     </div>
 </div>
 <main class="relative flex justify-center w-full h-4/5">
+
     <div class="w-full h-4/6 mt-16 p-4 flex flex-col gap-4 rounded-xl">
         <header class="btn-rank-group w-full flex justify-center items-center gap-12">
             <button data-tab="card-themes" class="btn-tab inactive">Card Themes</button>
             <button data-tab="game-themes" class="btn-tab inactive">Game Themes</button>
         </header>
+        <div class="w-full flex justify-end gap-2">
+            <button data-sort="asc" class="sort-button p-2 rounded-lg text-white"><i class="fa-solid
+            fa-arrow-up-wide-short"></i></button>
+            <button data-sort="desc" class="sort-button p-2 rounded-lg text-white"><i class="fa-solid
+            fa-arrow-down-wide-short"></i></button>
+
+        </div>
         <main id="listCards" class="w-full h-full grid grid-cols-4 gap-2 overflow-y-scroll style-4">
 
         </main>
