@@ -1,8 +1,8 @@
 import {IApiResponse} from "../type/response";
 import {CardThemeCard} from "../utils/Card.js";
 import {ICardThemeResponse} from "../type/cardTheme";
-import {currentCardTheme} from "../type/general.js";
-import {getListVipCards} from "./themes.index.js";
+import {currentCardTheme} from "../utils/general.js";
+import {getListVipCards} from "../utils/general.js";
 
 const themeContainer: HTMLElement = document.getElementById("themeContainer") as HTMLElement;
 const searchBox: HTMLInputElement = document.getElementById("searchBox") as HTMLInputElement;

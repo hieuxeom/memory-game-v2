@@ -19,6 +19,6 @@ router.use("/game-results", gameResultRouters)
 router.use("/game-history", gameHistoryRouters)
 router.use("/charts", chartRouters)
 router.use("/ranks", rankRouters);
-router.use("shop", shopRouters)
+router.use("/shop", shopRouters)
 
 module.exports = router;

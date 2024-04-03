@@ -1,6 +1,6 @@
 import { GameThemeCard } from "../utils/Card.js";
-import { currentCardTheme, currentGameTheme } from "../type/general.js";
-import { getListVipGames } from "./themes.index.js";
+import { currentCardTheme, currentGameTheme } from "../utils/general.js";
+import { getListVipGames } from "../utils/general.js";
 const themeContainer = document.getElementById("themeContainer");
 const searchBox = document.getElementById("searchBox");
 const getListGameThemes = (search) => {

@@ -1,7 +1,7 @@
 import { renderGame } from "./game.generator.js";
 import { Timer } from "../utils/Timer.js";
 import { showNotifyBoard } from "./game.notify.js";
-import { gameTime, gameSize } from "../type/general.js";
+import { gameTime, gameSize } from "../utils/general.js";
 import { getCurrentScore } from "./game.logic.js";
 const selectTimeContainer = document.getElementById("selectGameTime");
 const buttonStart = document.getElementById("startGame");

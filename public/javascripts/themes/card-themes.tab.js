@@ -1,6 +1,6 @@
 import { CardThemeCard } from "../utils/Card.js";
-import { currentCardTheme } from "../type/general.js";
-import { getListVipCards } from "./themes.index.js";
+import { currentCardTheme } from "../utils/general.js";
+import { getListVipCards } from "../utils/general.js";
 const themeContainer = document.getElementById("themeContainer");
 const searchBox = document.getElementById("searchBox");
 const getListCardThemes = async (search) => {

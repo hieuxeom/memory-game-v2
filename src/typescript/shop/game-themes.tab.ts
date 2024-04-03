@@ -2,7 +2,8 @@ import {IApiResponse} from "../type/response";
 import {ICardThemeResponse} from "../type/cardTheme";
 import {IUser} from "../type/user";
 import {IGameThemeResponse} from "../type/gameTheme";
-import {currentCardTheme} from "../type/general.js";
+import {currentCardTheme, getListVipGames} from "../utils/general.js";
+import {handleBuyAction} from "./shop.index.js";
 
 const listCards: HTMLElement = document.getElementById("listCards") as HTMLElement;
 
@@ -11,11 +12,15 @@ fetch("/api/game-themes/vip")
     .then((res: IApiResponse): [IGameThemeResponse[], NodeListOf<HTMLElement>] => {
         let listGameThemesData: IGameThemeResponse[] = [];
         if (res.status === "success") {
+
+            const ownedVipGames = getListVipGames();
+
             listGameThemesData = res.data;
 
             listCards.innerHTML = listGameThemesData.map(({_id, price, themeThumbnail}) => {
+                console.log(ownedVipGames, _id, ownedVipGames.includes(_id));
                 return `<div data-id="${_id}"
-                            class="card relative bg-transparent shadow-lg h-[170px] rounded-lg overflow-hidden"
+                            class="card relative bg-transparent shadow-lg h-[170px] rounded-lg overflow-hidden ${ownedVipGames.includes(_id) ? "owned" : ""}"
                             >
                                 <div class="card-back h-full">
                                     <img src="/images/game_thumbnails/${themeThumbnail}" class="w-full h-full" alt=""/>
@@ -31,19 +36,32 @@ fetch("/api/game-themes/vip")
         listCardsElement.forEach((card) => {
             card.addEventListener("click", () => {
                 const _id = card.getAttribute("data-id");
+                const isOwned = card.classList.contains("owned")
                 const selectedData = listCardsData.filter(item => item && item._id === _id)[0];
-                setVipDetails(selectedData)
+                setVipDetails(selectedData, isOwned)
             })
         })
     })
 
-const setVipDetails = ({_id, themeThumbnail, price}: IGameThemeResponse) => {
+const setVipDetails = ({_id, themeThumbnail, price}: IGameThemeResponse, isOwned: boolean) => {
+
     const vipDetailsContainer: HTMLElement = document.getElementById("vipDetails") as HTMLElement
     vipDetailsContainer.style.visibility = "visible";
 
+    const buttonBuy: HTMLButtonElement = document.getElementById("buyButton") as HTMLButtonElement
+    console.log(isOwned)
+    if (isOwned) {
+        buttonBuy.style.pointerEvents = "none";
+        buttonBuy.disabled = true;
+        buttonBuy.innerHTML = "Owned"
+    } else {
+        buttonBuy.style.pointerEvents = "auto";
+        buttonBuy.disabled = false;
+        buttonBuy.innerHTML = "Buy"
+    }
+
     const themeDataContainer: HTMLElement = document.getElementById("themeDataContainer") as HTMLElement;
 
-    const buyButton = document.getElementById("buyButton") as HTMLButtonElement;
     const priceValue = document.querySelector("#vipDetails .price") as HTMLElement;
     priceValue.innerHTML = `${price}`;
 
@@ -64,9 +82,8 @@ const setVipDetails = ({_id, themeThumbnail, price}: IGameThemeResponse) => {
 
     Promise.all([getCardTheme, getGameTheme])
         .then(([cardData, gameData]) => {
-
             const {cardFront} = cardData;
-            const {themeData} : IGameThemeResponse = gameData;
+            const {themeData}: IGameThemeResponse = gameData;
             themeDataContainer.innerHTML = themeData.map(({icon, value}) => {
                 return `<div class="card open relative bg-transparent shadow-lg h-[170px] rounded-lg overflow-hidden">
                                 <div class="bg-transparent card-front w-full h-full">
@@ -89,24 +106,8 @@ const setVipDetails = ({_id, themeThumbnail, price}: IGameThemeResponse) => {
             themeId: _id,
             typeTheme: "game",
         }
+        handleBuyAction(postData)
 
-        buyButton.addEventListener("click", () => {
-            fetch("/api/shop", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(postData),
-            }).then((res) => res.json())
-                .then((res: IApiResponse) => {
-                    if (res.status === "success") {
-                        localStorage.setItem("userData", JSON.stringify(res.data));
-                        window.location.reload();
-                    } else {
-                        console.log(res.message)
-                    }
-                })
-        })
     }
 }
 

@@ -1,4 +1,4 @@
-import { gameSize } from "../type/general.js";
+import { gameSize } from "../utils/general.js";
 const listSizeGame = document.querySelectorAll(".difficult-size");
 const handleDefaultSelected = () => {
     listSizeGame.forEach((button) => {

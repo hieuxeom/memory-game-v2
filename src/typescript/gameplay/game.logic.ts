@@ -1,4 +1,4 @@
-import {gameSize, gameTime} from "../type/general.js";
+import {gameSize, gameTime} from "../utils/general.js";
 
 const sizeGame = gameSize === "4x4" ? 16 : 20;
 const gameContainer: HTMLElement = (document.getElementById("gameContainer") as HTMLElement) ?? null;

@@ -1,8 +1,8 @@
 import {IApiResponse} from "../type/response";
 import {GameThemeCard} from "../utils/Card.js";
-import {currentCardTheme, currentGameTheme} from "../type/general.js";
+import {currentCardTheme, currentGameTheme} from "../utils/general.js";
 import {IGameThemeResponse} from "../type/gameTheme.js";
-import {getListVipGames} from "./themes.index.js";
+import {getListVipGames} from "../utils/general.js";
 
 const themeContainer: HTMLElement = document.getElementById("themeContainer") as HTMLElement;
 const searchBox: HTMLInputElement = document.getElementById("searchBox") as HTMLInputElement;

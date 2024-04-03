@@ -1,4 +1,4 @@
-import { gameSize } from "../type/general.js";
+import { gameSize } from "../utils/general.js";
 import { gameLogic } from "./game.logic.js";
 import { GameCard } from "../utils/Card.js";
 const gameContainer = document.getElementById("gameContainer") ?? null;
