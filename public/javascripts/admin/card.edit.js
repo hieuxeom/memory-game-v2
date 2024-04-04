@@ -1,3 +1,4 @@
+import { Toast } from "../utils/Toast.js";
 const submitButton = document.getElementById("submitButton");
 console.log(submitButton);
 const themeId = document.getElementById("themeId");
@@ -8,6 +9,9 @@ const isVip = document.getElementById("isVip");
 const price = document.getElementById("price");
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
+    if (!themeId.value) {
+        return new Toast().error("Missing themeId");
+    }
     const editData = new FormData();
     editData.append("themeId", themeId.value);
     editData.append("themeName", themeName.value);
@@ -21,7 +25,10 @@ submitButton.addEventListener("click", (event) => {
     };
     fetch("/api/card-themes", requestOptions).then((res) => res.json()).then((res) => {
         if (res.status === "redirect") {
-            window.location.href = res.url;
+            const toast = new Toast(() => {
+                window.location.href = res.url;
+            });
+            toast.success(res.message);
         }
         else {
             console.log(res);
@@ -31,4 +38,3 @@ submitButton.addEventListener("click", (event) => {
 isVip.addEventListener("click", () => {
     price.disabled = !isVip.checked;
 });
-export {};

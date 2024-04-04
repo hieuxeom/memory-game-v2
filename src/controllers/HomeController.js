@@ -6,6 +6,7 @@ class HomeController {
 			listScripts: [
 				{
 					path: "home/home.index.js",
+					type: "module",
 				},
 				{
 					path: "home/home.gamesize.js",

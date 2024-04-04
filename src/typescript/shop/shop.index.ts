@@ -1,5 +1,6 @@
 import {IUser} from "../type/user";
 import {IApiResponse} from "../type/response";
+import {Toast} from "../utils/Toast.js";
 
 const userCoins = localStorage.getItem('userData') ? Number((JSON.parse(localStorage.getItem('userData')!) as IUser).coins) : 0;
 
@@ -41,9 +42,16 @@ export const handleBuyAction = (postData: any) => {
             .then((res: IApiResponse) => {
                 if (res.status === "success") {
                     localStorage.setItem("userData", JSON.stringify(res.data));
-                    window.location.reload();
+                    const toast = new Toast(() => {
+                        window.location.reload()
+                    });
+
+                    if (res.message) {
+                        toast.success(res.message)
+                    }
                 } else {
-                    console.log(res.message)
+                    const toast = new Toast();
+                    toast.error(res.message ?? "Error")
                 }
             })
     })

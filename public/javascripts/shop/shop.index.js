@@ -1,3 +1,4 @@
+import { Toast } from "../utils/Toast.js";
 const userCoins = localStorage.getItem('userData') ? Number(JSON.parse(localStorage.getItem('userData')).coins) : 0;
 const listTabs = document.querySelectorAll(".btn-tab");
 const userCoinsValue = document.getElementById("userCoins");
@@ -34,10 +35,16 @@ export const handleBuyAction = (postData) => {
             .then((res) => {
             if (res.status === "success") {
                 localStorage.setItem("userData", JSON.stringify(res.data));
-                window.location.reload();
+                const toast = new Toast(() => {
+                    window.location.reload();
+                });
+                if (res.message) {
+                    toast.success(res.message);
+                }
             }
             else {
-                console.log(res.message);
+                const toast = new Toast();
+                toast.error(res.message ?? "Error");
             }
         });
     });

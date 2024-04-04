@@ -19,6 +19,7 @@
 		<link rel="stylesheet" href="/stylesheets/button.style.css" />
 		<link rel="stylesheet" href="/stylesheets/text.style.css" />
 		<link rel="stylesheet" href="/stylesheets/card.style.css" />
+		<link rel="stylesheet" href="/stylesheets/toast.style.css" />
 		<link rel="stylesheet" href="/stylesheets/admin/admin.table.css" />
 
 		<!--    CDN TailwindCSS and Config -->
@@ -30,7 +31,11 @@
 		<div id="wrapper" class="w-screen h-screen bg-gray flex justify-center items-center">
             <div {{#if containerId}} id={{containerId}} {{/if}} class="w-[600px] h-screen bg-white relative {{#if class}} {{class}} {{/if}}">
 				{{{body}}}
-			</div>
+                <div id="toastContainer" class="z-20 absolute w-full top-4 right-4 flex flex-col justify-center items-end gap-4">
+
+                </div>
+            </div>
+
         </div>
         {{#if listScripts}}
             {{#each listScripts}}

@@ -1,4 +1,5 @@
 import {IApiResponse} from "../type/response";
+import {Toast} from "../utils/Toast.js";
 
 const submitButton: HTMLButtonElement = document.getElementById("submitButton") as HTMLButtonElement;
 
@@ -12,6 +13,10 @@ const isVip: HTMLInputElement = document.getElementById("isVip") as HTMLInputEle
 const price: HTMLInputElement = document.getElementById("price") as HTMLInputElement;
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
+
+    if (!themeId.value) {
+        return new Toast().error("Missing themeId")
+    }
 
     const editData: FormData = new FormData();
     editData.append("themeId", themeId.value);
@@ -28,7 +33,11 @@ submitButton.addEventListener("click", (event) => {
 
     fetch("/api/card-themes", requestOptions).then((res: Response) => res.json()).then((res: IApiResponse) => {
         if (res.status === "redirect") {
-            window.location.href = res.url!
+            const toast = new Toast(() => {
+                window.location.href = res.url!
+            })
+
+            toast.success(res.message!)
         } else {
             console.log(res)
         }

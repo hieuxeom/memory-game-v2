@@ -1,5 +1,6 @@
 import {ICardFilterResponse, ICardThemeResponse} from "../type/cardTheme";
 import {IApiResponse} from "../type/response";
+import {Toast} from "../utils/Toast.js"
 
 const listThemesContainer: HTMLDivElement = document.getElementById("listThemesContainer") as HTMLDivElement;
 const searchParams = new URLSearchParams(window.location.search);

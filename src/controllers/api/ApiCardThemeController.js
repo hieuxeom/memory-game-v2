@@ -138,8 +138,30 @@ class ApiCardThemeController {
         const { themeName, isVip, price } = req.body;
         let { cardFront, cardBack } = req.files;
 
-        cardFront = cardFront[0];
-        cardBack = cardBack[0];
+        if (!themeName) {
+            return res.status(404).json({
+                status: "error",
+                message: "Missing Theme Name"
+            })
+        }
+
+        if (cardFront) {
+            cardFront = cardFront[0];
+        } else {
+            return res.status(404).json({
+                status: "error",
+                message: "Missing Theme Front field"
+            })
+        }
+
+        if (cardBack) {
+            cardBack = cardBack[0];
+        } else {
+            return res.status(404).json({
+                status: "error",
+                message: "Missing Theme Back field"
+            })
+        }
 
         const newCardTheme = new cardThemeModel({
             themeName,
@@ -170,6 +192,13 @@ class ApiCardThemeController {
 
             let { cardFront, cardBack } = req.files;
 
+            if (!themeId) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "Missing themeId"
+                })
+            }
+
             let updateData = {
                 themeName,
                 isVip: isVip === "true",
@@ -194,6 +223,7 @@ class ApiCardThemeController {
             if (updateCardTheme) {
                 return res.status(303).json({
                     status: "redirect",
+                    message: "Successfully updated",
                     url: "/admin/card-themes/all"
                 })
             } else {

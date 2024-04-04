@@ -1,4 +1,4 @@
-import { showMessage } from "../utils/handleMessage.js";
+import { Toast } from "../utils/Toast.js";
 const submitButton = document.getElementById("submitButton");
 console.log(submitButton);
 const themeName = document.getElementById("themeName");
@@ -12,6 +12,15 @@ const price = document.getElementById("price");
 const status = document.getElementById("status");
 submitButton.addEventListener("click", (event) => {
     event.preventDefault();
+    if (!themeName.value) {
+        return new Toast().error("Missing theme name");
+    }
+    if (!cardFront.files) {
+        return new Toast().error("Missing theme front");
+    }
+    if (!cardBack.files) {
+        return new Toast().error("Missing theme front");
+    }
     const postData = new FormData();
     postData.append("themeName", themeName.value);
     postData.append("cardFront", cardFront.files ? cardFront.files[0] : "");
@@ -26,11 +35,14 @@ submitButton.addEventListener("click", (event) => {
         .then((res) => res.json())
         .then((res) => {
         if (res.status === "success") {
-            showMessage(status, res.message, "success");
-            setTimeout(() => window.location.href = "/admin/card-themes/all", 1500);
+            // showMessage(status, res.message!, "success")
+            const toast = new Toast(() => {
+                window.location.href = "/admin/card-themes/all";
+            });
+            toast.success(res.message);
         }
         else {
-            showMessage(status, res.message);
+            new Toast().error(res.message);
         }
     });
 });

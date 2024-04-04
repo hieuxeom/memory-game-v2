@@ -6,7 +6,13 @@ if (!gameSize) {
 let gameTime = localStorage.getItem("gameTime") ?? null;
 let currentCardTheme = localStorage.getItem("cardTheme") ?? null;
 let currentGameTheme = localStorage.getItem("gameTheme") ?? null;
-export const getListVipCards = () => {
+const getDocumentCookies = () => {
+    const cookies = document.cookie.split(";");
+    const mapCookie = new Map();
+    cookies.forEach(cookie => mapCookie.set(cookie.split("=")[0].trim(), cookie.split("=")[1]));
+    return mapCookie;
+};
+const getListVipCards = () => {
     if (localStorage.getItem("userData")) {
         return JSON.parse(localStorage.getItem("userData")).userVipItems.cardThemes;
     }
@@ -14,7 +20,7 @@ export const getListVipCards = () => {
         return [];
     }
 };
-export const getListVipGames = () => {
+const getListVipGames = () => {
     if (localStorage.getItem("userData")) {
         return JSON.parse(localStorage.getItem("userData")).userVipItems.gameThemes;
     }
@@ -22,4 +28,4 @@ export const getListVipGames = () => {
         return [];
     }
 };
-export { gameSize, gameTime, currentCardTheme, currentGameTheme };
+export { gameSize, gameTime, currentCardTheme, currentGameTheme, getListVipCards, getListVipGames, getDocumentCookies };

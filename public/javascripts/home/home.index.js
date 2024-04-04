@@ -1,9 +1,13 @@
-"use strict";
+import { getDocumentCookies } from "../utils/general.js";
 const playGame = document.getElementById("playGame");
 const viewRank = document.getElementById("viewRank");
 const viewTheme = document.getElementById("viewTheme");
 const viewUser = document.getElementById("viewUser");
 const viewShop = document.getElementById("viewShop");
+const cookies = getDocumentCookies();
+if (!cookies.get("_id")) {
+    localStorage.removeItem("userData");
+}
 viewShop?.addEventListener("click", () => {
     window.location.href = "/shop";
 });
